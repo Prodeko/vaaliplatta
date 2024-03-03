@@ -1,0 +1,17 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/python
+{
+  "name": "backend",
+  "dockerComposeFile": [
+    "../docker-compose.yml",
+    "../docker-compose.devcontainer.yml"
+  ],
+  "workspaceFolder": "/workspace/backend",
+  "service": "backend",
+  "runServices": ["backend"],
+  "postStartCommand": "git config --global --add safe.directory $(dirname ${containerWorkspaceFolder})"
+}
+
+
+
+

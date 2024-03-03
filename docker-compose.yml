@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+  backend:
+    build: ./backend
+    ports:
+      - 3001:3001
+
+  #frontend:
+  #  build: ./frontend
+  #  image: hello-world
+  #  ports:
+  #    - 3000:3000
