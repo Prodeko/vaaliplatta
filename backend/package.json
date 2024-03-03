@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npx tsc",
-    "start": "node dist/index.js",
-    "dev": "nodemon index.ts",
+    "start": "bun run index.ts",
+    "dev": "bun --watch run index.ts",
     "lint": "biome lint .",
     "lint:fix": "biome lint --apply .",
     "lint:force": "biome lint --apply-unsafe ."

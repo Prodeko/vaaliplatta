@@ -4,4 +4,4 @@ RUN apt-get update && apt-get install git -y
 COPY package.json bun.lockb ./
 RUN bun install
 EXPOSE 3001
-CMD bun run
+CMD bun start
