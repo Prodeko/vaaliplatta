@@ -1,15 +1,64 @@
 import type { Request, Response, Application } from 'express'
 import express from 'express'
-import dotenv from 'dotenv'
+import { getJobs } from './src/test'
+import * as path from 'path'
+import { Pool } from 'pg'
+import { promises as fs } from 'fs'
+import {
+  Kysely,
+  Migrator,
+  PostgresDialect,
+  FileMigrationProvider,
+} from 'kysely'
+import { Database } from './src/types'
+import { config } from './src/config'
 
-// For env File
-dotenv.config()
+async function migrateToLatest() {
+  const db = new Kysely<Database>({
+    dialect: new PostgresDialect({
+      pool: new Pool({
+        connectionString: config.DATABASE_CONNECTION_STRING
+      }),
+    }),
+  })
 
+  const migrator = new Migrator({
+    db,
+    provider: new FileMigrationProvider({
+      fs,
+      path,
+      // This needs to be an absolute path.
+      migrationFolder: path.join(__dirname, 'src/migrations'),
+    }),
+  })
+
+  const { error, results } = await migrator.migrateToLatest()
+
+  results?.forEach((it) => {
+    if (it.status === 'Success') {
+      console.log(`migration "${it.migrationName}" was executed successfully`)
+    } else if (it.status === 'Error') {
+      console.error(`failed to execute migration "${it.migrationName}"`)
+    }
+  })
+
+  if (error) {
+    console.error('failed to migrate')
+    console.error(error)
+    process.exit(1)
+  }
+
+  await db.destroy()
+}
+
+
+migrateToLatest()
 const app: Application = express()
 const port = process.env.PORT ?? 8000
 
-app.get('/', (req: Request, res: Response) => {
-  res.send('Welcome to Express & TypeScript Server')
+app.get('/', async (req: Request, res: Response) => {
+  const jobs = await getJobs()
+  res.send(jobs)
 })
 
 app.listen(port, () => {
