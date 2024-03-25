@@ -10,14 +10,14 @@ import {
   PostgresDialect,
   FileMigrationProvider,
 } from 'kysely'
-import { Database } from './src/types'
+import { DB } from 'kysely-codegen'
 import { config } from './src/config'
 
 async function migrateToLatest() {
-  const db = new Kysely<Database>({
+  const db = new Kysely<DB>({
     dialect: new PostgresDialect({
       pool: new Pool({
-        connectionString: config.DATABASE_CONNECTION_STRING
+        connectionString: config.DATABASE_URL
       }),
     }),
   })
@@ -31,6 +31,8 @@ async function migrateToLatest() {
       migrationFolder: path.join(__dirname, 'src/migrations'),
     }),
   })
+
+  if (config.ENV === 'DEV') await migrator.migrateDown() // ! DO NOT PUT IN PRODUCTION
 
   const { error, results } = await migrator.migrateToLatest()
 
@@ -62,5 +64,5 @@ app.get('/', async (req: Request, res: Response) => {
 })
 
 app.listen(port, () => {
-  console.log(`Server is Fire at http://localhost:${port}`)
+  console.log(`Now listening on http://localhost:${port}`)
 })
