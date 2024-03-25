@@ -1,23 +1,22 @@
-import { useState } from 'react'
+import ContentWindow from "./ContentWindow"
+import TopHeaderBar from "./TopHeaderBar"
+import LeftNavBar from "./LeftNavBar"
+// import TietoaVaaleista from "./tietoaVaaleista"
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+    <div className="h-screen bg-cover bg-center background-image">
+      <TopHeaderBar />
+      <div className="grid-cols-12 grid">
+        <div className="col-span-2" >
+          <LeftNavBar />
+        </div>
+        <div className="col-span-10">
+          <ContentWindow />
+        </div>
       </div>
-      <p className="bg-red-500">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      {/* <TietoaVaaleista /> */}
+    </div>
   )
 }
 
