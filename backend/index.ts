@@ -13,6 +13,7 @@ import { DB } from 'kysely-codegen'
 import { config } from './src/config'
 import electionRouter from '@/routers/election'
 import bodyParser from 'body-parser'
+import errorHandler from '@/middleware/errorHandler'
 
 
 async function migrateToLatest() {
@@ -62,7 +63,9 @@ const port = process.env.PORT ?? 8000
 
 app.use(bodyParser.json())
 
-app.use("/api/elections/", electionRouter)
+app.use("/api/election/", electionRouter)
+
+app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`Now listening on http://localhost:${port}`)
