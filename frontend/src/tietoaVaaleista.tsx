@@ -2,13 +2,13 @@
 function TietoaVaaleista() {
   return (
     <div id="landingpageContent" className="col-10">
-      <div className="mb-5">
-        <h1 className="mb-4" id="landingPageTitle">Vaalit ovat täällä!</h1>
+      <div className="mb-5 p-4">
+        <h1 className="my-4 text-5xl font-extrabold" id="landingPageTitle">VAALIT OVAT TÄÄLLÄ!</h1> <br />
         <p>Tervetuloa Tuotantotalouden kilta Prodeko ry:n sääntömääräiseen vaalikokoukseen! </p>
         <p>Vaalikokouksen ensimmäinen osa: <strong>ti 7.11. klo 17:15-20:00</strong> AS2-salissa. Vaalikokouksen toinen osa:
           <strong>ke 22.11. klo 16:15-22:00</strong> C-salissa, Kandikeskuksessa.
         </p>
-        <h3 id="nopea-sis-llysluettelo">Nopea sisällysluettelo</h3>
+        <h3 className="my-4 text-3xl font-extrabold" id="nopea-sis-llysluettelo">NOPEA SISÄLLYSLUETTELO</h3>
         <ul>
           <li>Kuka voi hakea?</li>
           <li>Mitä hallitus ja toimarit tekevät?</li>
@@ -25,7 +25,7 @@ function TietoaVaaleista() {
           <li>Miten haen? - Jos en millään pääse paikalle </li>
         </ul>
         <br />
-        <h2 id="kuka-voi-hakea-">Kuka voi hakea?</h2>
+        <h2 className="my-4 text-3xl font-extrabold" id="kuka-voi-hakea-">KUKA VOI HAKEA?</h2>
         <p>Vaalikokouksessa ehdolle voi asettua kuka tahansa killan varsinainen jäsen (maksanut killan ja AYY:n jäsenmaksun).
           Ainoa asia mitä hallitus- ja toimarivirkoihin hakemiseen vaaditaan, on että sinulla on kiinnostusta ja intoa toimia
           virassa. <strong>Sinulla ei tarvitse olla aikaisempaa kokemusta kiltahommista - tärkeintä on motivaatio ja aito
@@ -40,7 +40,7 @@ function TietoaVaaleista() {
           itseäsi kiinnostaa! Ei myöskään tarvitse lukittautua vain yhteen virkaan, vaan voi hyvin pohtia useampien välillä ja
           laittaa ne oman kiinnostuksen mukaan järjestykseen.</p>
         <br />
-        <h2 id="mit-hallitus-ja-toimarit-tekev-t-">Mitä hallitus ja toimarit tekevät?</h2>
+        <h2 className="my-4 text-3xl font-extrabold" id="mit-hallitus-ja-toimarit-tekev-t-">MITÄ HALLITUS JA TOIMARIT TEKEVÄT?</h2>
         <p>Tuotantotalouden kilta Prodeko Ry:n toimintaa johtaa yhdistyksen puheenjohtaja ja hallitus. Hallituksen valitsee
           kilta vaalikokouksessa ja he vastaavat seuraavan vuoden killan toiminnasta ja kehityksestä. Jokaisella
           hallituslaisella on oma virkansa ja sektorinsa, joiden lisäksi hallituksella on yleisiä tehtäviä ja vastuita.
@@ -57,11 +57,11 @@ function TietoaVaaleista() {
         <p>Ole ennakkoluulottomasti yhteydessä tämän vuoden hallituslaisiin ja toimareihin! Heiltä saat parhaat tiedot
           virkojen sisällöstä ja samalla opit killan rakenteesta! Kaikki killan nykyiset hallituslaiset löydät <a href="https://prodeko.org/fi/guild/board/hallitus/">täältä</a> ja toimarit puolestaan <a href="https://prodeko.org/fi/guild/toimarit/toimihenkilot/">täältä</a>.</p>
         <br />
-        <h2 id="vaaliajan-tapahtumat">Vaaliajan tapahtumat</h2>
+        <h2 className="my-4 text-3xl font-extrabold" id="vaaliajan-tapahtumat">VAALIAJAN TAPAHTUMAT</h2>
         <p>Eikä siinä vielä kaikki! Prodeko järjestää vaalikokouksien lisäksi kaksi vaaliajan tapahtumaa, joissa todellakin
           saat kiltatiedonjanosi täytettyä!</p>
         <br />
-        <h4 id="ke-16-11-klo-17-15-20-00-toimariesittelly">Ma 13.11. klo 17:15-20:00 Toimariesittely</h4>
+        <h4 className="my-4 text-3xl font-extrabold" id="ke-16-11-klo-17-15-20-00-toimariesittelly">MA 13.11. KLO 17:15-20:00 TOIMARIESITTELY</h4>
         <p>Mitä kaikkea killassa on mahdollista tehdä? Mitä ovat vastuutoimarit? Mikä on toimarivaihto? Tule täyttämään
           tiedonjanosi ja selvitä, kuinka sinä voit lähteä mukaan killan toimintaan vuonna 2023! Paikalla nykyiset toimarit
           kertovat omia kokemuksiaan toimarihommista ja vastailevat kysymyksiin. Tapahtuma järjestetään Tuasilla (Atrium) ja
@@ -70,7 +70,7 @@ function TietoaVaaleista() {
           siitä ajasta, kun olitte juomanlaskijoita ulkotoimareita BACK IN THE DAY!
         </p>
         <p><strong>Etenkin fukseille</strong> tämä tapahtuma on erittäin hyödyllinen!</p>
-        <h4 id="ma-14-11-klo-17-15-20-00-vaalipaneeli">Ke 15.11. klo 17:15-20:00 Vaalipaneeli</h4>
+        <h4 className="my-4 text-3xl font-extrabold" id="ma-14-11-klo-17-15-20-00-vaalipaneeli">KE 15.11. KLO 17:15-20:00 VAALIPANEELI</h4>
         <p>Oletko päättänyt hakevasi hallitukseen vai oletko vielä kahden vaiheilla? Kenties haluat kuulla ensi vuoden
           vaalilupauksia ja -teemoja? Vaalipaneelissa hallitusehdokkaat pääsevät esittäytymään ja vastailemaan kiltalaisten
           kysymyksiin. Paneeli on hyvä tapa harjoitella omaa hakemuspuhettaan sekä keskustella muiden killan toiminnasta
@@ -79,7 +79,7 @@ function TietoaVaaleista() {
           hallitukseen hakeville!</p>
         <br />
         <br />
-        <h2 id="miten-haen-haku-foorumeilla">Miten haen? - Haku foorumeilla</h2>
+        <h2 className="my-4 text-3xl font-extrabold" id="miten-haen-haku-foorumeilla">MITEN HAEN? - HAKU FOORUMEILLA</h2>
         <p>Vaalifoorumi aukeaa puhishakua varten tiistaina 24.10 ja muihin keskiviikkona 8.11! Kaikki info vaaleista,
           viroista
           ja ehdokkaista löytyy osoitteesta <a href="https://vaalit.prodeko.org">https://vaalit.prodeko.org</a>, joka aukeaa
@@ -93,7 +93,7 @@ function TietoaVaaleista() {
           kuitenkin itselleen hyötyä omien ajatusten jäsentämisessä, joten sellainen kannattaa rustata foorumeille, kun ne
           aukeavat hallitus- ja toimarivirkahakuja varten keskiviikkona 8.11.</p>
         <br />
-        <h2 id="miten-haen-haku-vaalikokouksessa">Miten haen? - Haku vaalikokouksessa</h2>
+        <h2 className="my-4 text-3xl font-extrabold" id="miten-haen-haku-vaalikokouksessa">MITEN HAEN? - HAKU VAALIKOKOUKSESSA</h2>
         <p>Kokouksissa puheenjohtajahakijoille on varattu esiintymisaikaa 10min ja kysymyksiin 15min per hakija, kuitenkin
           niin että kysymyksiä esitetään maksimissaan tunnin verran. Puheenjohtajahaussa saa käyttää kalvoja apuna
           esiintymisessä. </p>
@@ -101,7 +101,7 @@ function TietoaVaaleista() {
         <p>Hallitushakijoille on varattu 3min esiintymisaikaa ja kysymyksiin 5min per hakija (kysymyksiä yhteensä max 20min).
         </p>
         <p>Toimarihakijoille esiintymisaikaa on 1min ja kysymyksiin 3min per hakija (kysymyksiä yhteensä max 10min). </p>
-        <h2 id="miten-haen-haku-vaalikokouksessa">Miten haen? - Jos en millään pääse paikalle</h2>
+        <h2 className="my-4 text-3xl font-extrabold" id="miten-haen-haku-vaalikokouksessa">MITEN HAEN? - JOS EN MILLÄÄN PÄÄSE PAIKALLE</h2>
         <p>Jos et pysty tulemaan vaalikokoukseen, mutta haluat hakea virkoihin, se on mahdollista vaalifoorumin eli
           vaaliplatan kautta. Kirjoita hakemuksesi vaaliplatalle viimeistään ennen vaalikokouksen II osan alkua. Tämä
           lasketaan viralliseksi ehdolle asettumiseksi, nimesi luetaan ehdokasasettelussa, ja voit tulla valituksi virkaan.

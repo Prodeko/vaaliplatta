@@ -5,9 +5,9 @@ import LeftNavBar from "./LeftNavBar"
 
 function App() {
   return (
-    <div className="h-screen bg-cover bg-center background-image">
+    <div className="h-screen bg-cover bg-center background-image font-sans">
       <TopHeaderBar />
-      <div className="grid-cols-12 grid">
+      <div className="grid-cols-12 grid bg-white p-3">
         <div className="col-span-2" >
           <LeftNavBar />
         </div>
