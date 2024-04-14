@@ -6,13 +6,12 @@ import { z } from 'zod';
 const electionRouter = Router();
 
 electionRouter.get("/", async (req, res, next) => {
-    const result = await db
+    db
         .selectFrom("election")
         .selectAll()
         .execute()
+        .then(result => res.status(200).json(result))
         .catch(e => next(e))
-
-    res.json(result)
 })
 
 export const createNewElectionSchema = z.object({
@@ -25,14 +24,13 @@ type createNewElectionType = z.infer<typeof createNewElectionSchema>
 electionRouter.post('/', validateData(createNewElectionSchema), async (req, res, next) => {
     const data: createNewElectionType = req.body
 
-    const result = await db
+    db
         .insertInto('election')
         .values(data)
         .returning(["id", "name"])
         .executeTakeFirst()
+        .then(result => res.status(201).json(result))
         .catch(e => next(e))
-
-    res.status(201).json(result)
 });
 
 export default electionRouter
