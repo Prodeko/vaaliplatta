@@ -39,8 +39,8 @@ export async function up(db: Kysely<any>): Promise<void> {
         .addColumn('id', 'serial', col => col.primaryKey())
         .addColumn('title', 'text', col => col.notNull())
         .addColumn('content', 'text')
-        .addColumn('application.id', 'integer', col =>
-            col.references('application.id').notNull())
+        .addColumn('question.id', 'integer', col =>
+            col.references('question.id').notNull())
         .execute()
 }
 

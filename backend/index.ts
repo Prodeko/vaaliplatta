@@ -1,6 +1,5 @@
 import type { Request, Response, Application } from 'express'
 import express from 'express'
-import { getJobs } from './src/test'
 import * as path from 'path'
 import { Pool } from 'pg'
 import { promises as fs } from 'fs'
@@ -57,11 +56,6 @@ async function migrateToLatest() {
 migrateToLatest()
 const app: Application = express()
 const port = process.env.PORT ?? 8000
-
-app.get('/', async (req: Request, res: Response) => {
-  const jobs = await getJobs()
-  res.send(jobs)
-})
 
 app.listen(port, () => {
   console.log(`Now listening on http://localhost:${port}`)
