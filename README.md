@@ -14,6 +14,7 @@ erDiagram
     ELECTION {
         int id PK "Primary Key"
         string name "Unique, Not Null"
+        bool draft
     }
     POSITION {
         int id PK "Primary Key"

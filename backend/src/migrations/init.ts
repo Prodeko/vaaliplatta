@@ -5,6 +5,7 @@ export async function up(db: Kysely<any>): Promise<void> {
         .createTable('election')
         .addColumn('id', 'serial', col => col.primaryKey())
         .addColumn('name', 'text', col => col.unique().notNull())
+        .addColumn('draft', 'boolean')
         .execute()
     await db.schema
         .createTable('position')
