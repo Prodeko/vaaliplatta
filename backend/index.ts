@@ -11,6 +11,9 @@ import {
 } from 'kysely'
 import { DB } from 'kysely-codegen'
 import { config } from './src/config'
+import electionRouter from '@/routers/election'
+import bodyParser from 'body-parser'
+
 
 async function migrateToLatest() {
   const db = new Kysely<DB>({
@@ -56,6 +59,10 @@ async function migrateToLatest() {
 migrateToLatest()
 const app: Application = express()
 const port = process.env.PORT ?? 8000
+
+app.use(bodyParser.json())
+
+app.use("/api/elections/", electionRouter)
 
 app.listen(port, () => {
   console.log(`Now listening on http://localhost:${port}`)
