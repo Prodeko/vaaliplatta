@@ -1,17 +1,46 @@
 import { db } from "@/database";
-import { validateData } from "@/middleware/schemavalidator";
+import { validateData, validateRouteParams } from "@/middleware/validators";
 import { Router } from "express";
 import { z } from 'zod';
+import { jsonArrayFrom } from 'kysely/helpers/postgres'
 
 const electionRouter = Router();
 
 electionRouter.get("/", async (req, res, next) => {
-    db
-        .selectFrom("election")
-        .selectAll()
-        .execute()
-        .then(result => res.status(200).json(result))
-        .catch(e => next(e))
+    try {
+        const election = await db
+            .selectFrom("election")
+            .selectAll()
+            .execute()
+
+        res.status(200).json(election)
+    } catch (err) {
+        next(err)
+    }
+})
+
+const idRouteParamsSchema = z.object({
+    id: z.string(),
+});
+
+electionRouter.get("/:id", validateRouteParams(idRouteParamsSchema), async (req, res, next) => {
+    try {
+        const id = parseInt(req.params.id!)
+
+        const election = await db
+            .selectFrom("election")
+            .where("id", "=", id)
+            .select(eb => jsonArrayFrom(
+                eb.selectFrom("position")
+                    .selectAll()
+                    .whereRef("election.id", "=", "id")
+            ).as("positions"))
+            .execute()
+
+        res.status(200).json(election)
+    } catch (err) {
+        next(err)
+    }
 })
 
 export const createNewElectionSchema = z.object({
@@ -19,15 +48,15 @@ export const createNewElectionSchema = z.object({
     draft: z.boolean(),
 });
 
-type createNewElectionType = z.infer<typeof createNewElectionSchema>
+type createNewElection = z.infer<typeof createNewElectionSchema>
 
 electionRouter.post('/', validateData(createNewElectionSchema), async (req, res, next) => {
-    const data: createNewElectionType = req.body
+    const data: createNewElection = req.body
 
     db
         .insertInto('election')
         .values(data)
-        .returning(["id", "name"])
+        .returningAll()
         .executeTakeFirst()
         .then(result => res.status(201).json(result))
         .catch(e => next(e))
