@@ -30,6 +30,7 @@ electionRouter.get("/:id", validateRouteParams(idRouteParamsSchema), async (req,
         const election = await db
             .selectFrom("election")
             .where("id", "=", id)
+            .selectAll()
             .select(eb => jsonArrayFrom(
                 eb.selectFrom("position")
                     .selectAll()
