@@ -14,6 +14,8 @@ import { config } from './src/config'
 import electionRouter from '@/routers/election'
 import bodyParser from 'body-parser'
 import errorHandler from '@/middleware/errorHandler'
+import positionRouter from '@/routers/position'
+import logger from '@/middleware/logger'
 
 
 async function migrateToLatest() {
@@ -62,8 +64,10 @@ const app: Application = express()
 const port = process.env.PORT ?? 8000
 
 app.use(bodyParser.json())
+app.use(logger)
 
 app.use("/api/election/", electionRouter)
+app.use("/api/position/", positionRouter)
 
 app.use(errorHandler);
 
