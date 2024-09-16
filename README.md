@@ -2,9 +2,20 @@
 
 ## Docs
 
-Generating DB types:
+Setting up:
 ```bash
-npx kysely-codegen
+docker compose up -d
+```
+
+```bash
+# /vaaliplatta/backend
+npm install
+npm run kysely-codegen
+npm run dev
+
+# /vaaliplatta/frontend
+npm install
+npm run dev
 ```
 
 ### DB schema
