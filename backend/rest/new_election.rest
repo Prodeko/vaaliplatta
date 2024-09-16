@@ -1,0 +1,7 @@
+POST http://localhost:8000/api/election
+Content-Type: application/json
+
+{
+    "name": "PJ Vaalit 2024",
+    "draft": false
+}

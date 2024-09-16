@@ -1,0 +1,9 @@
+POST http://localhost:8000/api/position
+Content-Type: application/json
+
+{
+    "name": "Webbitiimi",
+    "description": "Webbitiimi ylläpitää ja kehittää killan IT-palveluita",
+    "seats": 10,
+    "election.id": 1
+}
