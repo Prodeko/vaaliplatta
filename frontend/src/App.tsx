@@ -1,6 +1,6 @@
-import ContentWindow from "./ContentWindow"
-import TopHeaderBar from "./TopHeaderBar"
-import LeftNavBar from "./LeftNavBar"
+import ContentWindow from "./components/ContentWindow"
+import TopHeaderBar from "./components/TopHeaderBar"
+import LeftNavBar from "./components/LeftNavBar"
 // import TietoaVaaleista from "./tietoaVaaleista"
 
 function App() {
