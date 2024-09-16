@@ -9,7 +9,8 @@
     "dev": "nodemon index.ts",
     "lint": "biome lint .",
     "lint:fix": "biome lint --apply .",
-    "lint:force": "biome lint --apply-unsafe ."
+    "lint:force": "biome lint --apply-unsafe .",
+    "kysely-codegen": "kysely-codegen"
   },
   "keywords": [],
   "author": "",
