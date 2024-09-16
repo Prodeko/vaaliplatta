@@ -16,6 +16,7 @@ import bodyParser from 'body-parser'
 import errorHandler from '@/middleware/errorHandler'
 import positionRouter from '@/routers/position'
 import logger from '@/middleware/logger'
+import { applicationRouter } from '@/routers/application'
 
 
 async function migrateToLatest() {
@@ -68,6 +69,7 @@ app.use(logger)
 
 app.use("/api/election/", electionRouter)
 app.use("/api/position/", positionRouter)
+app.use("/api/application", applicationRouter)
 
 app.use(errorHandler);
 

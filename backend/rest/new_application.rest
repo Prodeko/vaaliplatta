@@ -1,0 +1,9 @@
+POST http://localhost:8000/api/application
+Content-Type: application/json
+
+{
+    "content": "Jatkokausi babyy",
+    "applicant.name": "Risto",
+    "applicant.id": "1234567890",
+    "position.id": 1
+}
