@@ -4,6 +4,6 @@ Content-Type: application/json
 {
     "name": "Webbitiimi",
     "description": "Webbitiimi ylläpitää ja kehittää killan IT-palveluita",
-    "seats": 10,
+    "seats": "8-12",
     "election.id": 1
 }

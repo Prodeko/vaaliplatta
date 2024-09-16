@@ -9,7 +9,7 @@ const positionRouter = Router();
 export const createNewPositionSchema = z.object({
     name: z.string(),
     description: z.string(),
-    seats: z.number(),
+    seats: z.string(),
     "election.id": z.number()
 });
 
