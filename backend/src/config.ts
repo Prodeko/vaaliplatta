@@ -27,5 +27,8 @@ switch (process.env.LOG_LEVEL) {
 export const config = {
     DATABASE_URL: process.env.DATABASE_URL,
     ENV: process.env.ENV,
-    LOG_LEVEL: log_level
+    LOG_LEVEL: log_level,
+    JWT_SECRET: process.env.JWT_SECRET,
+    JWT_EXPIRATION: process.env.JWT_EXPIRATION,
+    ADMIN_PASSWORD: process.env.ADMIN_PASSWORD
 }

@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { validateData, validateRouteParams } from "@/middleware/validators";
 import { db } from "@/database";
 import { jsonArrayFrom } from "kysely/helpers/postgres";
+import { authMiddleware } from "@/middleware/auth";
 
 const positionRouter = Router();
 
@@ -15,7 +16,7 @@ export const createNewPositionSchema = z.object({
 
 type createNewPositionType = z.infer<typeof createNewPositionSchema>
 
-positionRouter.post('/', validateData(createNewPositionSchema), async (req, res, next) => {
+positionRouter.post('/', authMiddleware, validateData(createNewPositionSchema), async (req, res, next) => {
     const data: createNewPositionType = req.body
 
     db
