@@ -18,6 +18,7 @@ import positionRouter from '@/routers/position'
 import logger from '@/middleware/logger'
 import { applicationRouter } from '@/routers/application'
 import { authRouter } from '@/routers/auth'
+import cors from 'cors'
 
 
 async function migrateToLatest() {
@@ -64,7 +65,13 @@ async function migrateToLatest() {
 migrateToLatest()
 const app: Application = express()
 const port = process.env.PORT ?? 8000
+const corsOptions = {
+  origin: 'http://localhost:5173', // Replace with your React app’s URL
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
+  credentials: true, // Enable cookies and authorization headers
+}
 
+app.use(cors(corsOptions))
 app.use(bodyParser.json())
 app.use(logger)
 
