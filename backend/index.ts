@@ -17,6 +17,7 @@ import errorHandler from '@/middleware/errorHandler'
 import positionRouter from '@/routers/position'
 import logger from '@/middleware/logger'
 import { applicationRouter } from '@/routers/application'
+import { authRouter } from '@/routers/auth'
 
 
 async function migrateToLatest() {
@@ -70,6 +71,7 @@ app.use(logger)
 app.use("/api/election/", electionRouter)
 app.use("/api/position/", positionRouter)
 app.use("/api/application", applicationRouter)
+app.use("/api", authRouter)
 
 app.use(errorHandler);
 
