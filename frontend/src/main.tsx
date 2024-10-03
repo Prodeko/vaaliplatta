@@ -6,16 +6,30 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import Admin from './pages/admin.tsx';
+import Login from './pages/login.tsx';
+import { AuthProvider } from './context/AuthContext.tsx';
+import ProtectedRoute from './components/ProtectedRoute.tsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
   },
+  {
+    path: "/admin",
+    element: <ProtectedRoute><Admin /></ProtectedRoute>,
+  },
+  {
+    path: "/login",
+    element: <Login />
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   </React.StrictMode>,
 )
