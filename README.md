@@ -8,6 +8,10 @@ docker compose up -d
 ```
 
 ```bash
+nvm use .nvmrc
+```
+
+```bash
 # /vaaliplatta/backend
 npm install
 npm run kysely-codegen
