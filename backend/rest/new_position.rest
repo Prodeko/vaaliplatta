@@ -1,9 +1,10 @@
 POST http://localhost:8000/api/position
 Content-Type: application/json
+Authorization: Bearer foobar
 
 {
     "name": "Webbitiimi",
     "description": "Webbitiimi ylläpitää ja kehittää killan IT-palveluita",
     "seats": "8-12",
-    "election.id": 1
+    "election_id": 1
 }

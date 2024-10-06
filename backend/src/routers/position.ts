@@ -11,7 +11,7 @@ export const createNewPositionSchema = z.object({
     name: z.string(),
     description: z.string(),
     seats: z.string(),
-    "election.id": z.number()
+    election_id: z.number()
 });
 
 type createNewPositionType = z.infer<typeof createNewPositionSchema>
@@ -42,7 +42,7 @@ positionRouter.get('/:id', validateRouteParams(idRouteParamsSchema), async (req,
         .select(eb => jsonArrayFrom(
             eb.selectFrom("application")
                 .selectAll()
-                .whereRef("position.id", "=", "id")
+                .whereRef("application.position_id", "=", "application.id")
         ).as("applications"))
         .execute()
         .then(result => res.status(200).json(result))

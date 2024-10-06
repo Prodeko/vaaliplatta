@@ -1,7 +1,9 @@
 POST http://localhost:8000/api/election
 Content-Type: application/json
+Authorization: Bearer foobar
 
 {
-    "name": "PJ Vaalit 2024",
-    "draft": false
+    "name": "Vaalit 2024",
+    "draft": false,
+    "description": "Tervetuloa Tuotantotalouden kilta Prodeko ry:n sääntömääräiseen vaalikokoukseen!\nVaalikokouksen ensimmäinen osa: ti 7.11. klo 17:15-20:00 AS2-salissa. Vaalikokouksen toinen osa:ke 22.11. klo 16:15-22:00 C-salissa, Kandikeskuksessa."
 }

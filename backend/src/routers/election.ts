@@ -20,6 +20,26 @@ electionRouter.get("/", async (req, res, next) => {
     }
 })
 
+electionRouter.get("/newest", async (req, res, next) => {
+    try {
+        const election = await db
+            .selectFrom("election")
+            .orderBy("id", "desc")
+            .limit(1)
+            .selectAll()
+            .select(eb => jsonArrayFrom(
+                eb.selectFrom("position")
+                    .selectAll()
+                    .whereRef("position.election_id", "=", "election.id")
+            ).as("positions"))
+            .execute()
+
+        res.status(200).json(election)
+    } catch (err) {
+        next(err)
+    }
+})
+
 const idRouteParamsSchema = z.object({
     id: z.string(),
 });
@@ -35,7 +55,7 @@ electionRouter.get("/:id", validateRouteParams(idRouteParamsSchema), async (req,
             .select(eb => jsonArrayFrom(
                 eb.selectFrom("position")
                     .selectAll()
-                    .whereRef("election.id", "=", "id")
+                    .whereRef("position.election_id", "=", "election.id")
             ).as("positions"))
             .execute()
 
@@ -48,6 +68,7 @@ electionRouter.get("/:id", validateRouteParams(idRouteParamsSchema), async (req,
 export const createNewElectionSchema = z.object({
     name: z.string(),
     draft: z.boolean(),
+    description: z.string(),
 });
 
 type createNewElection = z.infer<typeof createNewElectionSchema>
