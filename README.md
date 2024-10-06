@@ -30,6 +30,7 @@ erDiagram
         int id PK "Primary Key"
         string name "Unique, Not Null"
         bool draft
+        string description
     }
     POSITION {
         int id PK "Primary Key"
