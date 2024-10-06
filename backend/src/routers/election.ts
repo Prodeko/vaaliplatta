@@ -32,7 +32,7 @@ electionRouter.get("/newest", async (req, res, next) => {
                     .selectAll()
                     .whereRef("position.election_id", "=", "election.id")
             ).as("positions"))
-            .execute()
+            .executeTakeFirst()
 
         res.status(200).json(election)
     } catch (err) {
