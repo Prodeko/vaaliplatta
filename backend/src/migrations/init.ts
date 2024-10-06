@@ -6,6 +6,7 @@ export async function up(db: Kysely<any>): Promise<void> {
         .addColumn('id', 'serial', col => col.primaryKey())
         .addColumn('name', 'text', col => col.unique().notNull())
         .addColumn('draft', 'boolean')
+        .addColumn('description', 'text')
         .execute()
     await db.schema
         .createTable('position')
@@ -13,16 +14,16 @@ export async function up(db: Kysely<any>): Promise<void> {
         .addColumn('name', 'text', col => col.notNull())
         .addColumn('description', 'text')
         .addColumn('seats', 'text') // Text type to allow for example "8 - 12" seats
-        .addColumn('election.id', 'integer',
+        .addColumn('election_id', 'integer',
             col => col.references('election.id').notNull())
         .execute()
     await db.schema
         .createTable('application')
         .addColumn('id', 'serial', col => col.primaryKey())
         .addColumn('content', 'text')
-        .addColumn('applicant.name', 'text', col => col.notNull())
-        .addColumn('applicant.id', 'text', col => col.notNull())
-        .addColumn('position.id', 'integer', col =>
+        .addColumn('applicant_name', 'text', col => col.notNull())
+        .addColumn('applicant_id', 'text', col => col.notNull())
+        .addColumn('position_id', 'integer', col =>
             col.references('position.id').notNull())
         .execute()
     await db.schema
@@ -31,8 +32,8 @@ export async function up(db: Kysely<any>): Promise<void> {
         .addColumn('title', 'text', col => col.notNull())
         .addColumn('content', 'text')
         .addColumn('nickname', 'text', col => col.notNull())
-        .addColumn('asker.id', 'text', col => col.notNull())
-        .addColumn('position.id', 'integer', col =>
+        .addColumn('asker_id', 'text', col => col.notNull())
+        .addColumn('position_id', 'integer', col =>
             col.references('position.id').notNull())
         .execute()
     await db.schema
@@ -40,7 +41,7 @@ export async function up(db: Kysely<any>): Promise<void> {
         .addColumn('id', 'serial', col => col.primaryKey())
         .addColumn('title', 'text', col => col.notNull())
         .addColumn('content', 'text')
-        .addColumn('question.id', 'integer', col =>
+        .addColumn('question_id', 'integer', col =>
             col.references('question.id').notNull())
         .execute()
 }
