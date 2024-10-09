@@ -10,19 +10,28 @@ export default function App() {
 
   const content = position
     ? <PositionView position={position} />
-    : <Election />;
+    : <div className="
+        md:col-span-6
+        lg:col-span-8
+        xl:col-span-10
+        2xl:col-span-10">
+      <Election />;
+    </div>
 
   return (
     <div className="h-screen bg-cover bg-center background-image font-sans">
       <Error />
       <TopHeaderBar />
-      <div className="grid sm:grid-cols-8 md:grid-cols-10 lg:grid-cols-12 xl:grid-cols-12 gap-3 p-3 min-h-full bg-white">
-        <div className="col-span-2 lg:col-span-3 xl:col-span-3">
+      <div className="p-3 min-h-full bg-white 
+        sm:block 
+        md:grid md:grid-cols-8 
+        lg:grid-cols-10 
+        xl:grid-cols-12 
+        2xl:grid-cols-12 gap-3">
+        <div className="col-span-2">
           <LeftNavBar />
         </div>
-        <div className="col-span-6 md:col-span-8 lg:col-span-9 xl:col-span-9 px-4">
-          {content}
-        </div>
+        {content}
       </div>
     </div>
   );
