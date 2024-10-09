@@ -44,7 +44,7 @@ positionRouter.get('/:id', validateRouteParams(idRouteParamsSchema), async (req,
                 .selectAll()
                 .whereRef("application.position_id", "=", "application.id")
         ).as("applications"))
-        .execute()
+        .executeTakeFirst()
         .then(result => res.status(200).json(result))
         .catch(err => next(err))
 })
