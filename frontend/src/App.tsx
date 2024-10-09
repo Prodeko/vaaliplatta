@@ -3,6 +3,7 @@ import LeftNavBar from "./components/LeftNavBar"
 import { useAppState } from "./hooks/useAppState"
 import TietoaVaaleista from "./components/tietoaVaaleista"
 import PositionView from "./components/Position"
+import Error from "./components/Error"
 
 export default function App() {
   const { position } = useAppState()
@@ -13,6 +14,7 @@ export default function App() {
 
   return (
     <div className="h-screen bg-cover bg-center background-image font-sans">
+      <Error />
       <TopHeaderBar />
       <div className="grid-cols-12 grid bg-white p-3 min-h-full">
         <div className="col-span-2" >
