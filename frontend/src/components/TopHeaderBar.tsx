@@ -1,10 +1,10 @@
-import { useElection } from "../hooks/useElection"
+import { useAppState } from "../hooks/useAppState"
 
 export default function TopHeaderBar() {
-    const { election } = useElection()
+    const { election } = useAppState()
     return (
         <>
-            <h1 className="text-6xl p-16 font-semibold text-white">{election?.name}</h1>
+            <h1 className="text-6xl p-16 font-semibold text-white">{election?.name ?? "Vaaliplatta"}</h1>
         </>
     )
 }

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useElection } from '../hooks/useElection';
+import { useAppState } from '../hooks/useAppState';
 import { Link } from 'react-router-dom';
 
 interface DropdownProps {
@@ -44,7 +44,7 @@ function DropdownElement({ label, url }: DropdownElementProps) {
 }
 
 export default function LeftNavBar() {
-    const { election } = useElection()
+    const { election } = useAppState()
 
     return (
         <div className="flex flex-col space-y-2 bg-white">

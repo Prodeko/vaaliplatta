@@ -10,11 +10,12 @@ import Admin from './pages/admin.tsx';
 import Login from './pages/login.tsx';
 import { AuthProvider } from './context/AuthContext.tsx';
 import ProtectedRoute from './components/ProtectedRoute.tsx';
+import { AppStateProvider } from './context/AppContext.tsx';
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: <AppStateProvider><App /></AppStateProvider>,
   },
   {
     path: "/admin",

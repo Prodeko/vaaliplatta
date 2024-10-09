@@ -1,29 +1,27 @@
-import ContentWindow from "./components/ContentWindow"
 import TopHeaderBar from "./components/TopHeaderBar"
 import LeftNavBar from "./components/LeftNavBar"
-// import TietoaVaaleista from "./tietoaVaaleista"
-import { useParams } from "react-router"
-import { ElectionProvider } from "./context/ElectionContext.tsx";
+import { useAppState } from "./hooks/useAppState"
+import TietoaVaaleista from "./components/tietoaVaaleista"
+import PositionView from "./components/Position"
 
-function App() {
-  const { electionId } = useParams();
+export default function App() {
+  const { position } = useAppState()
+
+  const content = position
+    ? <PositionView position={position} />
+    : <TietoaVaaleista />
 
   return (
-    <ElectionProvider {...{ electionId }}>
-      <div className="h-screen bg-cover bg-center background-image font-sans">
-        <TopHeaderBar />
-        <div className="grid-cols-12 grid bg-white p-3">
-          <div className="col-span-2" >
-            <LeftNavBar />
-          </div>
-          <div className="col-span-10">
-            <ContentWindow />
-          </div>
+    <div className="h-screen bg-cover bg-center background-image font-sans">
+      <TopHeaderBar />
+      <div className="grid-cols-12 grid bg-white p-3 min-h-full">
+        <div className="col-span-2" >
+          <LeftNavBar />
         </div>
-        {/* <TietoaVaaleista /> */}
+        <div className="col-span-10 bg-white p-4">
+          {content}
+        </div>
       </div>
-    </ElectionProvider>
+    </div>
   )
 }
-
-export default App
