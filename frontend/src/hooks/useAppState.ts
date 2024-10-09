@@ -23,6 +23,7 @@ export interface AppContextType {
     error: string | null;
     getElection: (id: string) => Promise<void>;
     getPosition: (id: string) => Promise<void>;
+    clearPosition: () => void;
 }
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);

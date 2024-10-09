@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { useAppState } from '../hooks/useAppState';
-import { Link } from 'react-router-dom';
 
 interface DropdownProps {
     label: string;
@@ -15,7 +14,7 @@ function Dropdown({ label, default_open, children }: DropdownProps) {
         <div className="relative">
             <button
                 onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center justify-between w-full px-4 py-2 text-black hover:bg-slate-200 rounded-md focus:outline-none">
+                className="flex items-center justify-between w-full p-4 text-black hover:bg-slate-200 rounded-md focus:outline-none">
                 <span className="font-extrabold">{label}</span>
                 <span className={`text-black ${isOpen ? 'transform rotate-180' : ''}`}>
                     <svg viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5">
@@ -34,24 +33,35 @@ function Dropdown({ label, default_open, children }: DropdownProps) {
     );
 }
 
-interface DropdownElementProps {
-    label: string;
-    url: string;
-}
-
-function DropdownElement({ label, url }: DropdownElementProps) {
-    return <Link to={url} className="block px-4 py-2 text-sm text-gray-700 hover:bg-blue-100">{label}</Link>
-}
-
 export default function LeftNavBar() {
-    const { election } = useAppState()
+    const { election, position, getPosition, clearPosition } = useAppState();
 
     return (
-        <div className="flex flex-col space-y-2 bg-white">
+        <div className="w-full">
+            {position
+                ? <button
+                    onClick={clearPosition}
+                    className="w-full p-4 text-black font-extrabold hover:bg-slate-200 rounded-md focus:outline-none"
+                >
+                    <div className='text-left'>
+                        ETUSIVULLE
+                    </div>
+                </button>
+                : <></>
+            }
             <Dropdown label='HALLITUS' default_open>
-                {election?.positions.map(p => <DropdownElement url='#' label={p.name} />)}
+                {election?.positions.map(p => (
+                    <button
+                        onClick={() => getPosition(p.id.toString())}
+                        className="p-4 text-sm text-gray-700 hover:bg-blue-100 w-full flex items-start"
+                        key={p.id}
+                    >
+                        {p.name}
+                    </button>
+                ))}
             </Dropdown>
         </div>
     );
 }
+
 

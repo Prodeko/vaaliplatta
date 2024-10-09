@@ -37,12 +37,14 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
             })
     }
 
+    const clearPosition = () => setPosition(null)
+
     useEffect(() => {
         if (electionId) getElection(electionId)
         else getElection("newest")
     }, [electionId]);
 
-    const value: AppContextType = { election, getElection, getPosition, position, error }
+    const value: AppContextType = { election, getElection, getPosition, clearPosition, position, error }
 
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 };

@@ -9,8 +9,8 @@ export default function PositionView({ position }: PositionProps) {
     if (position === "loading") return <Loading />
 
     return (
-        <div>
-            {position?.toString()}
+        <div className="my-4">
+            {position?.description}
         </div>
     )
 }
