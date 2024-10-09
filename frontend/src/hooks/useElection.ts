@@ -6,7 +6,15 @@ export interface Election {
     name: string,
     draft: boolean,
     description: string,
-    positions: unknown[], // TODO
+    positions: Position[],
+}
+
+export interface Position {
+    description: string | null;
+    election_id: number;
+    id: number;
+    name: string;
+    seats: string | null;
 }
 
 export interface ElectionContextType {
