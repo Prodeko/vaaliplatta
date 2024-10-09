@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { AppContext, AppContextType, Election, Position } from '../hooks/useAppState';
+import { AppContext, AppContextType, Application, Election, Position } from '../hooks/useAppState';
 import axios from 'axios';
 import { useParams } from "react-router"
 
@@ -11,12 +11,13 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
     const { electionId } = useParams();
     const [election, setElection] = useState<Election | null>(null);
     const [position, setPosition] = useState<Position | "loading" | null>(null);
+    const [application, setApplication] = useState<Application | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     const URL = 'http://localhost:8000/api'
 
     const getElection = async (id: string) => axios
-        .get(URL + '/election/' + id.toString())
+        .get(URL + '/election/' + id)
         .then(result => setElection(result.data))
         .catch(error => console.error(error))
 
@@ -37,14 +38,20 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
             })
     }
 
+    const showApplication = (id: string) => {
+        if (position && position != "loading") setApplication(position?.applications.find(a => a.applicant_id.toString() === id) || null)
+    }
+
     const clearPosition = () => setPosition(null)
+
+    const clearApplication = () => setApplication(null)
 
     useEffect(() => {
         if (electionId) getElection(electionId)
         else getElection("newest")
     }, [electionId]);
 
-    const value: AppContextType = { election, getElection, getPosition, clearPosition, position, error }
+    const value: AppContextType = { election, getElection, getPosition, clearPosition, showApplication, clearApplication, position, error, application }
 
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 };

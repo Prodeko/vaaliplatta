@@ -15,15 +15,26 @@ export interface Position {
     description: string | null;
     name: string;
     seats: string | null;
+    applications: Application[];
+}
+
+export interface Application {
+    content: string;
+    applicant_name: string;
+    applicant_id: string;
+    position_id: string;
 }
 
 export interface AppContextType {
     election: Election | null;
     position: Position | "loading" | null;
+    application: Application | null;
     error: string | null;
     getElection: (id: string) => Promise<void>;
     getPosition: (id: string) => Promise<void>;
     clearPosition: () => void;
+    showApplication: (id: string) => void;
+    clearApplication: () => void;
 }
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);

@@ -4,6 +4,7 @@ import { useAppState } from "./hooks/useAppState"
 import Election from "./components/Election"
 import PositionView from "./components/Position"
 import Error from "./components/Error"
+import ApplicationModal from "./components/ApplicationModal"
 
 export default function App() {
   const { position } = useAppState();
@@ -22,6 +23,7 @@ export default function App() {
     <div className="h-screen bg-cover bg-center background-image font-sans">
       <Error />
       <TopHeaderBar />
+      <ApplicationModal />
       <div className="p-3 min-h-full bg-white 
         sm:block 
         md:grid md:grid-cols-8 

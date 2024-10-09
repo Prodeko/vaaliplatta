@@ -42,7 +42,7 @@ positionRouter.get('/:id', validateRouteParams(idRouteParamsSchema), async (req,
         .select(eb => jsonArrayFrom(
             eb.selectFrom("application")
                 .selectAll()
-                .whereRef("application.position_id", "=", "application.id")
+                .whereRef("application.position_id", "=", "position.id")
         ).as("applications"))
         .executeTakeFirst()
         .then(result => res.status(200).json(result))

@@ -8,9 +8,9 @@ export const applicationRouter = Router();
 
 export const createNewApplicationSchema = z.object({
     "content": z.string(),
-    "applicant.name": z.string(),
-    "applicant.id": z.string(),
-    "position.id": z.number(),
+    "applicant_name": z.string(),
+    "applicant_id": z.string(),
+    "position_id": z.number(),
 })
 
 type createNewApplicationType = z.infer<typeof createNewApplicationSchema>
