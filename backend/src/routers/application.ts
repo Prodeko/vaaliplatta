@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { z } from 'zod';
-import { validateData } from "@/middleware/validators";
+import { validateData, validateRouteParams } from "@/middleware/validators";
 import { db } from "@/database";
 
 
@@ -25,4 +25,27 @@ applicationRouter.post('/', validateData(createNewApplicationSchema), async (req
         .executeTakeFirst()
         .then(result => res.status(201).json(result))
         .catch(e => next(e))
+})
+
+const idRouteParamsSchema = z.object({
+    id: z.string(),
+})
+
+applicationRouter.delete('/:id', validateRouteParams(idRouteParamsSchema), async (req, res, next) => {
+    const id = parseInt(req.params.id!)
+
+    try {
+        const result = await db
+            .deleteFrom('application')
+            .where('id', '=', id)
+            .execute()
+
+        if (result.numUpdatedRows === 0) {
+            return res.status(404).json({ message: 'Application not found' })
+        }
+
+        res.status(204).send();
+    } catch (error) {
+        next(error);
+    }
 })

@@ -49,6 +49,24 @@ positionRouter.get('/:id', validateRouteParams(idRouteParamsSchema), async (req,
         .catch(err => next(err))
 })
 
+positionRouter.delete('/:id', validateRouteParams(idRouteParamsSchema), async (req, res, next) => {
+    const id = parseInt(req.params.id!);
+
+    try {
+        const result = await db
+            .deleteFrom('position')
+            .where('id', '=', id)
+            .execute();
+
+        if (result.numUpdatedRows === 0) {
+            return res.status(404).json({ message: 'Position not found' });
+        }
+
+        res.status(204).send(); // No content
+    } catch (error) {
+        next(error);
+    }
+});
 
 
 export default positionRouter
