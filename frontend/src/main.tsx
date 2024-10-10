@@ -19,7 +19,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/admin",
-    element: <ProtectedRoute><Admin /></ProtectedRoute>,
+    element: <ProtectedRoute><AppStateProvider><Admin /></AppStateProvider></ProtectedRoute>,
   },
   {
     path: "/login",

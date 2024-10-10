@@ -56,7 +56,7 @@ export default function LeftNavBar() {
                 </button>
             )}
             <Dropdown label='HALLITUS'>
-                {election?.positions.map(p => (
+                {election?.positions?.map(p => (
                     <button
                         onClick={() => getPosition(p.id.toString())}
                         className="p-4 text-sm text-gray-700 hover:bg-blue-100 w-full flex items-start"

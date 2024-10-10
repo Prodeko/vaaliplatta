@@ -3,7 +3,7 @@ Content-Type: application/json
 
 {
     "content": "Jatkokausi babyy",
-    "applicant.name": "Risto",
-    "applicant.id": "1234567890",
-    "position.id": 1
+    "applicant_name": "Risto",
+    "applicant_id": "1234567890",
+    "position_id": 1
 }
