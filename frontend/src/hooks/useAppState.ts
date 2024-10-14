@@ -1,3 +1,4 @@
+import { BlobServiceClient } from '@azure/storage-blob';
 import { useContext } from 'react';
 import { createContext } from 'react';
 
@@ -30,11 +31,13 @@ export interface AppContextType {
     position: Position | "loading" | null;
     application: Application | null;
     error: string | null;
+    blobServiceClient: BlobServiceClient;
     getElection: (id: string) => Promise<void>;
     getPosition: (id: string) => Promise<void>;
     clearPosition: () => void;
     showApplication: (id: string) => void;
     clearApplication: () => void;
+    setError: (value: string | null) => void;
 }
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);
