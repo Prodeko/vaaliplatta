@@ -2,15 +2,9 @@ import { Router } from "express";
 import { array, z } from 'zod';
 import { validateData, validateRouteParams } from "@/middleware/validators";
 import { db } from "@/database";
-import multer from 'multer'
-import path from "path";
-import { type } from "os";
-import AzureBlobService from "@/utils/blobService";
 
 export const applicationRouter = Router();
-const memoryStorage = multer.memoryStorage(); // Use memory storage to buffer files before uploading
-const upload = multer({ storage: memoryStorage });
-const blobService = new AzureBlobService(process.env.BLOB_SAS_URL!)
+
 export const createNewApplicationSchema = z.object({
     "content": z.string(),
     "applicant_name": z.string(),
@@ -22,16 +16,10 @@ type createNewApplicationType = z.infer<typeof createNewApplicationSchema>
 
 applicationRouter.post(
     '/',
-    upload.array('files', 5),
     validateData(createNewApplicationSchema),
     async (req, res, next) => {
         const body: createNewApplicationType = req.body
         const data = { ...body, "position_id": parseInt(body.position_id) }
-        const files = req.files as Express.Multer.File[] | undefined
-
-        if (files) {
-            await Promise.all(files.map(file => blobService.uploadBlob(file)))
-        }
 
         db
             .insertInto("application")

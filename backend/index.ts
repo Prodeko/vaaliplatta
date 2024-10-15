@@ -19,6 +19,7 @@ import logger from '@/middleware/logger'
 import { applicationRouter } from '@/routers/application'
 import { authRouter } from '@/routers/auth'
 import cors from 'cors'
+import { uploadRouter } from '@/routers/upload'
 
 
 async function migrateToLatest() {
@@ -78,6 +79,7 @@ app.use(logger)
 app.use("/api/election/", electionRouter)
 app.use("/api/position/", positionRouter)
 app.use("/api/application", applicationRouter)
+app.use("/api/upload", uploadRouter)
 app.use("/api", authRouter)
 
 app.use(errorHandler);
