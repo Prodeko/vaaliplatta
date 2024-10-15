@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { AppContext, AppContextType, Application, Election, Position } from '../hooks/useAppState';
 import axios from 'axios';
 import { useParams } from "react-router"
-import { BlobServiceClient } from '@azure/storage-blob';
 
 interface Props {
     children: React.ReactNode
@@ -14,9 +13,6 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
     const [position, setPosition] = useState<Position | "loading" | null>(null);
     const [application, setApplication] = useState<Application | null>(null);
     const [error, setError] = useState<string | null>(null);
-    const [blobServiceClient] = useState(
-        new BlobServiceClient(import.meta.env.VITE_BLOB_SAS_URL)
-    )
 
     const URL = 'http://localhost:8000/api'
 
@@ -55,7 +51,7 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
         else getElection("newest")
     }, [electionId]);
 
-    const value: AppContextType = { election, blobServiceClient, getElection, getPosition, clearPosition, showApplication, clearApplication, setError, position, error, application }
+    const value: AppContextType = { election, getElection, getPosition, clearPosition, showApplication, clearApplication, setError, position, error, application }
 
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 };
