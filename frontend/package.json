@@ -13,6 +13,7 @@
     "@headlessui/react": "^1.7.18",
     "@tiptap/extension-color": "^2.8.0",
     "@tiptap/extension-image": "^2.8.0",
+    "@tiptap/extension-underline": "^2.8.0",
     "@tiptap/pm": "^2.8.0",
     "@tiptap/react": "^2.8.0",
     "@tiptap/starter-kit": "^2.8.0",
