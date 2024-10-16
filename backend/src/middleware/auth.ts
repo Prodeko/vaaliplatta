@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import jwt from 'jsonwebtoken';
 import { config } from '../config'
-import { UserDetailsResponse } from '@/routers/auth';
+import { UserDetailsResponse } from '../routers/auth';
 
 export interface AuthenticatedRequest extends Request {
     session?: DecodedToken;

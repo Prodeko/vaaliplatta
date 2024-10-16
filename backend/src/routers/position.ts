@@ -1,9 +1,9 @@
 import { Router } from "express";
 import { z } from 'zod';
-import { validateData, validateRouteParams } from "@/middleware/validators";
-import { db } from "@/database";
+import { validateData, validateRouteParams } from "../middleware/validators";
+import { db } from "../database";
 import { jsonArrayFrom } from "kysely/helpers/postgres";
-import { requireSuperUser } from "@/middleware/auth";
+import { requireSuperUser } from "../middleware/auth";
 
 const positionRouter = Router();
 

@@ -1,9 +1,9 @@
-import { db } from "@/database";
-import { validateData, validateRouteParams } from "@/middleware/validators";
+import { db } from "../database";
+import { validateData, validateRouteParams } from "../middleware/validators";
 import { Router } from "express";
 import { z } from 'zod';
 import { jsonArrayFrom } from 'kysely/helpers/postgres'
-import { requireSuperUser } from "@/middleware/auth";
+import { requireSuperUser } from "../middleware/auth";
 
 const electionRouter = Router();
 

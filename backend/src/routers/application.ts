@@ -1,8 +1,8 @@
 import { Router } from "express";
 import { z } from 'zod';
-import { validateData, validateRouteParams } from "@/middleware/validators";
-import { db } from "@/database";
-import { AuthenticatedRequest, requireAuthenticated } from "@/middleware/auth";
+import { validateData, validateRouteParams } from "../middleware/validators";
+import { db } from "../database";
+import { AuthenticatedRequest, requireAuthenticated } from "../middleware/auth";
 
 export const applicationRouter = Router();
 

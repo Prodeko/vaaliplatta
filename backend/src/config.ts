@@ -25,6 +25,7 @@ switch (process.env.LOG_LEVEL) {
 
 
 export const config = {
+    PORT: process.env.PORT ? parseInt(process.env.PORT) : 8000,
     DATABASE_URL: process.env.DATABASE_URL,
     ENV: process.env.ENV,
     LOG_LEVEL: log_level,
@@ -43,4 +44,5 @@ export const config = {
     OAUTH_AUTHORIZE_HOST: process.env.OAUTH_AUTHORIZE_HOST!,
     OAUTH_AUTHORIZE_PATH: process.env.OAUTH_AUTHORIZE_PATH!,
     FRONTEND_URL: process.env.FRONTEND_URL!,
+    FRONTEND_DIST_FOLDER: process.env.FRONTEND_DIST_FOLDER!,
 }

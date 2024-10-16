@@ -1,7 +1,7 @@
 import { DB } from 'kysely-codegen' // this is the Database interface we defined earlier
 import { Pool } from 'pg'
 import { Kysely, PostgresDialect } from 'kysely'
-import { config } from './config.ts'
+import { config } from './config'
 
 const dialect = new PostgresDialect({
     pool: new Pool({

@@ -1,7 +1,7 @@
 import { Router } from "express";
 import multer from 'multer'
-import AzureBlobService from "@/utils/blobService";
-import { requireAuthenticated } from "@/middleware/auth";
+import AzureBlobService from "../utils/blobService";
+import { requireAuthenticated } from "../middleware/auth";
 
 export const uploadRouter = Router();
 const memoryStorage = multer.memoryStorage(); // Use memory storage to buffer files before uploading

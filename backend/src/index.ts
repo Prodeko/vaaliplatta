@@ -10,18 +10,18 @@ import {
   FileMigrationProvider,
 } from 'kysely'
 import { DB } from 'kysely-codegen'
-import { config } from './src/config'
-import electionRouter from '@/routers/election'
+import { config } from './config'
+import electionRouter from './routers/election'
 import bodyParser from 'body-parser'
-import errorHandler from '@/middleware/errorHandler'
-import positionRouter from '@/routers/position'
-import logger from '@/middleware/logger'
-import { applicationRouter } from '@/routers/application'
-import { authRouter } from '@/routers/auth'
+import errorHandler from './middleware/errorHandler'
+import positionRouter from './routers/position'
+import logger from './middleware/logger'
+import { applicationRouter } from './routers/application'
+import { authRouter } from './routers/auth'
 import cors from 'cors'
-import { uploadRouter } from '@/routers/upload'
+import { uploadRouter } from './routers/upload'
 import cookieParser from 'cookie-parser'
-import { authMiddleware } from '@/middleware/auth'
+import { authMiddleware } from './middleware/auth'
 
 
 async function migrateToLatest() {
@@ -39,7 +39,7 @@ async function migrateToLatest() {
       fs,
       path,
       // This needs to be an absolute path.
-      migrationFolder: path.join(__dirname, 'src/migrations'),
+      migrationFolder: path.join(__dirname, 'migrations'),
     }),
   })
 
@@ -67,7 +67,7 @@ async function migrateToLatest() {
 
 migrateToLatest()
 const app: Application = express()
-const port = process.env.PORT ?? 8000
+const port = config.PORT
 const corsOptions = {
   origin: 'http://localhost:5173',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -88,10 +88,10 @@ app.use("/api/application", applicationRouter)
 app.use("/api/upload", uploadRouter)
 app.use("/", authRouter)
 
-app.use(express.static(path.join(__dirname, '../frontend/dist')));
+app.use(express.static(path.join(__dirname, config.FRONTEND_DIST_FOLDER)));
 
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
+  res.sendFile(path.join(__dirname, config.FRONTEND_DIST_FOLDER, 'index.html'));
 });
 
 app.use("/test", (req, res, next) => res.status(200).send("It works"))
