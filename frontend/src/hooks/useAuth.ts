@@ -3,7 +3,7 @@ import { createContext, useContext } from "react";
 export interface AuthContextType {
     userId: string;
     token: Token | null;
-    login: (password: string) => Promise<Result<Token, AuthError>>;
+    login: () => void;
     logout: () => void;
 }
 

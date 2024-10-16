@@ -7,10 +7,10 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Admin from './pages/admin.tsx';
-import Login from './pages/login.tsx';
 import { AuthProvider } from './context/AuthContext.tsx';
 import ProtectedRoute from './components/ProtectedRoute.tsx';
 import { AppStateProvider } from './context/AppContext.tsx';
+import { LoginRedirectToOauth } from './pages/login.tsx';
 
 const router = createBrowserRouter([
   {
@@ -23,7 +23,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <Login />
+    element: <LoginRedirectToOauth to="http://localhost:8000/oauth2/login" />
   }
 ]);
 
