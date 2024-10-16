@@ -20,6 +20,8 @@ import { applicationRouter } from '@/routers/application'
 import { authRouter } from '@/routers/auth'
 import cors from 'cors'
 import { uploadRouter } from '@/routers/upload'
+import cookieParser from 'cookie-parser'
+import { authMiddleware } from '@/middleware/auth'
 
 
 async function migrateToLatest() {
@@ -73,14 +75,18 @@ const corsOptions = {
 }
 
 app.use(cors(corsOptions))
+app.use(cookieParser())
 app.use(bodyParser.json())
+app.use(express.urlencoded({ extended: true }));
 app.use(logger)
 
 app.use("/api/election/", electionRouter)
 app.use("/api/position/", positionRouter)
 app.use("/api/application", applicationRouter)
 app.use("/api/upload", uploadRouter)
-app.use("/api", authRouter)
+app.use("/", authRouter)
+
+app.use("/test", authMiddleware, (req, res, next) => res.status(200).send("It works"))
 
 app.use(errorHandler);
 

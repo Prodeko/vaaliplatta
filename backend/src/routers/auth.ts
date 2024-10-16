@@ -1,37 +1,76 @@
-import { Request, Response, Router } from 'express';
-import jwt from 'jsonwebtoken';
+import { Router } from 'express';
 import { config } from '../config'
-import { z } from 'zod'
-import { validateData } from "@/middleware/validators"
+import { AuthorizationCode } from 'simple-oauth2';
+import axios from 'axios';
+import jwt from 'jsonwebtoken';
 
 export const authRouter = Router();
 
-export const loginSchema = z.object({
-    "password": z.string()
-})
 
-authRouter.post('/login', validateData(loginSchema), async (req, res, next) => {
-    const { password } = req.body;
+const client = new AuthorizationCode({
+    client: {
+        id: config.OAUTH_CLIENT_ID,
+        secret: config.OAUTH_CLIENT_SECRET,
+    },
+    auth: {
+        tokenHost: config.OAUTH_TOKEN_HOST,
+        tokenPath: config.OAUTH_TOKEN_PATH,
+        authorizeHost: config.OAUTH_AUTHORIZE_HOST,
+        authorizePath: config.OAUTH_AUTHORIZE_PATH,
+    },
+});
 
-    const JWT_SECRET = config.JWT_SECRET as string
-    const JWT_EXPIRATION = config.JWT_EXPIRATION as string
-    const ADMIN_PASSWORD = config.ADMIN_PASSWORD as string
+
+authRouter.get('/oauth2/login', (req, res) => {
+    const authorizationUri = client.authorizeURL({
+        redirect_uri: config.OAUTH_CALLBACK_URI,
+        scope: 'read',
+        state: Math.random().toString(36).substring(7) // CSRF protection
+    });
+
+    res.redirect(authorizationUri);
+});
+
+export interface UserDetailsResponse {
+    pk: number,
+    email: string,
+    first_name: string,
+    last_name: string,
+    has_accepted_policies: boolean,
+    is_staff: boolean,
+    is_superuser: boolean,
+}
+
+authRouter.get('/oauth2/callback', async (req, res) => {
+    const { code } = req.query;
+    const options = {
+        code: code?.toString()!,
+        redirect_uri: config.OAUTH_CALLBACK_URI
+    };
 
     try {
-        if (password === ADMIN_PASSWORD) {
-            // Generate JWT token
-            const token = jwt.sign(
-                { user: 'admin' },  // Payload (can be more user info like ID)
-                JWT_SECRET,
-                { expiresIn: JWT_EXPIRATION }   // Set token expiration
-            );
+        const accessToken = await client.getToken(options);
 
-            // Send the token in the response
-            res.json({ message: 'Login successful', token });
-        } else {
-            res.status(401).json({ message: 'Incorrect password' });
+        const user = await axios.get(config.OAUTH_PROFILE_URL, { headers: { Authorization: `Bearer ${accessToken.token.access_token}` } })
+            .then(res => res.data as UserDetailsResponse)
+            .catch(err => console.error(err))
+
+        const jwt_data = {
+            token: accessToken.token.access_token,
+            ...user,
         }
-    } catch (e) {
-        next(e)
+        const jwt_token = jwt.sign(jwt_data, config.JWT_SECRET, { expiresIn: config.JWT_EXPIRATION })
+
+        // res.cookie('access_token', accessToken.token.access_token, {
+        //     httpOnly: true,
+        //     secure: config.ENV === 'production',
+        //     sameSite: 'none'
+        // });
+
+        return res.redirect(`${config.FRONTEND_URL}?token=${jwt_token}`)
+    } catch (error) {
+        // @ts-ignore
+        console.error('Access Token Error', error.message);
+        return res.status(500).json('Authentication failed');
     }
-})
+});
