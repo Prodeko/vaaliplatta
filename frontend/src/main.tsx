@@ -11,7 +11,6 @@ import Login from './pages/login.tsx';
 import { AuthProvider } from './context/AuthContext.tsx';
 import ProtectedRoute from './components/ProtectedRoute.tsx';
 import { AppStateProvider } from './context/AppContext.tsx';
-import ParentForm from './components/Form.tsx';
 
 const router = createBrowserRouter([
   {
@@ -25,10 +24,6 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <Login />
-  },
-  { // This is here for development
-    path: "/editor",
-    element: <AppStateProvider><ParentForm /></AppStateProvider>
   }
 ]);
 

@@ -25,6 +25,8 @@ interface PositionProps {
 }
 
 export default function PositionView({ position }: PositionProps) {
+    const { setShowApplicationForm } = useAppState()
+
     if (position === "loading") return <Loading />
 
     return (
@@ -38,9 +40,13 @@ export default function PositionView({ position }: PositionProps) {
                 lg:col-span-3
                 xl:col-span-4
                 2xl:col-span-4">
-                <div className="w-full p-4 text-black font-extrabold rounded-md">
-                    Hakijat
-                </div>
+                <button className="w-full p-4 text-black font-extrabold rounded-md hover:bg-blue-100 bg-blue-50 flex sitems-start animate-bg-fade "
+                    onClick={() => setShowApplicationForm(true)}
+                >
+                    Hae virkaan
+                </button>
+                <hr className="my-4 h-0.5 border-t-0 bg-gray-50" />
+
                 <div className="rounded-md shadow-lg overflow-hidden">
                     {position.applications?.map(a => <ApplicationCard application={a} key={a.applicant_id} />)}
                 </div>

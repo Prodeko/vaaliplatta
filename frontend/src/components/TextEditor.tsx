@@ -9,10 +9,11 @@ import React, { useImperativeHandle, useRef } from 'react';
 
 interface ImageUploaderProps {
     onFile: (file: File) => void;
-    highlight: boolean
+    highlight: boolean;
+    children?: React.ReactNode
 }
 
-const ImageUploader = ({ onFile, highlight }: ImageUploaderProps) => {
+export const ImageUploader = ({ onFile, highlight, children }: ImageUploaderProps) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleButtonClick = () => {
@@ -29,10 +30,11 @@ const ImageUploader = ({ onFile, highlight }: ImageUploaderProps) => {
     return (
         <div>
             <button
+                type="button"
                 onClick={handleButtonClick}
-                className={`size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent ${highlight ? 'bg-gray-100' : ''} hover:bg-gray-100`}
+                className={`size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent ${highlight ? 'bg-blue-100 hover:bg-blue-200' : ''} hover:bg-blue-100`}
             >
-                img
+                {children || "img"}
             </button>
             <input
                 type="file"
@@ -148,7 +150,7 @@ const Editor = React.forwardRef<EditorRef>((props, ref) => {
         },
         content: `
         <p><em>Kirjoita hakemuksesi tähän</em></p>
-        <p><em>Voit lisätä hakemukseesi kuvia vetämällä ne tähän ikkunaan</em></p>
+        <p><em>Voit lisätä hakemustekstiin kuvia vetämällä ne tähän ikkunaan</em></p>
         `,
     })
 
