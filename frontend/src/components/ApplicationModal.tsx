@@ -1,15 +1,32 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useAppState } from '../hooks/useAppState';
+import ApplyForm from './ApplyForm';
 
 interface ModalProps {
+    isOpen: boolean;
     onClose: () => void;
     children: React.ReactNode; // Add children prop
 }
 
-function Modal({ onClose, children }: ModalProps) {
+function Modal({ isOpen, onClose, children }: ModalProps) {
+
+    useEffect(() => {
+        if (isOpen) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+
+        return () => {
+            document.body.style.overflow = ''; // Clean up on unmount
+        };
+    }, [isOpen]);
+
+    if (!isOpen) return null
     return (
-        <div className="fixed inset-0 flex items-center justify-center z-50 bg-black bg-opacity-50">
-            <div className="bg-white rounded-lg p-6 shadow-lg z-60 relative">
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 overflow-auto">
+            {/* Add max-h-full to prevent exceeding viewport and enable scrolling */}
+            <div className="bg-white rounded-lg p-6 shadow-lg relative mx-auto my-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
                 {/* Close button inside the modal */}
                 <button
                     onClick={onClose}
@@ -34,14 +51,18 @@ function Modal({ onClose, children }: ModalProps) {
     );
 }
 
-export default function ApplicationModal() {
+export function ApplicationForm() {
+    const { showApplicationForm, setShowApplicationForm } = useAppState();
+
+    const handleClose = () => setShowApplicationForm(false)
+
+    return <Modal isOpen={showApplicationForm} onClose={handleClose}><ApplyForm /></Modal>
+}
+
+export function ApplicationModal() {
     const { application, clearApplication } = useAppState();
 
-    const handleClose = () => {
-        clearApplication(); // Close the modal when the close button is clicked
-    };
+    const handleClose = clearApplication // Close the modal when the close button is clicked
 
-    if (!application) return null; // Don't render the modal if showModal is false
-
-    return <Modal onClose={handleClose}>{application.content}</Modal>;
+    return <Modal isOpen={!!application} onClose={handleClose}>{application?.content}</Modal>;
 }
