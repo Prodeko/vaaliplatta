@@ -20,7 +20,9 @@ export default function App() {
     </div>
 
   return (
-    <div className="h-screen bg-cover bg-center background-image font-sans">
+    <div
+      className="h-screen bg-cover bg-center bg-blue-700 font-sans"
+      style={{ backgroundImage: `url('/bg-blue.jpg')` }}>
       <Error />
       <TopHeaderBar />
       <ApplicationModal />
