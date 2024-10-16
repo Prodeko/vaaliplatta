@@ -34,7 +34,7 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
             .then(result => setPosition(result.data))
             .catch(error => {
                 console.error(error)
-                setError(error?.message ?? error.toString())
+                setError(error.toString())
                 setPosition(null)
             })
     }

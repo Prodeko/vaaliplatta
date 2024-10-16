@@ -19,7 +19,10 @@ const Login = () => {
         setError(null);
         const result = await login(password)
         if (result.ok) navigate(from, { replace: true }) // redirect
-        else setError(result.error)
+        else {
+            setError(result.error.toString())
+            console.error(result.error)
+        }
     };
 
     return (

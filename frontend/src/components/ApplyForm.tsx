@@ -31,7 +31,10 @@ const ApplyForm = () => {
             setShowApplicationForm(false)
             getPosition(position.id.toString())
         })
-            .catch(error => setError(error))
+            .catch(error => {
+                setError(error.toString())
+                console.error(error)
+            })
             .finally(() => setSubmitting(false))
     };
 
