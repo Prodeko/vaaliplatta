@@ -36,6 +36,8 @@ export interface AppContextType {
     clearPosition: () => void;
     application: Application | null;
     showApplication: (id: string) => void;
+    ownApplication: Application | null;
+    setOwnApplication: (application: Application | null) => void;
     clearApplication: () => void;
     showApplicationForm: boolean;
     setShowApplicationForm: (value: boolean) => void;

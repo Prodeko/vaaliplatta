@@ -27,13 +27,38 @@ applicationRouter.post(
 
         const data = { ...body, "position_id": parseInt(body.position_id), applicant_id: applicant_id.toString() }
 
-        db
-            .insertInto("application")
-            .values(data)
-            .returningAll()
-            .executeTakeFirst()
-            .then(result => res.status(201).json(result))
-            .catch(e => next(e))
+        try {
+            // Check if an application already exists with the same position_id and applicant_id
+            const existingApplication = await db
+                .selectFrom("application")
+                .selectAll()
+                .where("position_id", "=", data.position_id)
+                .where("applicant_id", "=", data.applicant_id)
+                .executeTakeFirst();
+
+            if (existingApplication) {
+                // If an application exists, update it
+                const updatedApplication = await db
+                    .updateTable("application")
+                    .set(data) // Update with new data
+                    .where("id", "=", existingApplication.id) // Assuming the existing application has an 'id' field
+                    .returningAll()
+                    .executeTakeFirst();
+
+                return res.status(200).json(updatedApplication);
+            } else {
+                // If no application exists, insert a new one
+                const newApplication = await db
+                    .insertInto("application")
+                    .values(data)
+                    .returningAll()
+                    .executeTakeFirst();
+
+                return res.status(201).json(newApplication);
+            }
+        } catch (error) {
+            next(error);
+        }
     })
 
 const idRouteParamsSchema = z.object({

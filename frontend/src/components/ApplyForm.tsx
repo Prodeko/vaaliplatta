@@ -1,15 +1,22 @@
-import { useRef, FormEvent, useState } from 'react';
+import { useRef, FormEvent, useState, useEffect } from 'react';
 import Editor, { EditorRef, ImageUploader } from './TextEditor'; // Assuming the RTEditor component is in the same directory
 import { useAppState } from '../hooks/useAppState';
 import useAuthenticatedRequests from '../hooks/useAuthenticatedRequests';
 
 const ApplyForm = () => {
-    const { position, getPosition, setShowApplicationForm, BLOB_URL } = useAppState()
+    const { position, getPosition, setShowApplicationForm, BLOB_URL, ownApplication } = useAppState()
     const editorRef = useRef<EditorRef>(null);
     const [name, setName] = useState('');
     const [pfpUrl, setPfpUrl] = useState<string | null>(null);
     const [submitting, setSubmitting] = useState<boolean>(false);
     const { post, upload } = useAuthenticatedRequests()
+
+    useEffect(() => {
+        if (ownApplication) {
+            setName(ownApplication.applicant_name)
+            setPfpUrl(ownApplication.profile_picture || null)
+        }
+    }, [ownApplication])
 
     if (!position || position === "loading") return null
 

@@ -35,7 +35,7 @@ interface PositionProps {
 
 export default function PositionView({ position }: PositionProps) {
     const { setShowApplicationForm } = useAppState()
-    const { token } = useAuth()
+    const { token, user } = useAuth()
     const navigate = useNavigate()
 
     function handleClick() {
@@ -44,6 +44,8 @@ export default function PositionView({ position }: PositionProps) {
     }
 
     if (position === "loading") return <Loading />
+
+    const editing: boolean = (!!user && position.applications?.map(a => a.applicant_id).includes(user))
 
     return (
         // Note that the css order property is not redundant here
@@ -59,7 +61,7 @@ export default function PositionView({ position }: PositionProps) {
                 <button className="w-full p-4 text-black font-extrabold rounded-md hover:bg-blue-100 bg-blue-50 flex sitems-start animate-bg-fade "
                     onClick={handleClick}
                 >
-                    Hae virkaan
+                    {editing ? "Muokkaa hakemusta" : "Hae virkaan"}
                 </button>
                 <Divider />
 

@@ -75,7 +75,7 @@ export type EditorRef = {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Editor = React.forwardRef<EditorRef>((props, ref) => {
-    const { BLOB_URL } = useAppState()
+    const { BLOB_URL, ownApplication } = useAppState()
     const { upload } = useAuthenticatedRequests()
 
     // const [imgLoading, setImgLoading] = useState<boolean>(false);
@@ -144,7 +144,8 @@ const Editor = React.forwardRef<EditorRef>((props, ref) => {
             },
             handleDrop: handleDropImage
         },
-        content: `
+        // Check if user already has applied to this position
+        content: ownApplication?.content || `
         <p><em>Kirjoita hakemuksesi tähän</em></p>
         <p><em>Voit lisätä hakemustekstiin kuvia vetämällä ne tähän ikkunaan</em></p>
         `,
