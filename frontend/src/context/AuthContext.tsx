@@ -31,7 +31,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         localStorage.removeItem('token');
     };
 
-    const value: AuthContextType = { token, login, logout };
+    const value: AuthContextType = { userId: Math.floor(Math.random() * 1000_000).toString(), token, login, logout };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
