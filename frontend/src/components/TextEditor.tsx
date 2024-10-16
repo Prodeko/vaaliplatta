@@ -5,7 +5,7 @@ import { EditorContent, useEditor } from '@tiptap/react'
 import Underline from '@tiptap/extension-underline'
 import StarterKit from '@tiptap/starter-kit'
 import axios from 'axios'
-import React, { useRef } from 'react';
+import React, { useImperativeHandle, useRef } from 'react';
 
 interface ImageUploaderProps {
     onFile: (file: File) => void;
@@ -66,7 +66,12 @@ function EditorButton({
     );
 }
 
-export default function Editor() {
+export type EditorRef = {
+    getHTML: () => string;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const Editor = React.forwardRef<EditorRef>((props, ref) => {
     const URL = 'http://localhost:8000/api'
     const BLOB_URL = 'https://vaaliplatta.blob.core.windows.net/dev'
 
@@ -144,6 +149,11 @@ export default function Editor() {
       <p>You can add images by dragging and dropping them here</p>
     `,
     })
+
+    // Expose the getHTML method via ref to parent component
+    useImperativeHandle(ref, () => ({
+        getHTML: () => editor?.getHTML() || ''
+    }))
 
     if (!editor) return null
     return (
@@ -266,7 +276,6 @@ export default function Editor() {
                 </EditorButton>
                 <ImageUploader highlight={false} onFile={
                     (file: File) => {
-                        // Display image in the editor immediately
                         const { schema } = editor.state;
                         // Upload the image to Azure through backend upload API
                         const formData = new FormData();
@@ -326,4 +335,6 @@ export default function Editor() {
             <EditorContent editor={editor} className="p-2 border rounded bg-gray-50" />
         </div>
     )
-}
+})
+
+export default Editor;
