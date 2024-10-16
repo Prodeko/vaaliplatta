@@ -6,9 +6,9 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import Admin from './pages/admin.tsx';
+// import Admin from './pages/admin.tsx';
 import { AuthProvider } from './context/AuthContext.tsx';
-import ProtectedRoute from './components/ProtectedRoute.tsx';
+// import ProtectedRoute from './components/ProtectedRoute.tsx';
 import { AppStateProvider } from './context/AppContext.tsx';
 import { LoginRedirectToOauth } from './pages/login.tsx';
 
@@ -17,10 +17,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <AppStateProvider><App /></AppStateProvider>,
   },
-  {
-    path: "/admin",
-    element: <ProtectedRoute><AppStateProvider><Admin /></AppStateProvider></ProtectedRoute>,
-  },
+  // {
+  //   path: "/admin",
+  //   element: <ProtectedRoute><AppStateProvider><Admin /></AppStateProvider></ProtectedRoute>,
+  // },
   {
     path: "/login",
     element: <LoginRedirectToOauth to={import.meta.env.VITE_API_URL + "/oauth2/login"} />
