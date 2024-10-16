@@ -4,8 +4,9 @@ import { EditorView } from '@tiptap/pm/view'
 import { EditorContent, useEditor } from '@tiptap/react'
 import Underline from '@tiptap/extension-underline'
 import StarterKit from '@tiptap/starter-kit'
-import axios from 'axios'
 import React, { useImperativeHandle, useRef } from 'react';
+import { useAppState } from '../hooks/useAppState'
+import useAuthenticatedRequests from '../hooks/useAuthenticatedRequests'
 
 interface ImageUploaderProps {
     onFile: (file: File) => void;
@@ -74,8 +75,9 @@ export type EditorRef = {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Editor = React.forwardRef<EditorRef>((props, ref) => {
-    const URL = 'http://localhost:8000/api'
-    const BLOB_URL = 'https://vaaliplatta.blob.core.windows.net/dev'
+    const { BLOB_URL } = useAppState()
+    const { upload } = useAuthenticatedRequests()
+
     // const [imgLoading, setImgLoading] = useState<boolean>(false);
 
     const handleDropImage = (view: EditorView, event: DragEvent, _slice: Slice, moved: boolean): boolean => {
@@ -110,13 +112,7 @@ const Editor = React.forwardRef<EditorRef>((props, ref) => {
         // setImgLoading(true)
         // Upload the image to Azure through backend upload API
         const placeholderPosition = coordinates?.pos || 0;
-        const formData = new FormData();
-        formData.append("file", file);
-        axios.post(URL + "/upload", formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data'
-            }
-        }).then(response => {
+        upload(file).then(response => {
             // If the image upload was successful
             // Update the image in the editor to use azure url
 
@@ -285,13 +281,7 @@ const Editor = React.forwardRef<EditorRef>((props, ref) => {
                         const transaction = editor.view.state.tr.insert(0, node)
                         editor.view.dispatch(transaction)
                         // Upload the image to Azure through backend upload API
-                        const formData = new FormData();
-                        formData.append("file", file);
-                        axios.post(URL + "/upload", formData, {
-                            headers: {
-                                'Content-Type': 'multipart/form-data'
-                            }
-                        }).then(response => {
+                        upload(file).then(response => {
                             // If the image upload was successful
                             // Update the image in the editor to use azure url
 

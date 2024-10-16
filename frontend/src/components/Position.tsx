@@ -1,4 +1,6 @@
+import { useNavigate } from "react-router"
 import { Application, Position, useAppState } from "../hooks/useAppState"
+import { useAuth } from "../hooks/useAuth"
 import Divider from "./Divider"
 import HtmlRenderer from "./HtmlRenderer"
 import Loading from "./Loading"
@@ -33,6 +35,13 @@ interface PositionProps {
 
 export default function PositionView({ position }: PositionProps) {
     const { setShowApplicationForm } = useAppState()
+    const { token } = useAuth()
+    const navigate = useNavigate()
+
+    function handleClick() {
+        if (token) setShowApplicationForm(true)
+        else navigate("/login")
+    }
 
     if (position === "loading") return <Loading />
 
@@ -48,7 +57,7 @@ export default function PositionView({ position }: PositionProps) {
                 xl:col-span-4
                 2xl:col-span-4">
                 <button className="w-full p-4 text-black font-extrabold rounded-md hover:bg-blue-100 bg-blue-50 flex sitems-start animate-bg-fade "
-                    onClick={() => setShowApplicationForm(true)}
+                    onClick={handleClick}
                 >
                     Hae virkaan
                 </button>

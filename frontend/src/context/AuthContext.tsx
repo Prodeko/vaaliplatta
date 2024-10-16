@@ -6,7 +6,7 @@ interface AuthProviderProps {
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-    const [token, setToken] = useState<Token | null>(() => localStorage.getItem("token"));
+    const [token, setToken] = useState<Token | null>(localStorage.getItem("token"));
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
@@ -14,19 +14,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
         if (token) {
             localStorage.setItem('token', token);
+            setToken(token)
         }
     }, [])
 
     const login = async () => {
+        console.log("login")
         window.location.href = 'http://localhost:8000/oauth2/login';
     }
 
     const logout = () => {
+        console.log("logout")
         setToken(null);
         localStorage.removeItem('token');
     };
 
-    const value: AuthContextType = { userId: Math.floor(Math.random() * 1000_000).toString(), token, login, logout };
+    const value: AuthContextType = { token, login, logout };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

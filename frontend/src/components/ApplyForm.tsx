@@ -1,19 +1,15 @@
 import { useRef, FormEvent, useState } from 'react';
 import Editor, { EditorRef, ImageUploader } from './TextEditor'; // Assuming the RTEditor component is in the same directory
 import { useAppState } from '../hooks/useAppState';
-import axios from 'axios';
-import { useAuth } from '../hooks/useAuth';
+import useAuthenticatedRequests from '../hooks/useAuthenticatedRequests';
 
 const ApplyForm = () => {
-    const { position, getPosition, setError, setShowApplicationForm } = useAppState()
-    const { userId } = useAuth()
+    const { position, getPosition, setShowApplicationForm, BLOB_URL } = useAppState()
     const editorRef = useRef<EditorRef>(null);
     const [name, setName] = useState('');
     const [pfpUrl, setPfpUrl] = useState<string | null>(null);
     const [submitting, setSubmitting] = useState<boolean>(false);
-
-    const BLOB_URL = 'https://vaaliplatta.blob.core.windows.net/dev'
-    const URL = 'http://localhost:8000/api'
+    const { post, upload } = useAuthenticatedRequests()
 
     if (!position || position === "loading") return null
 
@@ -22,10 +18,9 @@ const ApplyForm = () => {
         setSubmitting(true)
         const editorHTML = editorRef.current?.getHTML();
 
-        axios.post(URL + "/application", {
+        post("/application", {
             content: editorHTML,
             applicant_name: name,
-            applicant_id: userId,
             position_id: position.id.toString(),
             profile_picture: pfpUrl,
         }).then(() => {
@@ -33,7 +28,7 @@ const ApplyForm = () => {
             getPosition(position.id.toString())
         })
             .catch(error => {
-                setError(error.toString())
+                window.alert("Image upload failed, please try again!\n" + error.toString());
                 console.error(error)
             })
             .finally(() => setSubmitting(false))
@@ -61,19 +56,14 @@ const ApplyForm = () => {
                     highlight={true}
                     onFile={(file: File) => {
                         setPfpUrl((window.URL || window.webkitURL).createObjectURL(file))
-                        const formData = new FormData()
-                        formData.append("file", file)
-                        axios.post(URL + "/upload", formData, {
-                            headers: {
-                                "Content-Type": "multipart/form-data"
-                            }
-                        }).then(response => {
-                            const newUrl = BLOB_URL + "/" + (response.data instanceof Array ? response.data[0] : response.data.toString());
-                            setPfpUrl(newUrl)
-                        }).catch(error => {
-                            window.alert("Image upload failed, please try again!\n" + error.toString());
-                            setPfpUrl(null)
-                        })
+                        upload(file)
+                            .then(response => {
+                                const newUrl = BLOB_URL + "/" + (response.data instanceof Array ? response.data[0] : response.data.toString());
+                                setPfpUrl(newUrl)
+                            }).catch(error => {
+                                window.alert("Image upload failed, please try again!\n" + error.toString());
+                                setPfpUrl(null)
+                            })
                     }}
                 >{pfpUrl ? <img src={pfpUrl}></img> : null}</ImageUploader>
                 {pfpUrl ? <button

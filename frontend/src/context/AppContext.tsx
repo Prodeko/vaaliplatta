@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { AppContext, AppContextType, Application, Election, Position } from '../hooks/useAppState';
 import axios from 'axios';
 import { useParams } from "react-router"
@@ -14,13 +14,12 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
     const [application, setApplication] = useState<Application | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [showApplicationForm, setShowApplicationForm] = useState<boolean>(false);
+    const [BLOB_URL] = useState<string>(import.meta.env.VITE_BLOB_URL)
+    const [API_URL] = useState<string>(import.meta.env.VITE_API_URL)
 
-    const URL = 'http://localhost:8000/api'
-
-    const getElection = async (id: string) => axios
-        .get(URL + '/election/' + id)
+    const getElection = useCallback(async (id: string) => axios.get(API_URL + '/election/' + id)
         .then(result => setElection(result.data))
-        .catch(error => console.error(error))
+        .catch(error => console.error(error)), [API_URL])
 
     const getPosition = async (id: string) => {
 
@@ -29,8 +28,7 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
         if (position) setPosition(position)
         else setPosition("loading")
 
-        await axios
-            .get(URL + '/position/' + id.toString())
+        await axios.get(API_URL + '/position/' + id.toString())
             .then(result => setPosition(result.data))
             .catch(error => {
                 console.error(error)
@@ -50,9 +48,11 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
     useEffect(() => {
         if (electionId) getElection(electionId)
         else getElection("newest")
-    }, [electionId]);
+    }, [electionId, getElection]);
 
     const value: AppContextType = {
+        BLOB_URL,
+        API_URL,
         election,
         getElection,
         position,
