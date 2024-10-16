@@ -47,8 +47,10 @@ export default function PositionView({ position }: PositionProps) {
                 </button>
                 <hr className="my-4 h-0.5 border-t-0 bg-gray-50" />
 
-                <div className="rounded-md shadow-lg overflow-hidden">
-                    {position.applications?.map(a => <ApplicationCard application={a} key={a.applicant_id} />)}
+                <div className="rounded-md overflow-hidden">
+                    {position.applications?.length === 0
+                        ? <div className="px-4">Ei vielä hakemuksia</div>
+                        : position.applications?.map(a => <ApplicationCard application={a} key={a.applicant_id} />)}
                 </div>
             </div>
             <div className="
