@@ -3,11 +3,11 @@ import jwt from 'jsonwebtoken';
 import { config } from '../config'
 import { UserDetailsResponse } from '@/routers/auth';
 
-interface AuthenticatedRequest extends Request {
+export interface AuthenticatedRequest extends Request {
     session?: DecodedToken;
 }
 
-interface DecodedToken extends UserDetailsResponse {
+export interface DecodedToken extends UserDetailsResponse {
     token: string,
     iat: number,
     exp: number,

@@ -2,14 +2,13 @@ import { Router } from "express";
 import { z } from 'zod';
 import { validateData, validateRouteParams } from "@/middleware/validators";
 import { db } from "@/database";
-import { requireAuthenticated } from "@/middleware/auth";
+import { AuthenticatedRequest, requireAuthenticated } from "@/middleware/auth";
 
 export const applicationRouter = Router();
 
 export const createNewApplicationSchema = z.object({
     "content": z.string(),
     "applicant_name": z.string(),
-    "applicant_id": z.string(),
     "position_id": z.string(),
     "profile_picture": z.string().nullable().optional(),
 })
@@ -20,9 +19,13 @@ applicationRouter.post(
     '/',
     requireAuthenticated,
     validateData(createNewApplicationSchema),
-    async (req, res, next) => {
+    async (req: AuthenticatedRequest, res, next) => {
         const body: createNewApplicationType = req.body
-        const data = { ...body, "position_id": parseInt(body.position_id) }
+        const applicant_id = req.session?.pk
+
+        if (!applicant_id) return res.status(400).send("Applicant id missing from auth session")
+
+        const data = { ...body, "position_id": parseInt(body.position_id), applicant_id: applicant_id.toString() }
 
         db
             .insertInto("application")
