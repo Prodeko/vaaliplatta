@@ -21,8 +21,8 @@ class AzureBlobService {
     }
 
     public async uploadBlob(file: Express.Multer.File): Promise<string> {
-        if (file.mimetype !== "image/png" && file.mimetype !== "image/jpeg") {
-            throw Error("Invalid mimetype, must be image/png or image/jpeg")
+        if (!(["image/png", "image/gif", "image/jpeg"].includes(file.mimetype))) {
+            throw Error("Invalid mimetype, must be image/png, image/jpeg or image/gif")
         }
 
         const blobName = uuidv7() + path.extname(file.originalname);

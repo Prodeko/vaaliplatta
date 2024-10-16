@@ -74,6 +74,7 @@ export type EditorRef = {
 const Editor = React.forwardRef<EditorRef>((props, ref) => {
     const URL = 'http://localhost:8000/api'
     const BLOB_URL = 'https://vaaliplatta.blob.core.windows.net/dev'
+    // const [imgLoading, setImgLoading] = useState<boolean>(false);
 
     const handleDropImage = (view: EditorView, event: DragEvent, _slice: Slice, moved: boolean): boolean => {
         // if not dropping external files
@@ -82,8 +83,8 @@ const Editor = React.forwardRef<EditorRef>((props, ref) => {
         const file = event.dataTransfer.files[0];
 
         // File is not an image
-        if (file.type !== "image/jpeg" && file.type !== "image/png") {
-            window.alert("Images need to be in jpg or png format!")
+        if (!(["image/png", "image/gif", "image/jpeg"].includes(file.type))) {
+            window.alert("Images need to be in jpg, png or gif format!")
             return false
         }
         // File is too big
@@ -100,10 +101,11 @@ const Editor = React.forwardRef<EditorRef>((props, ref) => {
         // const url = _URL.createObjectURL(file)
         const { schema } = view.state
         const coordinates = view.posAtCoords({ left: event.clientX, top: event.clientY })
-        // const node = schema.nodes.image.create({ src: url })
-        // const transaction = view.state.tr.insert(coordinates?.pos || 0, node)
-        // view.dispatch(transaction)
+        const node = schema.nodes.image.create({ src: BLOB_URL + '/spinner.gif' })
+        const transaction = view.state.tr.insert(coordinates?.pos || 0, node)
+        view.dispatch(transaction)
 
+        // setImgLoading(true)
         // Upload the image to Azure through backend upload API
         const placeholderPosition = coordinates?.pos || 0;
         const formData = new FormData();
@@ -145,9 +147,9 @@ const Editor = React.forwardRef<EditorRef>((props, ref) => {
             handleDrop: handleDropImage
         },
         content: `
-      <h3>Write your application here</h3>
-      <p>You can add images by dragging and dropping them here</p>
-    `,
+        <p><em>Kirjoita hakemuksesi tähän</em></p>
+        <p><em>Voit lisätä hakemukseesi kuvia vetämällä ne tähän ikkunaan</em></p>
+        `,
     })
 
     // Expose the getHTML method via ref to parent component
@@ -277,6 +279,9 @@ const Editor = React.forwardRef<EditorRef>((props, ref) => {
                 <ImageUploader highlight={false} onFile={
                     (file: File) => {
                         const { schema } = editor.state;
+                        const node = schema.nodes.image.create({ src: BLOB_URL + '/spinner.gif' })
+                        const transaction = editor.view.state.tr.insert(0, node)
+                        editor.view.dispatch(transaction)
                         // Upload the image to Azure through backend upload API
                         const formData = new FormData();
                         formData.append("file", file);
