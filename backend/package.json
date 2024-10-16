@@ -6,11 +6,11 @@
   "scripts": {
     "build": "tsc",
     "start": "node dist/src/index.js",
-    "dev": "nodemon index.ts",
+    "dev": "nodemon src/index.ts",
     "lint": "biome lint .",
     "lint:fix": "biome lint --apply .",
     "lint:force": "biome lint --apply-unsafe .",
-    "kysely-codegen": "kysely-codegen"
+    "kysely-codegen": "kysely-codegen --out-file src/db.d.ts"
   },
   "keywords": [],
   "author": "",
