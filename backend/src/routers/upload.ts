@@ -1,11 +1,7 @@
 import { Router } from "express";
-import { array, z } from 'zod';
-import { validateData, validateRouteParams } from "@/middleware/validators";
-import { db } from "@/database";
 import multer from 'multer'
-import path from "path";
-import { type } from "os";
 import AzureBlobService from "@/utils/blobService";
+import { requireAuthenticated } from "@/middleware/auth";
 
 export const uploadRouter = Router();
 const memoryStorage = multer.memoryStorage(); // Use memory storage to buffer files before uploading
@@ -14,6 +10,7 @@ const blobService = new AzureBlobService(process.env.BLOB_SAS_URL!)
 
 uploadRouter.post(
     '/',
+    requireAuthenticated,
     multerMemoryStorage.array('file', 5),
     async (req, res, next) => {
         const files = req.files as Express.Multer.File[] | undefined

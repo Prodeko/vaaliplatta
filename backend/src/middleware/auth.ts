@@ -17,7 +17,7 @@ export const authMiddleware = (req: AuthenticatedRequest, res: Response, next: N
     const authHeader = req.headers.authorization;
 
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-        return res.status(401).json({ message: 'No token provided' });
+        return next();
     }
 
     const token = authHeader.split(' ')[1] ?? "";
@@ -26,8 +26,26 @@ export const authMiddleware = (req: AuthenticatedRequest, res: Response, next: N
         // Verify the token
         const decoded = jwt.verify(token, config.JWT_SECRET) as DecodedToken
         req.session = decoded
-        next();
+        return next();
     } catch (error) {
-        return res.status(401).json({ message: 'Invalid token' });
+        console.log(error)
+        return next();
     }
 };
+
+export const requireSuperUser = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+    const decodedToken = req.session
+
+    if (!decodedToken) return res.status(401).json({ message: 'No token provided' });
+    if (!decodedToken.is_superuser) return res.status(403).json({ message: 'Insufficient privileges' });
+
+    return next()
+}
+
+export const requireAuthenticated = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+    const decodedToken = req.session
+
+    if (!decodedToken) return res.status(401).json({ message: 'No token provided' });
+
+    return next();
+}

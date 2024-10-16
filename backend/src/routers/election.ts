@@ -3,7 +3,7 @@ import { validateData, validateRouteParams } from "@/middleware/validators";
 import { Router } from "express";
 import { z } from 'zod';
 import { jsonArrayFrom } from 'kysely/helpers/postgres'
-import { authMiddleware } from "@/middleware/auth";
+import { requireSuperUser } from "@/middleware/auth";
 
 const electionRouter = Router();
 
@@ -73,7 +73,7 @@ export const createNewElectionSchema = z.object({
 
 type createNewElection = z.infer<typeof createNewElectionSchema>
 
-electionRouter.post('/', authMiddleware, validateData(createNewElectionSchema), async (req, res, next) => {
+electionRouter.post('/', requireSuperUser, validateData(createNewElectionSchema), async (req, res, next) => {
     const data: createNewElection = req.body
 
     db

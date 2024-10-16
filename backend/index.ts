@@ -69,8 +69,8 @@ migrateToLatest()
 const app: Application = express()
 const port = process.env.PORT ?? 8000
 const corsOptions = {
-  origin: 'http://localhost:5173', // Replace with your React app’s URL
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Allowed methods
+  origin: 'http://localhost:5173',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true, // Enable cookies and authorization headers
 }
 
@@ -80,13 +80,15 @@ app.use(bodyParser.json())
 app.use(express.urlencoded({ extended: true }));
 app.use(logger)
 
+app.use(authMiddleware)
+
 app.use("/api/election/", electionRouter)
 app.use("/api/position/", positionRouter)
 app.use("/api/application", applicationRouter)
 app.use("/api/upload", uploadRouter)
 app.use("/", authRouter)
 
-app.use("/test", authMiddleware, (req, res, next) => res.status(200).send("It works"))
+app.use("/test", (req, res, next) => res.status(200).send("It works"))
 
 app.use(errorHandler);
 

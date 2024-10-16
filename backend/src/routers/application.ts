@@ -1,7 +1,8 @@
 import { Router } from "express";
-import { array, z } from 'zod';
+import { z } from 'zod';
 import { validateData, validateRouteParams } from "@/middleware/validators";
 import { db } from "@/database";
+import { requireAuthenticated } from "@/middleware/auth";
 
 export const applicationRouter = Router();
 
@@ -17,6 +18,7 @@ type createNewApplicationType = z.infer<typeof createNewApplicationSchema>
 
 applicationRouter.post(
     '/',
+    requireAuthenticated,
     validateData(createNewApplicationSchema),
     async (req, res, next) => {
         const body: createNewApplicationType = req.body
@@ -35,22 +37,24 @@ const idRouteParamsSchema = z.object({
     id: z.string(),
 })
 
-applicationRouter.delete('/:id', validateRouteParams(idRouteParamsSchema), async (req, res, next) => {
-    const id = parseInt(req.params.id!)
+applicationRouter.delete(
+    '/:id',
+    requireAuthenticated,
+    validateRouteParams(idRouteParamsSchema),
+    async (req, res, next) => {
 
-    try {
-        const result = await db
-            .deleteFrom('application')
-            .where('id', '=', id)
-            .execute()
-
-        // @ts-ignore
-        if (result.numUpdatedRows === 0) {
-            return res.status(404).json({ message: 'Application not found' })
+        const id = parseInt(req.params.id!)
+        try {
+            const result = await db
+                .deleteFrom('application')
+                .where('id', '=', id)
+                .execute()
+            // @ts-ignore
+            if (result.numUpdatedRows === 0) {
+                return res.status(404).json({ message: 'Application not found' })
+            }
+            res.status(204).send();
+        } catch (error) {
+            next(error);
         }
-
-        res.status(204).send();
-    } catch (error) {
-        next(error);
-    }
-})
+    })
