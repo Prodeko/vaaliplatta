@@ -1,0 +1,26 @@
+version: '3.7'
+
+services:
+
+# psql -h localhost -U vaaliplatta
+  postgresd:
+    image: postgres:14
+    ports:
+      - "5432:5432" # for development
+    environment:
+      POSTGRES_PASSWORD: secret
+      POSTGRES_USER: vaaliplatta
+      POSTGRES_DATABASE: vaaliplatta
+    restart: unless-stopped
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
+    ports:
+      - "8000:8000"
+    depends_on:
+      - postgresd
+    environment:
+      DATABASE_URL: postgres://vaaliplatta:secret@postgresd:5432/vaaliplatta?disablessl=true
+    restart: unless-stopped
