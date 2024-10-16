@@ -1,4 +1,5 @@
 import { Application, Position, useAppState } from "../hooks/useAppState"
+import Divider from "./Divider"
 import HtmlRenderer from "./HtmlRenderer"
 import Loading from "./Loading"
 
@@ -46,7 +47,7 @@ export default function PositionView({ position }: PositionProps) {
                 >
                     Hae virkaan
                 </button>
-                <hr className="my-4 h-0.5 border-t-0 bg-gray-50" />
+                <Divider />
 
                 <div className="rounded-md overflow-hidden">
                     {position.applications?.length === 0
