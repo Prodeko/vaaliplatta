@@ -9,14 +9,19 @@ interface ApplicationCardProps {
 
 function ApplicationCard({ application }: ApplicationCardProps) {
     const { showApplication } = useAppState()
+    const BLOB_URL = 'https://vaaliplatta.blob.core.windows.net/dev'
 
     return (
         <div className="">
             <button
                 onClick={() => showApplication(application.applicant_id)}
-                className="p-4 text-sm text-gray-700 hover:bg-blue-100 w-full flex items-start"
+                className="p-2 text-sm text-gray-700 hover:bg-blue-100 w-full flex justify-between items-center"
             >
-                {application.applicant_name}
+                <h1 className='p-2 text-black text-md font-extrabold rounded-md max-w-full overflow-auto'>{application?.applicant_name}</h1>
+                <img
+                    src={application.profile_picture ?? BLOB_URL + "/PRODEKO.png"}
+                    className="w-12 h-12 mx-2 aspect-square object-cover rounded-full"
+                />
             </button>
         </div>
     )

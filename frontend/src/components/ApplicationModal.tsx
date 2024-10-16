@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useAppState } from '../hooks/useAppState';
 import ApplyForm from './ApplyForm';
 import HtmlRenderer from './HtmlRenderer';
+import Divider from './Divider';
 
 interface ModalProps {
     isOpen: boolean;
@@ -62,8 +63,19 @@ export function ApplicationForm() {
 
 export function ApplicationModal() {
     const { application, clearApplication } = useAppState();
+    const BLOB_URL = 'https://vaaliplatta.blob.core.windows.net/dev'
 
     const handleClose = clearApplication // Close the modal when the close button is clicked
 
-    return <Modal isOpen={!!application} onClose={handleClose}><HtmlRenderer htmlContent={application?.content} /></Modal>;
+    return (
+        <Modal isOpen={!!application} onClose={handleClose}>
+            <div className="flex justify-between items-center">
+                <h1 className='w-full p-4 text-black text-3xl font-extrabold rounded-md max-w-full overflow-auto'>{application?.applicant_name}</h1>
+                <img
+                    className='w-32 h-32 mx-4 aspect-square object-cover rounded-full'
+                    src={application?.profile_picture ?? BLOB_URL + "/PRODEKO.png"} />
+            </div>
+            <Divider />
+            <HtmlRenderer htmlContent={application?.content} />
+        </Modal>);
 }
