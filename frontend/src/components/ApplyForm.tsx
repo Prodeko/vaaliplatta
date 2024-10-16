@@ -26,7 +26,8 @@ const ApplyForm = () => {
             content: editorHTML,
             applicant_name: name,
             applicant_id: userId,
-            position_id: position.id.toString()
+            position_id: position.id.toString(),
+            profile_picture: pfpUrl,
         }).then(() => {
             setShowApplicationForm(false)
             getPosition(position.id.toString())

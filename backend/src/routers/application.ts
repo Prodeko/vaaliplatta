@@ -9,7 +9,8 @@ export const createNewApplicationSchema = z.object({
     "content": z.string(),
     "applicant_name": z.string(),
     "applicant_id": z.string(),
-    "position_id": z.string()
+    "position_id": z.string(),
+    "profile_picture": z.string().nullable().optional(),
 })
 
 type createNewApplicationType = z.infer<typeof createNewApplicationSchema>

@@ -21,6 +21,7 @@ export async function up(db: Kysely<any>): Promise<void> {
         .createTable('application')
         .addColumn('id', 'serial', col => col.primaryKey())
         .addColumn('content', 'text')
+        .addColumn('profile_picture', 'text')
         .addColumn('applicant_name', 'text', col => col.notNull())
         .addColumn('applicant_id', 'text', col => col.notNull())
         .addColumn('position_id', 'integer', col =>

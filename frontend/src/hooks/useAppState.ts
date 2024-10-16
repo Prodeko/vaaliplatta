@@ -23,6 +23,7 @@ export interface Application {
     applicant_name: string;
     applicant_id: string;
     position_id: string;
+    profile_picture?: string;
 }
 
 export interface AppContextType {
