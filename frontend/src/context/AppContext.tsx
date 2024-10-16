@@ -13,6 +13,7 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
     const [position, setPosition] = useState<Position | "loading" | null>(null);
     const [application, setApplication] = useState<Application | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const [showApplicationForm, setShowApplicationForm] = useState<boolean>(false);
 
     const URL = 'http://localhost:8000/api'
 
@@ -51,7 +52,20 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
         else getElection("newest")
     }, [electionId]);
 
-    const value: AppContextType = { election, getElection, getPosition, clearPosition, showApplication, clearApplication, setError, position, error, application }
+    const value: AppContextType = {
+        election,
+        getElection,
+        position,
+        getPosition,
+        clearPosition,
+        application,
+        showApplication,
+        clearApplication,
+        showApplicationForm,
+        setShowApplicationForm,
+        error,
+        setError,
+    }
 
     return <AppContext.Provider value={value}>{children}</AppContext.Provider>
 };

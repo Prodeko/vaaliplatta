@@ -27,14 +27,16 @@ export interface Application {
 
 export interface AppContextType {
     election: Election | null;
-    position: Position | "loading" | null;
-    application: Application | null;
-    error: string | null;
     getElection: (id: string) => Promise<void>;
+    position: Position | "loading" | null;
     getPosition: (id: string) => Promise<void>;
     clearPosition: () => void;
+    application: Application | null;
     showApplication: (id: string) => void;
     clearApplication: () => void;
+    showApplicationForm: boolean;
+    setShowApplicationForm: (value: boolean) => void;
+    error: string | null;
     setError: (value: string | null) => void;
 }
 
