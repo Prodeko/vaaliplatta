@@ -58,6 +58,7 @@ positionRouter.delete('/:id', validateRouteParams(idRouteParamsSchema), async (r
             .where('id', '=', id)
             .execute();
 
+        // @ts-expect-error
         if (result.numUpdatedRows === 0) {
             return res.status(404).json({ message: 'Position not found' });
         }

@@ -74,7 +74,7 @@ export type EditorRef = {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const Editor = React.forwardRef<EditorRef>((props, ref) => {
+const Editor = React.forwardRef<EditorRef>((_props, ref) => {
     const { BLOB_URL, ownApplication } = useAppState()
     const { upload } = useAuthenticatedRequests()
 
