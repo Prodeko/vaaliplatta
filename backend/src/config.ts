@@ -27,6 +27,11 @@ switch (process.env.LOG_LEVEL) {
 export const config = {
     PORT: process.env.PORT ? parseInt(process.env.PORT) : 8000,
     DATABASE_URL: process.env.DATABASE_URL,
+    POSTGRES_HOST: process.env.POSTGRES_HOST!,
+    POSTGRES_PASSWORD: process.env.POSTGRES_PASSWORD!,
+    POSTGRES_DB: process.env.POSTGRES_DB!,
+    POSTGRES_PORT: process.env.POSTGRES_PORT!,
+    POSTGRES_USER: process.env.POSTGRES_USER!,
     ENV: process.env.ENV,
     LOG_LEVEL: log_level,
     JWT_SECRET: process.env.JWT_SECRET!,
