@@ -23,7 +23,7 @@ const router = createBrowserRouter([
   // },
   {
     path: "/login",
-    element: <LoginRedirectToOauth to={import.meta.env.VITE_API_URL + "/oauth2/login"} />
+    element: <LoginRedirectToOauth to={import.meta.env.VITE_ROOT_URL + "/oauth2/login"} />
   }
 ]);
 

@@ -88,6 +88,12 @@ app.use("/api/application", applicationRouter)
 app.use("/api/upload", uploadRouter)
 app.use("/", authRouter)
 
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'));
+});
+
 app.use("/test", (req, res, next) => res.status(200).send("It works"))
 
 app.use(errorHandler);
