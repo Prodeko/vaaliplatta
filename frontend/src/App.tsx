@@ -16,7 +16,7 @@ export default function App() {
         lg:col-span-8
         xl:col-span-10
         2xl:col-span-10">
-      <Election />;
+      <Election />
     </div>
 
   return (
