@@ -1,4 +1,5 @@
 import { Application, Position, useAppState } from "../hooks/useAppState"
+import HtmlRenderer from "./HtmlRenderer"
 import Loading from "./Loading"
 
 interface ApplicationCardProps {
@@ -59,7 +60,7 @@ export default function PositionView({ position }: PositionProps) {
                 lg:col-span-5
                 xl:col-span-6
                 2xl:col-span-6">
-                {position?.description}
+                <HtmlRenderer htmlContent={position?.description} />
             </div>
         </>
     )

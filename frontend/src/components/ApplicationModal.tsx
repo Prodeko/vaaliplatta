@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useAppState } from '../hooks/useAppState';
 import ApplyForm from './ApplyForm';
+import HtmlRenderer from './HtmlRenderer';
 
 interface ModalProps {
     isOpen: boolean;
@@ -64,5 +65,5 @@ export function ApplicationModal() {
 
     const handleClose = clearApplication // Close the modal when the close button is clicked
 
-    return <Modal isOpen={!!application} onClose={handleClose}>{application?.content}</Modal>;
+    return <Modal isOpen={!!application} onClose={handleClose}><HtmlRenderer htmlContent={application?.content} /></Modal>;
 }

@@ -19,6 +19,7 @@
     "@tiptap/starter-kit": "^2.8.0",
     "@tiptap/suggestion": "^2.8.0",
     "axios": "^1.7.7",
+    "dompurify": "^3.1.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router": "^6.26.2",
@@ -26,6 +27,7 @@
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.15",
+    "@types/dompurify": "^3.0.5",
     "@types/react": "^18.2.66",
     "@types/react-dom": "^18.2.22",
     "@typescript-eslint/eslint-plugin": "^7.2.0",

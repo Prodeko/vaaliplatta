@@ -144,7 +144,7 @@ const Editor = React.forwardRef<EditorRef>((props, ref) => {
         ],
         editorProps: {
             attributes: {
-                class: 'prose prose-sm sm:prose-base lg:prose-lg xl:prose-2xl m-5 focus:outline-none',
+                class: 'prose prose-base m-5 focus:outline-none',
             },
             handleDrop: handleDropImage
         },
