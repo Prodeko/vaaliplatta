@@ -10,9 +10,7 @@ interface ApplicationCardProps {
 }
 
 function ApplicationCard({ application }: ApplicationCardProps) {
-    const { showApplication } = useAppState()
-    const BLOB_URL = 'https://vaaliplatta.blob.core.windows.net/dev'
-
+    const { showApplication, BLOB_URL } = useAppState()
     return (
         <div className="">
             <button
