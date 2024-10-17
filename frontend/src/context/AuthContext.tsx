@@ -26,7 +26,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     const login = async () => {
         console.log("login")
-        window.location.href = import.meta.env.VITE_ROOT_URL + "/oauth2/login";
+        window.location.href = "/oauth2/login";
     }
 
     const logout = () => {

@@ -15,8 +15,8 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
     const [application, setApplication] = useState<Application | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [showApplicationForm, setShowApplicationForm] = useState<boolean>(false);
-    const [BLOB_URL] = useState<string>(import.meta.env.VITE_BLOB_URL)
-    const [API_URL] = useState<string>(import.meta.env.VITE_API_URL)
+    const [BLOB_URL] = useState<string>("")
+    const [API_URL] = useState<string>("")
     const [ownApplication, setOwnApplication] = useState<Application | null>(null);
     const { user } = useAuth()
 
