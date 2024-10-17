@@ -25,6 +25,7 @@ switch (process.env.LOG_LEVEL) {
 
 
 export const config = {
+    BLOB_SAS_URL: process.env.BLOB_SAS_URL!,
     PORT: process.env.PORT ? parseInt(process.env.PORT) : 8000,
     DATABASE_URL: process.env.DATABASE_URL,
     POSTGRES_HOST: process.env.POSTGRES_HOST!,

@@ -16,6 +16,8 @@ class AzureBlobService {
     constructor(
         BLOB_SAS_URL: string
     ) {
+        console.log("INITIALIZING BLOB CLIENT")
+        console.log(BLOB_SAS_URL)
         this.blobServiceClient = new BlobServiceClient(BLOB_SAS_URL);
         this.containerClient = this.blobServiceClient.getContainerClient('');
     }
@@ -26,9 +28,16 @@ class AzureBlobService {
         }
 
         const blobName = uuidv7() + path.extname(file.originalname);
+        console.log(blobName)
+        console.log(this.blobServiceClient.url)
+
         const blockBlobClient: BlockBlobClient = this.containerClient.getBlockBlobClient(blobName)
         return blockBlobClient.upload(file.buffer, file.size)
             .then(_ => (blobName))
+            .catch(error => {
+                console.error(error)
+                return error
+            })
     }
 }
 
