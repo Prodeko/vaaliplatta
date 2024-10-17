@@ -14,12 +14,11 @@ class AzureBlobService {
     private containerClient: ContainerClient;
 
     constructor(
-        BLOB_SAS_URL: string
+        connection_string: string
     ) {
-        console.log("INITIALIZING BLOB CLIENT")
-        console.log(BLOB_SAS_URL)
-        this.blobServiceClient = new BlobServiceClient(BLOB_SAS_URL);
-        this.containerClient = this.blobServiceClient.getContainerClient('');
+        console.log("INITIALIZING BLOB CLIENT", connection_string)
+        this.blobServiceClient = BlobServiceClient.fromConnectionString(connection_string)
+        this.containerClient = this.blobServiceClient.getContainerClient('prod');
     }
 
     public async uploadBlob(file: Express.Multer.File): Promise<string> {
@@ -28,8 +27,6 @@ class AzureBlobService {
         }
 
         const blobName = uuidv7() + path.extname(file.originalname);
-        console.log(blobName)
-        console.log(this.blobServiceClient.url)
 
         const blockBlobClient: BlockBlobClient = this.containerClient.getBlockBlobClient(blobName)
         return blockBlobClient.upload(file.buffer, file.size)

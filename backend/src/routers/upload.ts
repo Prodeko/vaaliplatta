@@ -14,9 +14,7 @@ uploadRouter.post(
     multerMemoryStorage.array('file', 5),
     async (req, res, next) => {
 
-        const url = config.BLOB_SAS_URL || process.env.BLOB_SAS_URL
-
-        const blobService = new AzureBlobService(config.BLOB_SAS_URL!)
+        const blobService = new AzureBlobService(config.AZ_BLOB_CONNECTION_STRING!)
         const files = req.files as Express.Multer.File[] | undefined
 
         if (files) {

@@ -51,6 +51,7 @@ export const config = {
     OAUTH_AUTHORIZE_PATH: process.env.OAUTH_AUTHORIZE_PATH!,
     FRONTEND_URL: process.env.FRONTEND_URL!,
     FRONTEND_DIST_FOLDER: process.env.FRONTEND_DIST_FOLDER!,
+    AZ_BLOB_CONNECTION_STRING: process.env.AZ_BLOB_CONNECTION_STRING!,
 }
 
 console.log(config)
