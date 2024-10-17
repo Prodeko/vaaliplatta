@@ -51,3 +51,5 @@ export const config = {
     FRONTEND_URL: process.env.FRONTEND_URL!,
     FRONTEND_DIST_FOLDER: process.env.FRONTEND_DIST_FOLDER!,
 }
+
+console.log(config)
