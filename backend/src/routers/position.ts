@@ -1,9 +1,9 @@
-import { Router } from "express";
+import { NextFunction, Response, Router } from "express";
 import { z } from 'zod';
 import { validateData, validateRouteParams } from "../middleware/validators";
 import { db } from "../database";
 import { jsonArrayFrom } from "kysely/helpers/postgres";
-import { requireSuperUser } from "../middleware/auth";
+import { AuthenticatedRequest, requireAuthenticated, requireSuperUser } from "../middleware/auth";
 
 const positionRouter = Router();
 
@@ -48,6 +48,28 @@ positionRouter.get('/:id', validateRouteParams(idRouteParamsSchema), async (req,
         .then(result => res.status(200).json(result))
         .catch(err => next(err))
 })
+
+positionRouter.delete(
+    '/:id/myapplication',
+    requireAuthenticated,
+    validateRouteParams(idRouteParamsSchema),
+    async (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
+        const position_id = parseInt(req.params.id!);
+        const applicant_id = req.session?.pk
+
+        if (!applicant_id) return res.status(400).send("Applicant id missing from auth session")
+
+        try {
+            await db.deleteFrom('application')
+                .where('applicant_id', '=', applicant_id.toString())
+                .where('position_id', '=', position_id)
+                .execute()
+
+            return res.status(204).send()
+        } catch (error) {
+            next(error)
+        }
+    })
 
 positionRouter.delete('/:id', validateRouteParams(idRouteParamsSchema), async (req, res, next) => {
     const id = parseInt(req.params.id!);

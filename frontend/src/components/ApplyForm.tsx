@@ -9,16 +9,33 @@ const ApplyForm = () => {
     const [name, setName] = useState('');
     const [pfpUrl, setPfpUrl] = useState<string | null>(null);
     const [submitting, setSubmitting] = useState<boolean>(false);
-    const { post, upload } = useAuthenticatedRequests()
+    const [showDeleteButton, setShowDeleteButton] = useState<boolean>(false);
+    const { post, upload, axiosdelete } = useAuthenticatedRequests()
 
     useEffect(() => {
         if (ownApplication) {
             setName(ownApplication.applicant_name)
             setPfpUrl(ownApplication.profile_picture || null)
+            setShowDeleteButton(true)
         }
     }, [ownApplication])
 
     if (!position || position === "loading") return null
+
+    const handleDelete = () => {
+        setSubmitting(true)
+
+        axiosdelete(`/position/${position.id.toString()}/myapplication`)
+            .then(() => {
+                setShowApplicationForm(false)
+                getPosition(position.id.toString())
+            })
+            .catch(error => {
+                window.alert("Deleting application failed, please try again!\n" + error.toString());
+                console.error(error)
+            })
+            .finally(() => setSubmitting(false))
+    }
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -87,6 +104,12 @@ const ApplyForm = () => {
                 disabled={submitting}
                 className="bg-blue-50 hover:bg-blue-100 rounded-md py-2 px-4 font-bold min-w-full my-2 inline-flex items-start"
             >{submitting ? "lähettää..." : "Lähetä"}</button>
+            {showDeleteButton && <button
+                type="button"
+                disabled={submitting}
+                onClick={handleDelete}
+                className="bg-red-50 hover:bg-red-100 rounded-md py-2 px-4 font-bold min-w-full my-2 inline-flex items-start"
+            >{submitting ? "poistetaan..." : "Poista hakemus"}</button>}
         </form>
     );
 };

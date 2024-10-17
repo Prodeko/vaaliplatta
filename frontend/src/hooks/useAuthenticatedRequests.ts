@@ -37,5 +37,12 @@ export default function useAuthenticatedRequests() {
         )
     }
 
-    return { post, upload }
+    async function axiosdelete(route: string) {
+        return axios.delete(
+            `${API_URL}/${route.replace(/^\/+/, '')}`,  // remove possible leading "/"
+            { headers: { Authorization: `Bearer ${token}` } }
+        )
+    }
+
+    return { post, upload, axiosdelete }
 }
