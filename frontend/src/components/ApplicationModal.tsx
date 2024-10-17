@@ -62,8 +62,7 @@ export function ApplicationForm() {
 }
 
 export function ApplicationModal() {
-    const { application, clearApplication } = useAppState();
-    const BLOB_URL = 'https://vaaliplatta.blob.core.windows.net/dev'
+    const { application, clearApplication, BLOB_URL } = useAppState();
 
     const handleClose = clearApplication // Close the modal when the close button is clicked
 

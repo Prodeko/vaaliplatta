@@ -7,13 +7,16 @@ import { config } from "../config";
 export const uploadRouter = Router();
 const memoryStorage = multer.memoryStorage(); // Use memory storage to buffer files before uploading
 const multerMemoryStorage = multer({ storage: memoryStorage });
-const blobService = new AzureBlobService(config.BLOB_SAS_URL!)
 
 uploadRouter.post(
     '/',
     requireAuthenticated,
     multerMemoryStorage.array('file', 5),
     async (req, res, next) => {
+
+        const url = config.BLOB_SAS_URL || process.env.BLOB_SAS_URL
+
+        const blobService = new AzureBlobService(config.BLOB_SAS_URL!)
         const files = req.files as Express.Multer.File[] | undefined
 
         if (files) {
@@ -23,7 +26,10 @@ uploadRouter.post(
                     console.log(result)
                     res.status(201).send(result)
                 })
-                .catch(error => res.status(400).send(error))
+                .catch(error => {
+                    console.error(error)
+                    res.status(400).send(error)
+                })
         }
         else res.status(400).send("No files provided or uploaded")
     })

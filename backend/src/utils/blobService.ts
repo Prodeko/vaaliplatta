@@ -34,10 +34,6 @@ class AzureBlobService {
         const blockBlobClient: BlockBlobClient = this.containerClient.getBlockBlobClient(blobName)
         return blockBlobClient.upload(file.buffer, file.size)
             .then(_ => (blobName))
-            .catch(error => {
-                console.error(error)
-                return error
-            })
     }
 }
 
