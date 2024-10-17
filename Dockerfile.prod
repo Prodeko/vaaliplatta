@@ -9,11 +9,10 @@ RUN cd frontend && npm ci
 RUN cd backend && npm ci
 
 COPY frontend ./frontend
-COPY backend ./backend
-
-# Build the React frontend
 RUN cd frontend && npm run build
+
+COPY backend ./backend
 RUN cd backend && npm run build
 
 WORKDIR /usr/src/app/backend
-CMD ["sleep", "infinity"]
+CMD ["npm", "start"]

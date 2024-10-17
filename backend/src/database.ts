@@ -5,7 +5,16 @@ import { config } from './config'
 
 const dialect = new PostgresDialect({
     pool: new Pool({
-        connectionString: config.DATABASE_URL
+        host: config.POSTGRES_HOST,
+        password: config.POSTGRES_PASSWORD,
+        database: config.POSTGRES_DB,
+        port: parseInt(config.POSTGRES_PORT),
+        user: config.POSTGRES_USER,
+        ssl: {
+            //@ts-expect-error
+            require: config.ENV === "DEV" ? false : true,
+            rejectUnauthorized: false,
+        }
     })
 })
 
