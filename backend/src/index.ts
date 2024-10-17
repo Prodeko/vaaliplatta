@@ -33,6 +33,11 @@ async function migrateToLatest() {
         database: config.POSTGRES_DB,
         port: parseInt(config.POSTGRES_PORT),
         user: config.POSTGRES_USER,
+        ssl: {
+          //@ts-expect-error
+          require: config.ENV === "DEV" ? false : true,
+          rejectUnauthorized: false,
+        }
       }),
     }),
   })
@@ -47,7 +52,7 @@ async function migrateToLatest() {
     }),
   })
 
-  if (config.ENV === 'DEV') await migrator.migrateDown() // ! DO NOT PUT IN PRODUCTION
+  //  if (config.ENV === 'DEV') await migrator.migrateDown() // ! DO NOT PUT IN PRODUCTION
 
   const { error, results } = await migrator.migrateToLatest()
 
