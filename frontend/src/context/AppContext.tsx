@@ -15,8 +15,8 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
     const [application, setApplication] = useState<Application | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [showApplicationForm, setShowApplicationForm] = useState<boolean>(false);
-    const [BLOB_URL] = useState<string>("")
-    const [API_URL] = useState<string>("")
+    const [BLOB_URL] = useState<string>('https://vaaliplatta.blob.core.windows.net/prod')
+    const [API_URL] = useState<string>('/api')
     const [ownApplication, setOwnApplication] = useState<Application | null>(null);
     const { user } = useAuth()
 
