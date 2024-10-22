@@ -1,0 +1,10 @@
+POST http://localhost:8000/api/question
+Content-Type: application/json
+Authorization: Bearer foobar
+
+{
+    "title": "Miksi?",
+    "content": "<h1>Miks oikein haet?</h1>",
+    "position_id": "5",
+    "nickname": "Utelias Prodekolainen"
+}

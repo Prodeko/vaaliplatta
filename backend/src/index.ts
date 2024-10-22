@@ -22,6 +22,7 @@ import cors from 'cors'
 import { uploadRouter } from './routers/upload'
 import cookieParser from 'cookie-parser'
 import { authMiddleware } from './middleware/auth'
+import questionRouter from 'routers/question'
 
 
 async function migrateToLatest() {
@@ -95,6 +96,7 @@ app.use("/api/election/", electionRouter)
 app.use("/api/position/", positionRouter)
 app.use("/api/application", applicationRouter)
 app.use("/api/upload", uploadRouter)
+app.use("/api/question", questionRouter)
 app.use("/", authRouter)
 
 app.use(express.static(path.join(__dirname, config.FRONTEND_DIST_FOLDER)));

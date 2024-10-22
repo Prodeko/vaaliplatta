@@ -1,0 +1,8 @@
+POST http://localhost:8000/api/question/1/answer
+Content-Type: application/json
+Authorization: Bearer foobar
+
+{
+    "title": "Koska sitä kutittaa",
+    "content": "<p><em>Ei mulla muuta</em></p>"
+}
