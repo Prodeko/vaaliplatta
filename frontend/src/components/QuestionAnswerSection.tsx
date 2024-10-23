@@ -76,12 +76,17 @@ function QuestionElement({ question }: QuestionProps) {
                 </div>
                 <HtmlRenderer htmlContent={question.content} reduceHeadingSize />
             </button>
-            <button className="w-full p-4 my-4 text-black font-extrabold rounded-md hover:bg-blue-100 bg-blue-50 flex sitems-start animate-bg-fade "
-                onClick={toggleShowAnswer}
-            >
-                {showAnswer ? "Piilota vastauslomake" : "Lisää vastaus"}
-            </button>
-            {showAnswer && <AnswerEditor question={question} />}
+            {
+                user && !question.answers.map(a => a.answerer_id).includes(user) &&
+                <>
+                    <button className="w-full p-4 my-4 text-black font-extrabold rounded-md hover:bg-blue-100 bg-blue-50 flex sitems-start animate-bg-fade "
+                        onClick={toggleShowAnswer}
+                    >
+                        {showAnswer ? "Piilota vastauslomake" : "Lisää vastaus"}
+                    </button>
+                    {showAnswer && <AnswerEditor question={question} />}
+                </>
+            }
 
 
             {isOpen && (
