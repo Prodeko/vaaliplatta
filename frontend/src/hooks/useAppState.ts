@@ -9,6 +9,26 @@ export interface Election {
     positions: Position[],
 }
 
+export interface Answer {
+    content: string,
+    question_id: number,
+    answer_id: number,
+    answerer_id: string,
+    profile_picture: string | null,
+    applicant_name: string,
+    applicant_id: string,
+    position_id: number,
+}
+
+export interface Question {
+    id: number,
+    asker_id: string,
+    content: string,
+    nickname: string,
+    position_id: number,
+    answers: Answer[]
+}
+
 export interface Position {
     id: number;
     election_id: number;
@@ -16,6 +36,7 @@ export interface Position {
     name: string;
     seats: string | null;
     applications: Application[];
+    questions?: Question[]
 }
 
 export interface Application {
