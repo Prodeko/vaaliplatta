@@ -12,18 +12,31 @@ type AnswerProps = {
 }
 
 function AnswerElement({ answer }: AnswerProps) {
-    const { BLOB_URL } = useAppState()
+    const { BLOB_URL, refreshPosition } = useAppState()
+    const { user } = useAuth()
+    const { axiosdelete } = useAuthenticatedRequests()
+
+    const deleteAnswer = () => {
+        axiosdelete("/answer/" + answer.answer_id.toString()).then(refreshPosition)
+    }
+
     return (
         <div className="border-l-2 border-blue-100 pl-4 my-2">
-            <div className="flex">
-                <img
-                    className="w-12 h-12 my-4 aspect-square object-cover rounded-full"
-                    src={answer?.profile_picture ?? BLOB_URL + "/PRODEKO.png"} />
-                <div>
-
-                    <p className="font-extrabold m-4">{answer.applicant_name} vastaa</p>
-                    <HtmlRenderer htmlContent={answer.content} reduceHeadingSize />
+            <div className="flex justify-between">
+                <div className="flex">
+                    <img
+                        className="w-12 h-12 my-4 aspect-square object-cover rounded-full"
+                        src={answer?.profile_picture ?? BLOB_URL + "/PRODEKO.png"} />
+                    <div>
+                        <p className="font-extrabold m-4">{answer.applicant_name} vastaa</p>
+                        <HtmlRenderer htmlContent={answer.content} reduceHeadingSize />
+                    </div>
                 </div>
+                {user === answer.answerer_id &&
+                    <button
+                        className="flex-none h-auto self-start py-4 px-6 hover:bg-red-50 rounded-md text-red-500 text-sm italic"
+                        onClick={deleteAnswer}
+                    >Poista</button>}
             </div>
         </div>
     );
