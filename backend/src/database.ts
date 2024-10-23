@@ -10,11 +10,7 @@ const dialect = new PostgresDialect({
         database: config.POSTGRES_DB,
         port: parseInt(config.POSTGRES_PORT),
         user: config.POSTGRES_USER,
-        ssl: {
-            //@ts-expect-error
-            require: config.ENV === "DEV" ? false : true,
-            rejectUnauthorized: false,
-        }
+        ssl: config.ENV !== "DEV"
     })
 })
 
