@@ -4,6 +4,7 @@ import { useAuth } from "../hooks/useAuth"
 import Divider from "./Divider"
 import HtmlRenderer from "./HtmlRenderer"
 import Loading from "./Loading"
+import QuestionAnswerSection from "./QuestionAnswerSection"
 
 interface ApplicationCardProps {
     application: Application
@@ -76,6 +77,7 @@ export default function PositionView({ position }: PositionProps) {
                 xl:col-span-6
                 2xl:col-span-6">
                 <HtmlRenderer htmlContent={position?.description} />
+                <QuestionAnswerSection />
             </div>
         </>
     )
