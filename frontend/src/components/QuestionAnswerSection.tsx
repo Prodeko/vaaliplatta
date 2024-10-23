@@ -5,6 +5,7 @@ import HtmlRenderer from "./HtmlRenderer";
 import Divider from "./Divider";
 import Editor, { EditorRef } from "./TextEditor";
 import useAuthenticatedRequests from "../hooks/useAuthenticatedRequests";
+import { useAuth } from "../hooks/useAuth";
 
 type AnswerProps = {
     answer: Answer
@@ -34,8 +35,12 @@ type QuestionProps = {
 
 function QuestionElement({ question }: QuestionProps) {
     const [isOpen, setIsOpen] = useState(false); // Toggle state for answers
+    const { user } = useAuth()
+    const { axiosdelete } = useAuthenticatedRequests()
+    const { refreshPosition } = useAppState()
 
     const toggleOpen = () => setIsOpen(!isOpen);
+    const deleteQuestion = () => axiosdelete("/question/" + question.id).then(refreshPosition)
 
     return (
         <div>
@@ -45,7 +50,14 @@ function QuestionElement({ question }: QuestionProps) {
             >
                 <div className="flex justify-between">
                     <p className="text-gray-500 italic m-4">{question.nickname} kysyy</p>
-                    <p className="text-gray-500 text-sm italic m-4">{isOpen ? "Piilota" : "Näytä"} {question.answers.length} vastausta</p>
+                    <div className="flex">
+                        <p className="text-gray-500 text-sm italic m-4">{isOpen ? "Piilota" : "Näytä"} {question.answers.length} vastausta</p>
+                        {user === question.asker_id && question.answers.length === 0 &&
+                            <div
+                                className="text-left p-4 hover:bg-red-50 rounded-md"
+                                onClick={deleteQuestion}
+                            ><span className="text-red-500 text-sm italic m-4">Poista</span></div>}
+                    </div>
                 </div>
                 <HtmlRenderer htmlContent={question.content} reduceHeadingSize />
             </button>
@@ -64,22 +76,23 @@ function QuestionElement({ question }: QuestionProps) {
 function QuestionEditor() {
     const editorRef = useRef<EditorRef>(null);
     const { post } = useAuthenticatedRequests()
-    const { position } = useAppState()
+    const { position, refreshPosition } = useAppState()
     const [name, setName] = useState('');
+    const [submitting, setSubmitting] = useState<boolean>(false);
 
     if (!position) return null
     if (position === "loading") return <Loading />
 
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-
+        setSubmitting(true)
         const editorHTML = editorRef.current?.getHTML();
 
         post("/question", {
             content: editorHTML,
             position_id: position.id.toString(),
             nickname: name
-        })
+        }).then(refreshPosition).finally(() => setSubmitting(false))
     }
 
     return (
@@ -96,11 +109,12 @@ function QuestionEditor() {
                     required
                 />
             </div>
-            <Editor ref={editorRef} simplified default_text={`<strong></strong>`} />
+            <Editor ref={editorRef} simplified default_text={`<strong>Kirjoita kysymys tähän</strong>`} />
             <button className="w-full p-4 mb-2 text-black font-extrabold rounded-md bg-blue-50 hover:bg-blue-100 flex sitems-start animate-bg-fade "
                 onClick={() => { }}
+                disabled={submitting}
             >
-                Lähetä
+                {submitting ? "lähettää..." : "Lähetä"}
             </button>
         </form>
     )

@@ -92,4 +92,42 @@ questionRouter.post(
         }
     });
 
+questionRouter.delete(
+    '/:id',
+    requireAuthenticated,
+    validateRouteParams(idRouteParamsSchema),
+    async (req: AuthenticatedRequest, res, next) => {
+        try {
+            const question_id = parseInt(req.params.id!)
+            const user_id = req.session?.pk.toString()!
+
+            const question = await db
+                .selectFrom("question")
+                .where("question.id", "=", question_id)
+                .selectAll()
+                .executeTakeFirst()
+
+            if (question?.asker_id !== user_id) return res.status(403).send("Cannot delete other people's questions!")
+
+            const answers = await db
+                .selectFrom("answer")
+                .where("answer.question_id", "=", question_id)
+                .selectAll()
+                .execute()
+
+            if (answers.length > 0) return res.status(403).send("Cannot delete a question if it already has answers!")
+
+            const result = await db
+                .deleteFrom("question")
+                .where("question.id", "=", question_id)
+                .execute()
+
+            return res.status(204).send()
+
+        } catch (error) {
+            next(error)
+        }
+    }
+)
+
 export default questionRouter

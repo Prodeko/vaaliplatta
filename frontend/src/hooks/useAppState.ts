@@ -55,6 +55,7 @@ export interface AppContextType {
     position: Position | "loading" | null;
     getPosition: (id: string) => Promise<void>;
     clearPosition: () => void;
+    refreshPosition: () => void;
     application: Application | null;
     showApplication: (id: string) => void;
     ownApplication: Application | null;

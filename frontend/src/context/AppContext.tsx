@@ -44,6 +44,10 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
             })
     }
 
+    const refreshPosition = async () => {
+        if (position && position !== "loading") getPosition(position.id.toString())
+    }
+
     const showApplication = (id: string) => {
         if (position && position != "loading") setApplication(position?.applications.find(a => a.applicant_id.toString() === id) || null)
     }
@@ -65,6 +69,7 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
         position,
         getPosition,
         clearPosition,
+        refreshPosition,
         application,
         showApplication,
         ownApplication,
