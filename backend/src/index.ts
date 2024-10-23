@@ -22,8 +22,8 @@ import cors from 'cors'
 import { uploadRouter } from './routers/upload'
 import cookieParser from 'cookie-parser'
 import { authMiddleware } from './middleware/auth'
-import questionRouter from 'routers/question'
-import answerRouter from 'routers/answer'
+import questionRouter from './routers/question'
+import answerRouter from './routers/answer'
 
 
 async function migrateToLatest() {
