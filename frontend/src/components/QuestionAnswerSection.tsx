@@ -48,11 +48,13 @@ type QuestionProps = {
 
 function QuestionElement({ question }: QuestionProps) {
     const [isOpen, setIsOpen] = useState(false); // Toggle state for answers
+    const [showAnswer, setShowAnswer] = useState(false);
     const { user } = useAuth()
     const { axiosdelete } = useAuthenticatedRequests()
     const { refreshPosition } = useAppState()
 
     const toggleOpen = () => setIsOpen(!isOpen);
+    const toggleShowAnswer = () => setShowAnswer(!showAnswer)
     const deleteQuestion = () => axiosdelete("/question/" + question.id).then(refreshPosition)
 
     return (
@@ -74,6 +76,13 @@ function QuestionElement({ question }: QuestionProps) {
                 </div>
                 <HtmlRenderer htmlContent={question.content} reduceHeadingSize />
             </button>
+            <button className="w-full p-4 my-4 text-black font-extrabold rounded-md hover:bg-blue-100 bg-blue-50 flex sitems-start animate-bg-fade "
+                onClick={toggleShowAnswer}
+            >
+                {showAnswer ? "Piilota vastauslomake" : "Lisää vastaus"}
+            </button>
+            {showAnswer && <AnswerEditor question={question} />}
+
 
             {isOpen && (
                 <div className="mt-2">
@@ -85,6 +94,41 @@ function QuestionElement({ question }: QuestionProps) {
         </div>
     );
 }
+
+type AnswerEditorProps = {
+    question: Question
+}
+
+function AnswerEditor({ question }: AnswerEditorProps) {
+    const editorRef = useRef<EditorRef>(null);
+    const { post } = useAuthenticatedRequests()
+    const [submitting, setSubmitting] = useState<boolean>(false);
+    const { refreshPosition } = useAppState()
+
+    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        setSubmitting(true)
+        const editorHTML = editorRef.current?.getHTML();
+
+        post("/question/" + question.id.toString() + "/answer", {
+            content: editorHTML,
+        }).then(refreshPosition).finally(() => setSubmitting(false))
+    }
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <Editor ref={editorRef} default_text="Kirjoita vastaus tähän" />
+            <button className="w-full p-4 mb-2 text-black font-extrabold rounded-md bg-blue-50 hover:bg-blue-100 flex sitems-start animate-bg-fade "
+                onClick={() => { }}
+                disabled={submitting}
+            >
+                {submitting ? "lähettää..." : "Lähetä"}
+            </button>
+        </form>
+    )
+}
+
+
 
 function QuestionEditor() {
     const editorRef = useRef<EditorRef>(null);
