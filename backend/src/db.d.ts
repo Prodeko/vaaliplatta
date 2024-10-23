@@ -5,10 +5,10 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   : ColumnType<T, T | undefined, T>;
 
 export interface Answer {
+  answerer_id: string;
   content: string | null;
   id: Generated<number>;
   question_id: number;
-  title: string;
 }
 
 export interface Application {
@@ -41,7 +41,6 @@ export interface Question {
   id: Generated<number>;
   nickname: string;
   position_id: number;
-  title: string;
 }
 
 export interface DB {

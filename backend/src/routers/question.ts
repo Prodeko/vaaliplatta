@@ -8,7 +8,6 @@ import { AuthenticatedRequest, requireAuthenticated, requireSuperUser } from "..
 const questionRouter = Router();
 
 export const postQuestionSchema = z.object({
-    title: z.string(),
     content: z.string(),
     position_id: z.string(),
     nickname: z.string(),
@@ -42,7 +41,6 @@ questionRouter.post(
     });
 
 export const postAnswerSchema = z.object({
-    title: z.string(),
     content: z.string(),
 });
 
@@ -79,7 +77,7 @@ questionRouter.post(
 
             if (!answererHasApplied) return res.status(403).send("Cannot answer question to a position you haven't applied to!")
 
-            const data = { ...body, question_id }
+            const data = { ...body, question_id, answerer_id }
 
             const result = await db
                 .insertInto('answer')
