@@ -73,8 +73,13 @@ export type EditorRef = {
     getHTML: () => string;
 }
 
+type EditorProps = {
+    simplified?: boolean
+    default_text?: string
+}
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const Editor = React.forwardRef<EditorRef>((_props, ref) => {
+const Editor = React.forwardRef<EditorRef, EditorProps>(({ simplified, default_text }, ref) => {
     const { BLOB_URL, ownApplication } = useAppState()
     const { upload } = useAuthenticatedRequests()
 
@@ -145,10 +150,10 @@ const Editor = React.forwardRef<EditorRef>((_props, ref) => {
             handleDrop: handleDropImage
         },
         // Check if user already has applied to this position
-        content: ownApplication?.content || `
+        content: default_text ?? (ownApplication?.content || `
         <p><em>Kirjoita hakemuksesi tähän</em></p>
         <p><em>Voit lisätä hakemustekstiin kuvia vetämällä ne tähän ikkunaan</em></p>
-        `,
+        `),
     })
 
     // Expose the getHTML method via ref to parent component
@@ -244,57 +249,58 @@ const Editor = React.forwardRef<EditorRef>((_props, ref) => {
                 >
                     H6
                 </EditorButton>
-                <EditorButton // bullet list
+                {!simplified && <><EditorButton // bullet list
                     onClick={() => editor.chain().focus().toggleBulletList().run()}
                     highlight={editor.isActive('bulletList')}
                     tooltip="bullet list"
                 >
                     ul
                 </EditorButton>
-                <EditorButton // ordered list
-                    onClick={() => editor.chain().focus().toggleOrderedList().run()}
-                    highlight={editor.isActive('orderedList')}
-                    tooltip="ordered list"
-                >
-                    ol
-                </EditorButton>
-                <EditorButton // quotation
-                    onClick={() => editor.chain().focus().toggleBlockquote().run()}
-                    highlight={editor.isActive('blockquote')}
-                    tooltip="quote"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 310" fill="#000000">
-                        <path d="M230 164.01c8.54 0 16.65-1.86 23.95-5.18-7.65 40.13-26.5 58.08-59.47 77.2l15.05 25.95c21.35-12.38 45.17-28.77 59.95-56.4C282.29 181.63 288 150.92 288 106c0-32.03-25.97-58-58-58s-58 25.97-58 58c0 32.04 25.97 58.01 58 58.01zm-150 0c8.54 0 16.65-1.86 23.95-5.18-7.65 40.13-26.5 58.08-59.47 77.2l15.05 25.95c21.35-12.38 45.17-28.77 59.95-56.4C132.29 181.63 138 150.92 138 106c0-32.03-25.97-58-58-58s-58 25.97-58 58c0 32.04 25.97 58.01 58 58.01z"
-                            transform="scale(0.5) translate(155, 155)"></path>
-                    </svg>
-                </EditorButton>
-                <EditorButton // horizontal rule
-                    onClick={() => editor.chain().focus().setHorizontalRule().run()}
-                    highlight={false}
-                    tooltip="insert horizontal rule"
-                >
-                    ---
-                </EditorButton>
-                <ImageUploader highlight={false} onFile={
-                    (file: File) => {
-                        const { schema } = editor.state;
-                        const node = schema.nodes.image.create({ src: BLOB_URL + '/spinner.gif' })
-                        const transaction = editor.view.state.tr.insert(0, node)
-                        editor.view.dispatch(transaction)
-                        // Upload the image to Azure through backend upload API
-                        upload(file).then(response => {
-                            // If the image upload was successful
-                            // Update the image in the editor to use azure url
+                    <EditorButton // ordered list
+                        onClick={() => editor.chain().focus().toggleOrderedList().run()}
+                        highlight={editor.isActive('orderedList')}
+                        tooltip="ordered list"
+                    >
+                        ol
+                    </EditorButton>
+                    <EditorButton // quotation
+                        onClick={() => editor.chain().focus().toggleBlockquote().run()}
+                        highlight={editor.isActive('blockquote')}
+                        tooltip="quote"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 310" fill="#000000">
+                            <path d="M230 164.01c8.54 0 16.65-1.86 23.95-5.18-7.65 40.13-26.5 58.08-59.47 77.2l15.05 25.95c21.35-12.38 45.17-28.77 59.95-56.4C282.29 181.63 288 150.92 288 106c0-32.03-25.97-58-58-58s-58 25.97-58 58c0 32.04 25.97 58.01 58 58.01zm-150 0c8.54 0 16.65-1.86 23.95-5.18-7.65 40.13-26.5 58.08-59.47 77.2l15.05 25.95c21.35-12.38 45.17-28.77 59.95-56.4C132.29 181.63 138 150.92 138 106c0-32.03-25.97-58-58-58s-58 25.97-58 58c0 32.04 25.97 58.01 58 58.01z"
+                                transform="scale(0.5) translate(155, 155)"></path>
+                        </svg>
+                    </EditorButton>
+                    <EditorButton // horizontal rule
+                        onClick={() => editor.chain().focus().setHorizontalRule().run()}
+                        highlight={false}
+                        tooltip="insert horizontal rule"
+                    >
+                        ---
+                    </EditorButton>
+                    <ImageUploader highlight={false} onFile={
+                        (file: File) => {
+                            const { schema } = editor.state;
+                            const node = schema.nodes.image.create({ src: BLOB_URL + '/spinner.gif' })
+                            const transaction = editor.view.state.tr.insert(0, node)
+                            editor.view.dispatch(transaction)
+                            // Upload the image to Azure through backend upload API
+                            upload(file).then(response => {
+                                // If the image upload was successful
+                                // Update the image in the editor to use azure url
 
-                            // response.data should be an array of filenames
-                            const newUrl = BLOB_URL + '/' + (response.data instanceof Array ? response.data[0] : response.data.toString());
-                            const newNode = schema.nodes.image.create({ src: newUrl });
-                            const newTransaction = editor.state.tr.replaceWith(0, 1, newNode);
-                            editor.view.dispatch(newTransaction);
-                        }).catch(error => {
-                            window.alert("Image upload failed, please try again!\n" + error.toString());
-                        })
-                    }} />
+                                // response.data should be an array of filenames
+                                const newUrl = BLOB_URL + '/' + (response.data instanceof Array ? response.data[0] : response.data.toString());
+                                const newNode = schema.nodes.image.create({ src: newUrl });
+                                const newTransaction = editor.state.tr.replaceWith(0, 1, newNode);
+                                editor.view.dispatch(newTransaction);
+                            }).catch(error => {
+                                window.alert("Image upload failed, please try again!\n" + error.toString());
+                            })
+                        }} />
+                </>}
                 <EditorButton // undo
                     onClick={() => editor.chain().focus().undo().run()}
                     highlight={false}
