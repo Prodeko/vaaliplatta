@@ -6,6 +6,7 @@ import Divider from "./Divider";
 import Editor, { EditorRef } from "./TextEditor";
 import useAuthenticatedRequests from "../hooks/useAuthenticatedRequests";
 import { useAuth } from "../hooks/useAuth";
+import { Link } from "react-router-dom";
 
 type AnswerProps = {
     answer: Answer
@@ -141,6 +142,7 @@ function QuestionEditor() {
     const { position, refreshPosition } = useAppState()
     const [name, setName] = useState('');
     const [submitting, setSubmitting] = useState<boolean>(false);
+    const { token } = useAuth()
 
     if (!position) return null
     if (position === "loading") return <Loading />
@@ -157,7 +159,14 @@ function QuestionEditor() {
         }).then(refreshPosition).finally(() => setSubmitting(false))
     }
 
-    return (
+    if (!token) return (
+        <h2 className="text-black font-extrabold text-2xl m-4">
+            <Link to={"/login"} className="text-blue-500 hover:underline hover:underline-offset-2">Kirjaudu sisään</Link>
+            {" "}
+            <span>kysyäksesi kysymyksen</span>
+        </h2>
+    )
+    else return (
         <form onSubmit={handleSubmit}>
             <h2 className="text-black font-extrabold text-2xl m-4 inline-flex justify-between">Kysy kysymys</h2>
             <div className="flex gap-4 my-4">
