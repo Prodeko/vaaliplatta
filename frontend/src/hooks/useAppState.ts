@@ -36,7 +36,8 @@ export interface Position {
     name: string;
     seats: string | null;
     applications: Application[];
-    questions?: Question[]
+    questions?: Question[];
+    category: string;
 }
 
 export interface Application {

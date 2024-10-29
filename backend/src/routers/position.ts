@@ -11,7 +11,8 @@ export const createNewPositionSchema = z.object({
     name: z.string(),
     description: z.string(),
     seats: z.string(),
-    election_id: z.number()
+    election_id: z.number(),
+    category: z.string()
 });
 
 type createNewPositionType = z.infer<typeof createNewPositionSchema>

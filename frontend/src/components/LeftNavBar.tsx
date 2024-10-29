@@ -56,7 +56,29 @@ export default function LeftNavBar() {
                 </button>
             )}
             <Dropdown label='HALLITUS'>
-                {election?.positions?.map(p => (
+                {election?.positions?.filter(p => p.category === "hallitus").map(p => (
+                    <button
+                        onClick={() => getPosition(p.id.toString())}
+                        className="p-4 text-sm text-gray-700 hover:bg-blue-100 w-full flex items-start"
+                        key={p.id}
+                    >
+                        {p.name}
+                    </button>
+                ))}
+            </Dropdown>
+            <Dropdown label='VASTUUTOIMARIT'>
+                {election?.positions?.filter(p => p.category === "vastuutoimarit").map(p => (
+                    <button
+                        onClick={() => getPosition(p.id.toString())}
+                        className="p-4 text-sm text-gray-700 hover:bg-blue-100 w-full flex items-start"
+                        key={p.id}
+                    >
+                        {p.name}
+                    </button>
+                ))}
+            </Dropdown>
+            <Dropdown label='TOIMARIT'>
+                {election?.positions?.filter(p => p.category !== "hallitus" && p.category !== "vastuutoimarit").map(p => (
                     <button
                         onClick={() => getPosition(p.id.toString())}
                         className="p-4 text-sm text-gray-700 hover:bg-blue-100 w-full flex items-start"
