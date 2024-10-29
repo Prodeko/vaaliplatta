@@ -52,11 +52,13 @@ function QuestionElement({ question }: QuestionProps) {
     const [showAnswer, setShowAnswer] = useState(false);
     const { user } = useAuth()
     const { axiosdelete } = useAuthenticatedRequests()
-    const { refreshPosition } = useAppState()
+    const { position, refreshPosition } = useAppState()
 
     const toggleOpen = () => setIsOpen(!isOpen);
     const toggleShowAnswer = () => setShowAnswer(!showAnswer)
     const deleteQuestion = () => axiosdelete("/question/" + question.id).then(refreshPosition)
+
+    if (!position || position === "loading") return null
 
     return (
         <div>
@@ -78,7 +80,7 @@ function QuestionElement({ question }: QuestionProps) {
                 <HtmlRenderer htmlContent={question.content} reduceHeadingSize />
             </button>
             {
-                user && !question.answers.map(a => a.answerer_id).includes(user) &&
+                user && !question.answers.map(a => a.answerer_id).includes(user) && position.applications.map(a => a.applicant_id).includes(user) &&
                 <>
                     <button className="w-full p-4 my-4 text-black font-extrabold rounded-md hover:bg-blue-100 bg-blue-50 flex sitems-start animate-bg-fade "
                         onClick={toggleShowAnswer}
