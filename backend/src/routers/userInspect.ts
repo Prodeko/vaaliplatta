@@ -49,13 +49,15 @@ userInspectRouter.get(
                 where lower(last_name) like '${searchTerm}%'
                 or lower(first_name) like '${searchTerm}%'
                 or lower(email) like '${searchTerm}%'
+                or (position(' ' in '${searchTerm}') > 0 
+                    and (lower(first_name) || ' ' || lower(last_name)) like lower('${searchTerm}') || '%')
                 order by id desc
                 limit 25`
             )
 
             return res.status(200).json(result)
         } catch (error) {
-            return res.status(404).send(error)
+            return res.status(404).json(error)
         }
     })
 
