@@ -24,6 +24,7 @@ import cookieParser from 'cookie-parser'
 import { authMiddleware } from './middleware/auth'
 import questionRouter from './routers/question'
 import answerRouter from './routers/answer'
+import { userInspectRouter } from 'routers/userInspect'
 
 
 async function migrateToLatest() {
@@ -33,7 +34,7 @@ async function migrateToLatest() {
         host: config.POSTGRES_HOST,
         password: config.POSTGRES_PASSWORD,
         database: config.POSTGRES_DB,
-        port: parseInt(config.POSTGRES_PORT),
+        port: config.POSTGRES_PORT,
         user: config.POSTGRES_USER,
         ssl: config.ENV !== "DEV",
       }),
@@ -95,6 +96,7 @@ app.use("/api/application", applicationRouter)
 app.use("/api/upload", uploadRouter)
 app.use("/api/question", questionRouter)
 app.use("/api/answer", answerRouter)
+app.use("/api/users", userInspectRouter)
 app.use("/", authRouter)
 
 app.use(express.static(path.join(__dirname, config.FRONTEND_DIST_FOLDER)));
