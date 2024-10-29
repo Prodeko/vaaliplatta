@@ -8,11 +8,13 @@ interface AuthProviderProps {
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const [token, setToken] = useState<Token | null>(localStorage.getItem("token"));
     const [user, setUser] = useState<string | null>(localStorage.getItem("user"));
+    const [superuser, setSuperUser] = useState<boolean>(localStorage.getItem("superuser")?.toLowerCase() === "true");
 
     useEffect(() => {
         const urlParams = new URLSearchParams(window.location.search);
         const token = urlParams.get('token');
         const user = urlParams.get('user');
+        const superuser = urlParams.get('superuser')?.toLowerCase();
 
         if (token) {
             localStorage.setItem('token', token);
@@ -21,6 +23,10 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         if (user) {
             localStorage.setItem('user', user)
             setUser(user)
+        }
+        if (superuser === "true") {
+            localStorage.setItem('superuser', superuser)
+            setSuperUser(true)
         }
     }, [])
 
@@ -33,11 +39,13 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         console.log("logout")
         setToken(null);
         setUser(null)
+        setSuperUser(false)
         localStorage.removeItem('token');
         localStorage.removeItem('user')
+        localStorage.removeItem('superuser')
     };
 
-    const value: AuthContextType = { token, user, login, logout };
+    const value: AuthContextType = { token, user, superuser, login, logout };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

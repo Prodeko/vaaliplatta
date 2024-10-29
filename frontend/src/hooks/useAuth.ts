@@ -3,6 +3,7 @@ import { createContext, useContext } from "react";
 export interface AuthContextType {
     token: Token | null;
     user: string | null;
+    superuser: boolean;
     login: () => void;
     logout: () => void;
 }

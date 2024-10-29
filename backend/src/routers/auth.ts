@@ -67,7 +67,7 @@ authRouter.get('/oauth2/callback', async (req, res) => {
         //     sameSite: 'none'
         // });
 
-        return res.redirect(`${config.FRONTEND_URL}?token=${jwt_token}&user=${user?.pk.toString() || ""}`)
+        return res.redirect(`${config.FRONTEND_URL}?token=${jwt_token}&user=${user?.pk.toString() || ""}${user?.is_superuser && "&superuser=true"}`)
     } catch (error) {
         // @ts-ignore
         console.error('Access Token Error', error.message);
