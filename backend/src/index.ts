@@ -21,10 +21,11 @@ import { authRouter } from './routers/auth'
 import cors from 'cors'
 import { uploadRouter } from './routers/upload'
 import cookieParser from 'cookie-parser'
-import { authMiddleware } from './middleware/auth'
+import { authMiddleware, requireSuperUser } from './middleware/auth'
 import questionRouter from './routers/question'
 import answerRouter from './routers/answer'
 import { userInspectRouter } from 'routers/userInspect'
+import { adminRouter } from 'routers/admin'
 
 
 async function migrateToLatest() {
@@ -97,6 +98,7 @@ app.use("/api/upload", uploadRouter)
 app.use("/api/question", questionRouter)
 app.use("/api/answer", answerRouter)
 app.use("/api/users", userInspectRouter)
+app.use("/api/admin", requireSuperUser, adminRouter)
 app.use("/", authRouter)
 
 app.use(express.static(path.join(__dirname, config.FRONTEND_DIST_FOLDER)));

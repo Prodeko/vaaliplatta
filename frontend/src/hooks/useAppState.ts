@@ -64,6 +64,8 @@ export interface AppContextType {
     clearApplication: () => void;
     showApplicationForm: boolean;
     setShowApplicationForm: (value: boolean) => void;
+    showAdminEditApplicantsForm: boolean;
+    setShowAdminEditApplicantsForm: (value: boolean) => void;
     error: string | null;
     setError: (value: string | null) => void;
 }

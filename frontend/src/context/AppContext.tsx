@@ -18,6 +18,7 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
     const [BLOB_URL] = useState<string>('https://vaaliplatta.blob.core.windows.net/prod')
     const [API_URL] = useState<string>('/api')
     const [ownApplication, setOwnApplication] = useState<Application | null>(null);
+    const [showAdminEditApplicantsForm, setShowAdminEditApplicantsForm] = useState<boolean>(false);
     const { user } = useAuth()
 
     const getElection = useCallback(async (id: string) => axios.get(API_URL + '/election/' + id)
@@ -77,6 +78,8 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
         clearApplication,
         showApplicationForm,
         setShowApplicationForm,
+        showAdminEditApplicantsForm,
+        setShowAdminEditApplicantsForm,
         error,
         setError,
     }

@@ -3,6 +3,8 @@ import { z } from 'zod';
 import { validateData, validateRouteParams } from "../middleware/validators";
 import { db } from "../database";
 import { AuthenticatedRequest, requireAuthenticated } from "../middleware/auth";
+import { Insertable } from "kysely";
+import { Application } from "db";
 
 export const applicationRouter = Router();
 
@@ -28,38 +30,44 @@ applicationRouter.post(
         const data = { ...body, "position_id": parseInt(body.position_id), applicant_id: applicant_id.toString() }
 
         try {
-            // Check if an application already exists with the same position_id and applicant_id
-            const existingApplication = await db
-                .selectFrom("application")
-                .selectAll()
-                .where("position_id", "=", data.position_id)
-                .where("applicant_id", "=", data.applicant_id)
-                .executeTakeFirst();
-
-            if (existingApplication) {
-                // If an application exists, update it
-                const updatedApplication = await db
-                    .updateTable("application")
-                    .set(data) // Update with new data
-                    .where("id", "=", existingApplication.id) // Assuming the existing application has an 'id' field
-                    .returningAll()
-                    .executeTakeFirst();
-
-                return res.status(200).json(updatedApplication);
-            } else {
-                // If no application exists, insert a new one
-                const newApplication = await db
-                    .insertInto("application")
-                    .values(data)
-                    .returningAll()
-                    .executeTakeFirst();
-
-                return res.status(201).json(newApplication);
-            }
+            const application = await createOrUpdateApplication(data)
+            return res.status(201).json(application)
         } catch (error) {
             next(error);
         }
     })
+
+export async function createOrUpdateApplication(data: Insertable<Application>) {
+
+    // Check if an application already exists with the same position_id and applicant_id
+    const existingApplication = await db
+        .selectFrom("application")
+        .selectAll()
+        .where("position_id", "=", data.position_id)
+        .where("applicant_id", "=", data.applicant_id)
+        .executeTakeFirst();
+
+    if (existingApplication) {
+        // If an application exists, update it
+        const updatedApplication = await db
+            .updateTable("application")
+            .set(data) // Update with new data
+            .where("id", "=", existingApplication.id) // Assuming the existing application has an 'id' field
+            .returningAll()
+            .executeTakeFirst();
+
+        return updatedApplication
+    } else {
+        // If no application exists, insert a new one
+        const newApplication = await db
+            .insertInto("application")
+            .values(data)
+            .returningAll()
+            .executeTakeFirst();
+
+        return newApplication
+    }
+}
 
 const idRouteParamsSchema = z.object({
     id: z.string(),

@@ -3,6 +3,7 @@ import { useAppState } from '../hooks/useAppState';
 import ApplyForm from './ApplyForm';
 import HtmlRenderer from './HtmlRenderer';
 import Divider from './Divider';
+import AdminEditApplicantsForm from './AdminEditApplicantsForm';
 
 interface ModalProps {
     isOpen: boolean;
@@ -77,4 +78,12 @@ export function ApplicationModal() {
             <Divider />
             <HtmlRenderer htmlContent={application?.content} />
         </Modal>);
+}
+
+export function AdminEditApplicantsFormModal() {
+    const { showAdminEditApplicantsForm, setShowAdminEditApplicantsForm } = useAppState()
+
+    const handleClose = () => setShowAdminEditApplicantsForm(false)
+
+    return <Modal isOpen={showAdminEditApplicantsForm} onClose={handleClose}><AdminEditApplicantsForm /></Modal>
 }

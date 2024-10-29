@@ -6,6 +6,13 @@ export default function useAuthenticatedRequests() {
     const { token } = useAuth();
     const { API_URL } = useAppState();
 
+    async function get(route: string, params?: Record<string, string>) {
+        return axios.get(
+            `${API_URL}/${route.replace(/^\/+/, '')}`, // remove possible leading "/"
+            { headers: { Authorization: `Bearer ${token}` }, params }
+        )
+    }
+
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async function post(route: string, data: any, config?: any) {
 
@@ -37,12 +44,12 @@ export default function useAuthenticatedRequests() {
         )
     }
 
-    async function axiosdelete(route: string) {
+    async function axiosdelete(route: string, params?: Record<string, string>) {
         return axios.delete(
             `${API_URL}/${route.replace(/^\/+/, '')}`,  // remove possible leading "/"
-            { headers: { Authorization: `Bearer ${token}` } }
+            { headers: { Authorization: `Bearer ${token}` }, params }
         )
     }
 
-    return { post, upload, axiosdelete }
+    return { get, post, upload, axiosdelete }
 }

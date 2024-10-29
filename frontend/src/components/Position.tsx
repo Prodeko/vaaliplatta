@@ -33,13 +33,17 @@ interface PositionProps {
 }
 
 export default function PositionView({ position }: PositionProps) {
-    const { setShowApplicationForm } = useAppState()
-    const { token, user } = useAuth()
+    const { setShowApplicationForm, setShowAdminEditApplicantsForm } = useAppState()
+    const { token, user, superuser } = useAuth()
     const navigate = useNavigate()
 
-    function handleClick() {
+    function showApplicationForm() {
         if (token) setShowApplicationForm(true)
         else navigate("/login")
+    }
+
+    function addApplicants() {
+        setShowAdminEditApplicantsForm(true)
     }
 
     if (position === "loading") return <Loading />
@@ -57,8 +61,13 @@ export default function PositionView({ position }: PositionProps) {
                 lg:col-span-3
                 xl:col-span-4
                 2xl:col-span-4">
-                <button className="w-full p-4 text-black font-extrabold rounded-md hover:bg-blue-100 bg-blue-50 flex sitems-start animate-bg-fade "
-                    onClick={handleClick}
+                {superuser && <button className="w-full p-4 mb-2 text-black font-extrabold rounded-md shadow-inner shadow-red-50 hover:bg-red-100 bg-red-50 border-2 border-red-50 hover:border-red-500 flex items-start"
+                    onClick={addApplicants}
+                >
+                    Muokkaa hakijoita (admin)
+                </button>}
+                <button className="w-full p-4 text-black font-extrabold rounded-md hover:bg-blue-100 bg-blue-50 flex items-start animate-bg-fade "
+                    onClick={showApplicationForm}
                 >
                     {editing ? "Muokkaa hakemusta" : "Hae virkaan"}
                 </button>
