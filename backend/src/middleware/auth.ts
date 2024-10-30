@@ -11,6 +11,11 @@ export interface DecodedToken extends UserDetailsResponse {
     token: string,
     iat: number,
     exp: number,
+    pk: number,
+    email: string,
+    first_name: string,
+    last_name: string,
+    is_superuser: boolean,
 }
 
 export const authMiddleware = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
@@ -35,9 +40,9 @@ export const authMiddleware = (req: AuthenticatedRequest, res: Response, next: N
 
 export const requireSuperUser = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
     const decodedToken = req.session
-
     if (!decodedToken) return res.status(401).json({ message: 'No token provided' });
-    if (!decodedToken.is_superuser) return res.status(403).json({ message: 'Insufficient privileges' });
+    const is_superuser = (!!decodedToken?.email) && config.VAALIPLATTA_SUPERUSERS.includes(decodedToken.email)
+    if (!is_superuser) return res.status(403).json({ message: 'Insufficient privileges' });
 
     return next()
 }
