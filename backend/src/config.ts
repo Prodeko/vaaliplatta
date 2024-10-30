@@ -57,6 +57,7 @@ export const config = {
     POSTGRES_USERDB: process.env.POSTGRES_USERDB!,
     POSTGRES_USERTABLE: process.env.POSTGRES_USERTABLE!,
     POSTGRES_USERDB_HOST: process.env.POSTGRES_USERDB_HOST!,
+    VAALIPLATTA_SUPERUSERS: process.env.VAALIPLATTA_SUPERUSERS?.split(",") || ["cto@prodeko.org"],
 }
 
 console.log(config)

@@ -61,13 +61,9 @@ authRouter.get('/oauth2/callback', async (req, res) => {
         }
         const jwt_token = jwt.sign(jwt_data, config.JWT_SECRET, { expiresIn: config.JWT_EXPIRATION })
 
-        // res.cookie('access_token', accessToken.token.access_token, {
-        //     httpOnly: true,
-        //     secure: config.ENV === 'production',
-        //     sameSite: 'none'
-        // });
+        const is_superuser = (!!user?.email) && config.VAALIPLATTA_SUPERUSERS.includes(user.email)
 
-        return res.redirect(`${config.FRONTEND_URL}?token=${jwt_token}&user=${user?.pk.toString() || ""}${user?.is_superuser ? "&superuser=true" : ""}`)
+        return res.redirect(`${config.FRONTEND_URL}?token=${jwt_token}&user=${user?.pk.toString() || ""}${is_superuser ? "&superuser=true" : ""}`)
     } catch (error) {
         // @ts-ignore
         console.error('Access Token Error', error.message);
