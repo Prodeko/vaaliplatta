@@ -24,8 +24,8 @@ import cookieParser from 'cookie-parser'
 import { authMiddleware, requireSuperUser } from './middleware/auth'
 import questionRouter from './routers/question'
 import answerRouter from './routers/answer'
-import { userInspectRouter } from 'routers/userInspect'
-import { adminRouter } from 'routers/admin'
+import { userInspectRouter } from './routers/userInspect'
+import { adminRouter } from './routers/admin'
 
 
 async function migrateToLatest() {

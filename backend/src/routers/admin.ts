@@ -1,8 +1,8 @@
 import { Router } from "express";
-import { validateData, validateQueryParams, validateRouteParams } from "middleware/validators";
+import { validateData, validateQueryParams, validateRouteParams } from "../middleware/validators";
 import { z } from "zod";
 import { createOrUpdateApplication } from "./application";
-import { db } from "database";
+import { db } from "../database";
 
 export const adminRouter = Router();
 

@@ -2,7 +2,7 @@ import { Router } from "express";
 import { AuthenticatedRequest, requireSuperUser } from "../middleware/auth";
 import { config } from "../config";
 import { Pool } from "pg";
-import { validateQueryParams } from "middleware/validators";
+import { validateQueryParams } from "../middleware/validators";
 import { z } from "zod";
 
 export const userInspectRouter = Router();
