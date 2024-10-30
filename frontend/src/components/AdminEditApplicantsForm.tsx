@@ -23,10 +23,9 @@ type UserListElemProps = {
 function UserListElem({ user }: UserListElemProps) {
     const { post, axiosdelete } = useAuthenticatedRequests()
     const { position } = useAppState()
+    const [hasApplied, setHasApplied] = useState<boolean>(!!position && position !== "loading" && position.applications.map(a => a.applicant_id).includes(user.id.toString()))
 
     if (!position || position === "loading") return null
-
-    const hasApplied = position.applications.map(a => a.applicant_id).includes(user.id.toString())
 
     const addApplication = () => {
         post("/admin/application", {
@@ -34,11 +33,16 @@ function UserListElem({ user }: UserListElemProps) {
             applicant_name: `${user.first_name} ${user.last_name}`,
             position_id: position.id.toString(),
             applicant_id: user.id.toString()
-        })
+        }).then(() => setHasApplied(true))
+            .catch(err => console.error(err))
     }
 
     const removeApplication = () => {
-        axiosdelete("/admin/application", { applicant_id: user.id.toString(), position_id: position.id.toString() })
+        if (confirm(`Oletko varma että haluat poistaa henkilön ${user.first_name} ${user.last_name} <${user.email}> hakemuksen rooliin ${position.name}? Tätä ei voi perua!`)) {
+            axiosdelete("/admin/application", { applicant_id: user.id.toString(), position_id: position.id.toString() })
+                .then(() => setHasApplied(false))
+                .catch(err => console.error(err))
+        }
     }
 
     return (
