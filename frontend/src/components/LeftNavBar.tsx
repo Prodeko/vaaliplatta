@@ -31,8 +31,8 @@ function Dropdown({ label, defaultOpen = false, children }: DropdownProps) {
             </button>
             <div
                 id={`${label}-dropdown`}
-                className={`origin-top transition-all transform ${isOpen ? 'scale-y-100' : 'scale-y-0'} max-h-60 overflow-hidden bg-white border-t-0 rounded-md shadow-lg`}
-                style={{ maxHeight: isOpen ? '15rem' : '0' }}
+                className={`origin-top transition-all transform ${isOpen ? 'scale-y-100' : 'scale-y-0'} overflow-hidden bg-white border-t-0 rounded-md shadow-lg`}
+                style={isOpen ? {} : { maxHeight: '0' }}
             >
                 {children}
             </div>
