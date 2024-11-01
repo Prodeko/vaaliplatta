@@ -35,7 +35,7 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
         if (position) setPosition(position)
         else setPosition("loading")
 
-        await get(API_URL + '/position/' + id.toString())
+        await get('/position/' + id.toString())
             .then(result => {
                 const p = result.data as Position
                 setPosition(p)
