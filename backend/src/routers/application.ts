@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { validateData, validateRouteParams } from "../middleware/validators";
 import { db } from "../database";
 import { AuthenticatedRequest, requireAuthenticated } from "../middleware/auth";
-import { Insertable } from "kysely";
+import { Insertable, sql } from "kysely";
 import { Application } from "db";
 
 export const applicationRouter = Router();
@@ -72,6 +72,37 @@ export async function createOrUpdateApplication(data: Insertable<Application>) {
 const idRouteParamsSchema = z.object({
     id: z.string(),
 })
+
+applicationRouter.post(
+    '/:id/read',
+    requireAuthenticated,
+    validateRouteParams(idRouteParamsSchema),
+    async (req: AuthenticatedRequest, res, next) => {
+        try {
+            const application_id = parseInt(req.params.id!)
+            const user_id = req.session?.pk.toString()!
+
+            await db.insertInto('read_receipts')
+                .values({ user_id, application_id })
+                .onConflict(oc =>
+                    oc.columns(['application_id', 'user_id'])
+                        .doUpdateSet({ time: sql`CURRENT_TIMESTAMP` })
+                )
+                .executeTakeFirst()
+
+            const created = await db.selectFrom('read_receipts_with_election_id')
+                .where('user_id', '=', user_id)
+                .where('application_id', '=', application_id)
+                .selectAll()
+                .executeTakeFirst()
+
+            return res.status(201).json(created)
+
+        } catch (error) {
+            next(error)
+        }
+    }
+)
 
 applicationRouter.delete(
     '/:id',
