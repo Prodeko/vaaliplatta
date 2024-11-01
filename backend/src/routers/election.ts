@@ -20,46 +20,47 @@ electionRouter.get("/", async (req, res, next) => {
     }
 })
 
-electionRouter.get("/newest", async (req, res, next) => {
-    try {
-        const election = await db
-            .selectFrom("election")
-            .orderBy("id", "desc")
-            .limit(1)
-            .selectAll()
-            .select(eb => jsonArrayFrom(
-                eb.selectFrom("position")
-                    .selectAll()
-                    .whereRef("position.election_id", "=", "election.id")
-            ).as("positions"))
-            .executeTakeFirst()
-
-        res.status(200).json(election)
-    } catch (err) {
-        next(err)
-    }
-})
-
 const idRouteParamsSchema = z.object({
     id: z.string(),
 });
 
 electionRouter.get("/:id", validateRouteParams(idRouteParamsSchema), async (req, res, next) => {
     try {
-        const id = parseInt(req.params.id!)
+        const id = req.params.id!
+        if (id === "newest") {
 
-        const election = await db
-            .selectFrom("election")
-            .where("id", "=", id)
-            .selectAll()
-            .select(eb => jsonArrayFrom(
-                eb.selectFrom("position")
-                    .selectAll()
-                    .whereRef("position.election_id", "=", "election.id")
-            ).as("positions"))
-            .execute()
+            const election = await db
+                .selectFrom("election")
+                .orderBy("id", "desc")
+                .limit(1)
+                .selectAll()
+                .select(eb => jsonArrayFrom(
+                    eb.selectFrom("position")
+                        .selectAll()
+                        .whereRef("position.election_id", "=", "election.id")
+                ).as("positions"))
+                .executeTakeFirst()
 
-        res.status(200).json(election)
+            res.status(200).json(election)
+
+        } else if (!isNaN(parseInt(id))) {
+
+            const election = await db
+                .selectFrom("election")
+                .where("id", "=", parseInt(id))
+                .selectAll()
+                .select(eb => jsonArrayFrom(
+                    eb.selectFrom("position")
+                        .selectAll()
+                        .whereRef("position.election_id", "=", "election.id")
+                ).as("positions"))
+                .execute()
+
+            res.status(200).json(election)
+
+        } else {
+            return res.status(404).json("Invalid ID!")
+        }
     } catch (err) {
         next(err)
     }
