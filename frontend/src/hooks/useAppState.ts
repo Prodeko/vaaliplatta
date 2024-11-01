@@ -47,6 +47,7 @@ export interface Application {
     applicant_id: string;
     position_id: string;
     profile_picture?: string;
+    id: number;
 }
 
 export interface AppContextType {
@@ -57,7 +58,7 @@ export interface AppContextType {
     clearPosition: () => void;
     refreshPosition: () => void;
     application: Application | null;
-    showApplication: (id: string) => void;
+    showApplication: (id: number) => void;
     ownApplication: Application | null;
     setOwnApplication: (application: Application | null) => void;
     clearApplication: () => void;

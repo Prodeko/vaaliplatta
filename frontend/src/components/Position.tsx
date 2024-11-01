@@ -18,7 +18,7 @@ function ApplicationCard({ application }: ApplicationCardProps) {
     return (
         <div className="">
             <button
-                onClick={() => showApplication(application.applicant_id)}
+                onClick={() => showApplication(application.id)}
                 className="p-2 text-sm text-gray-700 hover:bg-blue-100 w-full flex justify-between items-center"
             >
                 <h1 className='p-2 text-black text-md font-extrabold rounded-md max-w-full overflow-auto'>{application?.applicant_name}</h1>
