@@ -3,7 +3,7 @@ import { validateData, validateRouteParams } from "../middleware/validators";
 import { Router } from "express";
 import { z } from 'zod';
 import { jsonArrayFrom } from 'kysely/helpers/postgres'
-import { requireSuperUser } from "../middleware/auth";
+import { AuthenticatedRequest, requireSuperUser } from "../middleware/auth";
 
 const electionRouter = Router();
 
@@ -24,43 +24,44 @@ const idRouteParamsSchema = z.object({
     id: z.string(),
 });
 
-electionRouter.get("/:id", validateRouteParams(idRouteParamsSchema), async (req, res, next) => {
+electionRouter.get("/:id", validateRouteParams(idRouteParamsSchema), async (req: AuthenticatedRequest, res, next) => {
     try {
         const id = req.params.id!
-        if (id === "newest") {
+        const user = req.session?.pk
 
-            const election = await db
+        let electionQuery;
+        if (id === "newest") {
+            electionQuery = db
                 .selectFrom("election")
                 .orderBy("id", "desc")
                 .limit(1)
-                .selectAll()
-                .select(eb => jsonArrayFrom(
-                    eb.selectFrom("position")
-                        .selectAll()
-                        .whereRef("position.election_id", "=", "election.id")
-                ).as("positions"))
-                .executeTakeFirst()
-
-            res.status(200).json(election)
-
         } else if (!isNaN(parseInt(id))) {
-
-            const election = await db
+            electionQuery = db
                 .selectFrom("election")
                 .where("id", "=", parseInt(id))
-                .selectAll()
-                .select(eb => jsonArrayFrom(
-                    eb.selectFrom("position")
-                        .selectAll()
-                        .whereRef("position.election_id", "=", "election.id")
-                ).as("positions"))
-                .execute()
-
-            res.status(200).json(election)
-
         } else {
             return res.status(404).json("Invalid ID!")
         }
+
+        const result = await electionQuery.selectAll()
+            .select(eb => jsonArrayFrom(
+                eb.selectFrom("position")
+                    .selectAll()
+                    .select(eb => jsonArrayFrom(
+                        (user
+                            ? eb.selectFrom("application")
+                                .leftJoin("read_receipts", "application.id", "read_receipts.application_id")
+                                .where("read_receipts.user_id", "=", user.toString())
+                                .selectAll()
+                            : eb.selectFrom("application").selectAll())
+                            .whereRef("application.position_id", "=", "position.id")
+                    ).as("applications"))
+                    .whereRef("position.election_id", "=", "election.id")
+            ).as("positions"))
+            .executeTakeFirst()
+
+        res.status(200).json(result)
+
     } catch (err) {
         next(err)
     }

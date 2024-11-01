@@ -38,6 +38,7 @@ export interface Position {
     applications: Application[];
     questions?: Question[];
     category: string;
+    application?: Application[];
 }
 
 export interface Application {

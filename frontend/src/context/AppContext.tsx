@@ -1,9 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { AppContext, AppContextType, Application, Election, Position } from '../hooks/useAppState';
-import axios from 'axios';
 import { useParams } from "react-router"
 import { useAuth } from '../hooks/useAuth';
 import useConfig from '../hooks/useConfig';
+import useAuthenticatedRequests from '../hooks/useAuthenticatedRequests';
 
 interface Props {
     children: React.ReactNode
@@ -20,10 +20,13 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
     const [showAdminEditApplicantsForm, setShowAdminEditApplicantsForm] = useState<boolean>(false);
     const { user } = useAuth();
     const { API_URL } = useConfig();
+    const { get } = useAuthenticatedRequests()
 
-    const getElection = useCallback(async (id: string) => axios.get(API_URL + '/election/' + id)
+    const getElection = useCallback(async (id: string) => get('/election/' + id)
         .then(result => setElection(result.data))
-        .catch(error => console.error(error)), [API_URL])
+        // disabled on purpose
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+        .catch(error => console.error(error)), [])
 
     const getPosition = async (id: string) => {
 
@@ -32,7 +35,7 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
         if (position) setPosition(position)
         else setPosition("loading")
 
-        await axios.get(API_URL + '/position/' + id.toString())
+        await get(API_URL + '/position/' + id.toString())
             .then(result => {
                 const p = result.data as Position
                 setPosition(p)
