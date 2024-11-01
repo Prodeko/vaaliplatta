@@ -23,7 +23,7 @@ const router = createBrowserRouter([
   // },
   {
     path: "/login",
-    element: <LoginRedirectToOauth to={"/oauth2/login"} />
+    element: <LoginRedirectToOauth />
   }
 ]);
 

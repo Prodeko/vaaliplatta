@@ -49,8 +49,6 @@ export interface Application {
 }
 
 export interface AppContextType {
-    BLOB_URL: string;
-    API_URL: string;
     election: Election | null;
     getElection: (id: string) => Promise<void>;
     position: Position | "loading" | null;

@@ -3,6 +3,7 @@ import { AppContext, AppContextType, Application, Election, Position } from '../
 import axios from 'axios';
 import { useParams } from "react-router"
 import { useAuth } from '../hooks/useAuth';
+import useConfig from '../hooks/useConfig';
 
 interface Props {
     children: React.ReactNode
@@ -15,11 +16,10 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
     const [application, setApplication] = useState<Application | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [showApplicationForm, setShowApplicationForm] = useState<boolean>(false);
-    const [BLOB_URL] = useState<string>('https://vaaliplatta.blob.core.windows.net/prod')
-    const [API_URL] = useState<string>('/api')
     const [ownApplication, setOwnApplication] = useState<Application | null>(null);
     const [showAdminEditApplicantsForm, setShowAdminEditApplicantsForm] = useState<boolean>(false);
-    const { user } = useAuth()
+    const { user } = useAuth();
+    const { API_URL } = useConfig();
 
     const getElection = useCallback(async (id: string) => axios.get(API_URL + '/election/' + id)
         .then(result => setElection(result.data))
@@ -63,8 +63,6 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
     }, [electionId, getElection]);
 
     const value: AppContextType = {
-        BLOB_URL,
-        API_URL,
         election,
         getElection,
         position,

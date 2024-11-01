@@ -7,15 +7,17 @@ import Editor, { EditorRef } from "./TextEditor";
 import useAuthenticatedRequests from "../hooks/useAuthenticatedRequests";
 import { useAuth } from "../hooks/useAuth";
 import { Link } from "react-router-dom";
+import useConfig from "../hooks/useConfig";
 
 type AnswerProps = {
     answer: Answer
 }
 
 function AnswerElement({ answer }: AnswerProps) {
-    const { BLOB_URL, refreshPosition } = useAppState()
-    const { user } = useAuth()
-    const { axiosdelete } = useAuthenticatedRequests()
+    const { refreshPosition } = useAppState();
+    const { BLOB_URL } = useConfig();
+    const { user } = useAuth();
+    const { axiosdelete } = useAuthenticatedRequests();
 
     const deleteAnswer = () => {
         axiosdelete("/answer/" + answer.answer_id.toString()).then(refreshPosition)

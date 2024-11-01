@@ -2,9 +2,11 @@ import { useRef, FormEvent, useState, useEffect } from 'react';
 import Editor, { EditorRef, ImageUploader } from './TextEditor'; // Assuming the RTEditor component is in the same directory
 import { useAppState } from '../hooks/useAppState';
 import useAuthenticatedRequests from '../hooks/useAuthenticatedRequests';
+import useConfig from '../hooks/useConfig';
 
 const ApplyForm = () => {
-    const { position, getPosition, setShowApplicationForm, BLOB_URL, ownApplication } = useAppState()
+    const { position, getPosition, setShowApplicationForm, ownApplication } = useAppState();
+    const { BLOB_URL } = useConfig();
     const editorRef = useRef<EditorRef>(null);
     const [name, setName] = useState('');
     const [pfpUrl, setPfpUrl] = useState<string | null>(null);

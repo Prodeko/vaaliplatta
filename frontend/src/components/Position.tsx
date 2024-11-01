@@ -5,13 +5,16 @@ import Divider from "./Divider"
 import HtmlRenderer from "./HtmlRenderer"
 import Loading from "./Loading"
 import QuestionAnswerSection from "./QuestionAnswerSection"
+import useConfig from "../hooks/useConfig"
 
 interface ApplicationCardProps {
     application: Application
 }
 
 function ApplicationCard({ application }: ApplicationCardProps) {
-    const { showApplication, BLOB_URL } = useAppState()
+    const { showApplication } = useAppState();
+    const { BLOB_URL } = useConfig();
+
     return (
         <div className="">
             <button

@@ -7,6 +7,7 @@ import StarterKit from '@tiptap/starter-kit'
 import React, { useImperativeHandle, useRef } from 'react';
 import { useAppState } from '../hooks/useAppState'
 import useAuthenticatedRequests from '../hooks/useAuthenticatedRequests'
+import useConfig from '../hooks/useConfig'
 
 interface ImageUploaderProps {
     onFile: (file: File) => void;
@@ -80,8 +81,9 @@ type EditorProps = {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const Editor = React.forwardRef<EditorRef, EditorProps>(({ simplified, default_text }, ref) => {
-    const { BLOB_URL, ownApplication } = useAppState()
-    const { upload } = useAuthenticatedRequests()
+    const { ownApplication } = useAppState();
+    const { BLOB_URL } = useConfig();
+    const { upload } = useAuthenticatedRequests();
 
     // const [imgLoading, setImgLoading] = useState<boolean>(false);
 

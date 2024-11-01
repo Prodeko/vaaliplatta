@@ -1,10 +1,10 @@
 import axios from "axios";
 import { useAuth } from "./useAuth";
-import { useAppState } from "./useAppState";
+import useConfig from "./useConfig";
 
 export default function useAuthenticatedRequests() {
     const { token } = useAuth();
-    const { API_URL } = useAppState();
+    const { API_URL } = useConfig()
 
     async function get(route: string, params?: Record<string, string>) {
         return axios.get(

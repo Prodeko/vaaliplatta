@@ -4,6 +4,7 @@ import ApplyForm from './ApplyForm';
 import HtmlRenderer from './HtmlRenderer';
 import Divider from './Divider';
 import AdminEditApplicantsForm from './AdminEditApplicantsForm';
+import useConfig from '../hooks/useConfig';
 
 interface ModalProps {
     isOpen: boolean;
@@ -63,7 +64,8 @@ export function ApplicationForm() {
 }
 
 export function ApplicationModal() {
-    const { application, clearApplication, BLOB_URL } = useAppState();
+    const { application, clearApplication } = useAppState();
+    const { BLOB_URL } = useConfig()
 
     const handleClose = clearApplication // Close the modal when the close button is clicked
 
