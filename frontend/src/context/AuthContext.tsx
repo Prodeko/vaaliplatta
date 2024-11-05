@@ -45,6 +45,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         localStorage.removeItem('token');
         localStorage.removeItem('user')
         localStorage.removeItem('superuser')
+        window.location.href = "/"
     };
 
     const value: AuthContextType = { token, user, superuser, login, logout };
