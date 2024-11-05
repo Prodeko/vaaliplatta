@@ -9,7 +9,7 @@ export default function useAuthenticatedRequests() {
     async function get(route: string, params?: Record<string, string>) {
         return axios.get(
             `${API_URL}/${route.replace(/^\/+/, '')}`, // remove possible leading "/"
-            { headers: { Authorization: `Bearer ${token}` }, params }
+            { headers: token ? { Authorization: `Bearer ${token}` } : {}, params }
         )
     }
 
@@ -17,7 +17,7 @@ export default function useAuthenticatedRequests() {
     async function post(route: string, data: any, config?: any) {
 
         // Merge caller supplied config and headers with Authorization header here
-        let cfg = { headers: { Authorization: `Bearer ${token}` } }
+        let cfg = { headers: token ? { Authorization: `Bearer ${token}` } : {} }
         if (config) cfg = { ...config, ...cfg }
         if (config && config.headers) cfg.headers = { ...cfg.headers, ...config.headers }
 
@@ -36,10 +36,12 @@ export default function useAuthenticatedRequests() {
             `${API_URL}/upload`,
             formData,
             {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    "Content-Type": "multipart/form-data"
-                }
+                headers: token
+                    ? {
+                        Authorization: `Bearer ${token}`,
+                        "Content-Type": "multipart/form-data"
+                    }
+                    : { "Content-Type": "multipart/form-data" }
             }
         )
     }
@@ -47,7 +49,7 @@ export default function useAuthenticatedRequests() {
     async function axiosdelete(route: string, params?: Record<string, string>) {
         return axios.delete(
             `${API_URL}/${route.replace(/^\/+/, '')}`,  // remove possible leading "/"
-            { headers: { Authorization: `Bearer ${token}` }, params }
+            { headers: token ? { Authorization: `Bearer ${token}` } : {}, params }
         )
     }
 
