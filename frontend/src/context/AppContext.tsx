@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { AppContext, AppContextType, Application, Election, Position } from '../hooks/useAppState';
 import { useParams } from "react-router"
 import { useAuth } from '../hooks/useAuth';
-import useConfig from '../hooks/useConfig';
 import useAuthenticatedRequests from '../hooks/useAuthenticatedRequests';
 
 interface Props {
@@ -19,8 +18,7 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
     const [ownApplication, setOwnApplication] = useState<Application | null>(null);
     const [showAdminEditApplicantsForm, setShowAdminEditApplicantsForm] = useState<boolean>(false);
     const { user } = useAuth();
-    const { API_URL } = useConfig();
-    const { get } = useAuthenticatedRequests()
+    const { get, post } = useAuthenticatedRequests()
 
     const getElection = useCallback(async (id: string) => get('/election/' + id)
         .then(result => setElection(result.data))
@@ -52,8 +50,28 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
         if (position && position !== "loading") getPosition(position.id.toString())
     }
 
-    const showApplication = (applicationId: number) => {
-        if (position && position != "loading") setApplication(position?.applications.find(a => a.id === applicationId) || null)
+    const showApplication = async (applicationId: number) => {
+        if (election && position && position != "loading") {
+            setApplication(position?.applications.find(a => a.id === applicationId) || null)
+            try {
+                const receipt = await post('/application/' + applicationId.toString() + '/read', {})
+
+                const newElection: Election = {
+                    ...election,
+                    positions: election.positions.map(p =>
+                    ({
+                        ...p, applications: p.applications.map(a =>
+                            ({ ...a, ...receipt })
+                        )
+                    })
+                    )
+                }
+                setElection(newElection)
+
+            } catch (error) {
+                console.error(error)
+            }
+        }
     }
 
     const clearPosition = () => setPosition(null)

@@ -38,7 +38,6 @@ export interface Position {
     applications: Application[];
     questions?: Question[];
     category: string;
-    application?: Application[];
 }
 
 export interface Application {
@@ -48,6 +47,8 @@ export interface Application {
     position_id: string;
     profile_picture?: string;
     id: number;
+    user_id?: string;
+    time?: string;
 }
 
 export interface AppContextType {
@@ -58,7 +59,7 @@ export interface AppContextType {
     clearPosition: () => void;
     refreshPosition: () => void;
     application: Application | null;
-    showApplication: (id: number) => void;
+    showApplication: (id: number) => Promise<void>;
     ownApplication: Application | null;
     setOwnApplication: (application: Application | null) => void;
     clearApplication: () => void;

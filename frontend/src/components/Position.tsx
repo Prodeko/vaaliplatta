@@ -14,6 +14,7 @@ interface ApplicationCardProps {
 function ApplicationCard({ application }: ApplicationCardProps) {
     const { showApplication } = useAppState();
     const { BLOB_URL } = useConfig();
+    const { user } = useAuth()
 
     return (
         <div className="">
@@ -22,10 +23,13 @@ function ApplicationCard({ application }: ApplicationCardProps) {
                 className="p-2 text-sm text-gray-700 hover:bg-blue-100 w-full flex justify-between items-center"
             >
                 <h1 className='p-2 text-black text-md font-extrabold rounded-md max-w-full overflow-auto'>{application?.applicant_name}</h1>
-                <img
-                    src={application.profile_picture ?? BLOB_URL + "/PRODEKO.png"}
-                    className="w-12 h-12 mx-2 aspect-square object-cover rounded-full"
-                />
+                <div className="flex flex-row items-center flex-shrink-0">
+                    {!application.time && user && <p className="p-2 text-blue-500 font-extrabold">uusi</p>}
+                    <img
+                        src={application.profile_picture ?? BLOB_URL + "/PRODEKO.png"}
+                        className="w-12 h-12 mx-2 aspect-square object-cover rounded-full"
+                    />
+                </div>
             </button>
         </div>
     )
