@@ -48,13 +48,16 @@ electionRouter.get("/:id", validateRouteParams(idRouteParamsSchema), async (req:
                 eb.selectFrom("position")
                     .selectAll()
                     .select(eb => jsonArrayFrom(
-                        (user
+                        user
                             ? eb.selectFrom("application")
-                                .leftJoin("read_receipts", "application.id", "read_receipts.application_id")
-                                .where("read_receipts.user_id", "=", user.toString())
+                                .leftJoin("read_receipts", join => join
+                                    .onRef("application.id", "=", "read_receipts.application_id")
+                                    .on("read_receipts.user_id", "=", user.toString())
+                                )
                                 .selectAll()
-                            : eb.selectFrom("application").selectAll())
-                            .whereRef("application.position_id", "=", "position.id")
+                                .whereRef("application.position_id", "=", "position.id")
+                            : eb.selectFrom("application").selectAll()
+                                .whereRef("application.position_id", "=", "position.id")
                     ).as("applications"))
                     .whereRef("position.election_id", "=", "election.id")
             ).as("positions"))

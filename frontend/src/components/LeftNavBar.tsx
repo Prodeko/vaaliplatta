@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import { useAppState } from '../hooks/useAppState';
+import { groupBy } from 'lodash';
+import { useAuth } from '../hooks/useAuth';
 
 interface DropdownProps {
     label: string;
@@ -42,6 +44,9 @@ function Dropdown({ label, defaultOpen = false, children }: DropdownProps) {
 
 export default function LeftNavBar() {
     const { election, position, getPosition, clearPosition } = useAppState();
+    const { hallitus, vastuutoimarit, toimarit } = groupBy(election?.positions, p => p.category)
+    const positionCategories = [{ group: hallitus, label: "HALLITUS" }, { group: vastuutoimarit, label: "VASTUUTOIMARIT" }, { group: toimarit, label: "TOIMARIT" }]
+    const { user } = useAuth()
 
     return (
         <div className="w-full">
@@ -55,39 +60,28 @@ export default function LeftNavBar() {
                     </div>
                 </button>
             )}
-            <Dropdown label='HALLITUS'>
-                {election?.positions?.filter(p => p.category === "hallitus").map(p => (
-                    <button
-                        onClick={() => getPosition(p.id.toString())}
-                        className="p-4 text-sm text-gray-700 hover:bg-blue-100 w-full flex items-start"
-                        key={p.id}
-                    >
-                        {p.name}
-                    </button>
-                ))}
-            </Dropdown>
-            <Dropdown label='VASTUUTOIMARIT'>
-                {election?.positions?.filter(p => p.category === "vastuutoimarit").map(p => (
-                    <button
-                        onClick={() => getPosition(p.id.toString())}
-                        className="p-4 text-sm text-gray-700 hover:bg-blue-100 w-full flex items-start"
-                        key={p.id}
-                    >
-                        {p.name}
-                    </button>
-                ))}
-            </Dropdown>
-            <Dropdown label='TOIMARIT'>
-                {election?.positions?.filter(p => p.category !== "hallitus" && p.category !== "vastuutoimarit").map(p => (
-                    <button
-                        onClick={() => getPosition(p.id.toString())}
-                        className="p-4 text-sm text-gray-700 hover:bg-blue-100 w-full flex items-start"
-                        key={p.id}
-                    >
-                        {p.name}
-                    </button>
-                ))}
-            </Dropdown>
+            {positionCategories.map(t =>
+                <Dropdown label={t.label} key={t.label}>
+                    {t.group?.map(p => {
+
+                        const count = p.applications.reduce((counter, a) => counter + (a.time ? 0 : 1), 0)
+                        return (
+                            <button
+                                onClick={() => getPosition(p.id.toString())}
+                                className="p-4 text-sm text-gray-700 hover:bg-blue-100 w-full flex items-start justify-between"
+                                key={p.id}
+                            >
+                                <p>
+                                    {p.name}
+                                </p>
+                                {user && count > 0 && <p className='font-extrabold text-blue-500'>
+                                    {count}
+                                </p>}
+                            </button>
+                        )
+                    })}
+                </Dropdown>
+            )}
         </div>
     );
 }
