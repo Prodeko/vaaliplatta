@@ -53,6 +53,7 @@ positionRouter.get('/:id', validateRouteParams(idRouteParamsSchema), async (req,
                         .leftJoin("application", "answer.answerer_id", "application.applicant_id")
                         .select(["answer.id as answer_id", "answer.content as content", "question_id", "answerer_id", "profile_picture", "applicant_name", "applicant_id", "position_id"])
                         .whereRef("answer.question_id", "=", "question.id")
+                        .where("application.position_id", "=", id)
                 ).as("answers"))
                 .whereRef("question.position_id", "=", "position.id")
         ).as("questions"))
