@@ -64,7 +64,8 @@ export default function LeftNavBar() {
                 <Dropdown label={t.label} key={t.label}>
                     {t.group?.map(p => {
 
-                        const count = p.applications.reduce((counter, a) => counter + (a.time ? 0 : 1), 0)
+                        const unread_count = p.applications.reduce((counter, a) => counter + (a.time ? 0 : 1), 0)
+                        const all_count = p.applications.length
                         return (
                             <button
                                 onClick={() => getPosition(p.id.toString())}
@@ -74,9 +75,14 @@ export default function LeftNavBar() {
                                 <p>
                                     {p.name}
                                 </p>
-                                {user && count > 0 && <p className='font-extrabold text-blue-500'>
-                                    {count}
-                                </p>}
+                                <div className='flex flex-row gap-2'>
+
+                                    {user && unread_count > 0 &&
+                                        <p className='font-extrabold text-blue-500'>
+                                            {unread_count}
+                                        </p>}
+                                    <p className='text-gray-500'>( {all_count} )</p>
+                                </div>
                             </button>
                         )
                     })}
