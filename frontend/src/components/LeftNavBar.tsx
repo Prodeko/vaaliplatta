@@ -66,7 +66,10 @@ export default function LeftNavBar() {
 
                         const unread_count = p.applications.reduce((counter, a) => counter + (a.time ? 0 : 1), 0)
                         const all_count = p.applications.length
-                        const all_count_text = all_count === unread_count ? `( ${all_count} )` : all_count.toString()
+                        const all_count_text = all_count === 0
+                            ? ""
+                            : all_count === unread_count ? `( ${all_count} )` : all_count.toString()
+
                         return (
                             <button
                                 onClick={() => getPosition(p.id.toString())}
