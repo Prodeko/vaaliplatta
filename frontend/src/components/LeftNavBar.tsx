@@ -66,6 +66,7 @@ export default function LeftNavBar() {
 
                         const unread_count = p.applications.reduce((counter, a) => counter + (a.time ? 0 : 1), 0)
                         const all_count = p.applications.length
+                        const all_count_text = all_count === unread_count ? `( ${all_count} )` : all_count.toString()
                         return (
                             <button
                                 onClick={() => getPosition(p.id.toString())}
@@ -81,7 +82,7 @@ export default function LeftNavBar() {
                                         <p className='font-extrabold text-blue-500'>
                                             {unread_count}
                                         </p>}
-                                    <p className='text-gray-500'>( {all_count} )</p>
+                                    <p className='text-gray-500'>{all_count_text}</p>
                                 </div>
                             </button>
                         )
