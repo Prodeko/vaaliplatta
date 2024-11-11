@@ -4,6 +4,8 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   ? ColumnType<S, I | undefined, U>
   : ColumnType<T, T | undefined, T>;
 
+export type State = "archived" | "closed" | "draft" | "open";
+
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
 
 export interface Answer {
@@ -24,9 +26,9 @@ export interface Application {
 
 export interface Election {
   description: string | null;
-  draft: boolean | null;
   id: Generated<number>;
   name: string;
+  state: Generated<State>;
 }
 
 export interface Position {
@@ -36,6 +38,7 @@ export interface Position {
   id: Generated<number>;
   name: string;
   seats: string | null;
+  state: Generated<State>;
 }
 
 export interface Question {

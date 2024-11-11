@@ -14,7 +14,8 @@ export const createNewPositionSchema = z.object({
     description: z.string(),
     seats: z.string(),
     election_id: z.number(),
-    category: z.string()
+    category: z.string(),
+    state: z.enum(["draft", "open", "closed", "archived"]).optional()
 });
 
 type createNewPositionType = z.infer<typeof createNewPositionSchema>
@@ -34,6 +35,39 @@ positionRouter.post('/', requireSuperUser, validateData(createNewPositionSchema)
 const idRouteParamsSchema = z.object({
     id: z.string(),
 })
+
+export const updatePositionSchema = z.object({
+    name: z.string().optional(),
+    description: z.string().optional(),
+    seats: z.string().optional(),
+    category: z.string().optional(),
+    state: z.enum(["draft", "open", "closed", "archived"]).optional(),
+});
+
+positionRouter.put(
+    '/:id',
+    requireSuperUser,
+    validateData(updatePositionSchema),
+    validateRouteParams(idRouteParamsSchema),
+    async (req, res, next) => {
+        try {
+            const id = parseInt(req.params.id!)
+            const data: createNewPositionType = req.body
+
+            const result = await db
+                .updateTable('position')
+                .set(data)
+                .where('id', '=', id)
+                .returningAll()
+                .executeTakeFirst()
+
+            res.status(200).json(result)
+
+        } catch (error) {
+            next(error)
+        }
+    }
+)
 
 positionRouter.get('/:id', validateRouteParams(idRouteParamsSchema), async (req: AuthenticatedRequest, res, next) => {
     try {

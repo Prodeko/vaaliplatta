@@ -1,6 +1,13 @@
 import { useContext } from 'react';
 import { createContext } from 'react';
 
+export enum State {
+    DRAFT = 'draft',
+    OPEN = 'open',
+    CLOSED = 'closed',
+    ARCHIVED = 'archived'
+}
+
 export interface Election {
     id: number,
     name: string,
@@ -38,6 +45,7 @@ export interface Position {
     applications: Application[];
     questions?: Question[];
     category: string;
+    state: State;
 }
 
 export interface Application {

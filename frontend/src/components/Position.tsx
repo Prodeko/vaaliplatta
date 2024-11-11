@@ -1,11 +1,12 @@
 import { useNavigate } from "react-router"
-import { Application, Position, useAppState } from "../hooks/useAppState"
+import { Application, Position, State, useAppState } from "../hooks/useAppState"
 import { useAuth } from "../hooks/useAuth"
 import Divider from "./Divider"
 import HtmlRenderer from "./HtmlRenderer"
 import Loading from "./Loading"
 import QuestionAnswerSection from "./QuestionAnswerSection"
 import useConfig from "../hooks/useConfig"
+import useAuthenticatedRequests from "../hooks/useAuthenticatedRequests"
 
 interface ApplicationCardProps {
     application: Application
@@ -40,9 +41,10 @@ interface PositionProps {
 }
 
 export default function PositionView({ position }: PositionProps) {
-    const { setShowApplicationForm, setShowAdminEditApplicantsForm } = useAppState()
+    const { setShowApplicationForm, setShowAdminEditApplicantsForm, getPosition } = useAppState()
     const { BLOB_URL } = useConfig()
     const { token, user, superuser } = useAuth()
+    const { put } = useAuthenticatedRequests()
     const navigate = useNavigate()
 
     function showApplicationForm() {
@@ -52,6 +54,21 @@ export default function PositionView({ position }: PositionProps) {
 
     function addApplicants() {
         setShowAdminEditApplicantsForm(true)
+    }
+
+    function toggleStateClosed() {
+        if (position === "loading") return
+
+        let newState: State
+        if (position.state === State.OPEN) {
+            newState = State.CLOSED
+        } else {
+            newState = State.OPEN
+        }
+
+        put(`/position/${position.id}`, { state: newState })
+            .then(() => getPosition(position.id.toString()))
+            .catch(err => console.error(err))
     }
 
     if (position === "loading") return <Loading />
@@ -70,15 +87,28 @@ export default function PositionView({ position }: PositionProps) {
                 xl:col-span-4
                 2xl:col-span-4">
                 {superuser && <button className="w-full p-4 mb-2 text-black font-extrabold rounded-md shadow-inner shadow-red-50 hover:bg-red-100 bg-red-50 border-2 border-red-50 hover:border-red-500 flex items-start"
+                    onClick={toggleStateClosed}
+                >
+                    {position.state === State.OPEN ? "Sulje hakemuksilta" : "Avaa hakemuksille"}
+                </button>}
+                {superuser && <button className="w-full p-4 mb-2 text-black font-extrabold rounded-md shadow-inner shadow-red-50 hover:bg-red-100 bg-red-50 border-2 border-red-50 hover:border-red-500 flex items-start"
                     onClick={addApplicants}
                 >
                     Muokkaa hakijoita (admin)
                 </button>}
-                <button className="w-full p-4 text-black font-extrabold rounded-md hover:bg-blue-100 bg-blue-50 flex items-start animate-bg-fade "
-                    onClick={showApplicationForm}
-                >
-                    {editing ? "Muokkaa hakemusta" : "Hae virkaan"}
-                </button>
+                {position.state === State.OPEN
+                    ? <button className="w-full p-4 text-black font-extrabold rounded-md hover:bg-blue-100 bg-blue-50 flex items-start animate-bg-fade "
+                        onClick={showApplicationForm}
+                    >
+                        {editing ? "Muokkaa hakemusta" : "Hae virkaan"}
+                    </button>
+                    : <button className="w-full p-4 text-gray-700 font-extrabold rounded-md bg-gray-50 flex items-start"
+                        disabled
+                        onClick={() => { }}
+                    >
+                        Hakeminen on päättynyt
+                    </button>
+                }
                 <Divider />
 
                 <div className="rounded-md overflow-hidden">

@@ -28,6 +28,21 @@ export default function useAuthenticatedRequests() {
         )
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async function put(route: string, data: any, config?: any) {
+
+        // Merge caller supplied config and headers with Authorization header here
+        let cfg = { headers: token ? { Authorization: `Bearer ${token}` } : {} }
+        if (config) cfg = { ...config, ...cfg }
+        if (config && config.headers) cfg.headers = { ...cfg.headers, ...config.headers }
+
+        return axios.put(
+            `${API_URL}/${route.replace(/^\/+/, '')}`, // remove possible leading "/"
+            data,
+            cfg,
+        )
+    }
+
     async function upload(file: File) {
         const formData = new FormData()
         formData.append("file", file)
@@ -53,5 +68,5 @@ export default function useAuthenticatedRequests() {
         )
     }
 
-    return { get, post, upload, axiosdelete }
+    return { get, post, put, upload, axiosdelete }
 }

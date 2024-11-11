@@ -39,6 +39,14 @@ applicationRouter.post(
 
 export async function createOrUpdateApplication(data: Insertable<Application>) {
 
+    const position = await db
+        .selectFrom("position")
+        .selectAll()
+        .where("id", "=", data.position_id)
+        .executeTakeFirst();
+
+    if (!position || position.state !== "open") throw Error("Cannot create or edit applications to a position whose state is not open!")
+
     // Check if an application already exists with the same position_id and applicant_id
     const existingApplication = await db
         .selectFrom("application")
