@@ -10,12 +10,14 @@
     "lint": "biome lint .",
     "lint:fix": "biome lint --apply .",
     "lint:force": "biome lint --apply-unsafe .",
-    "kysely-codegen": "kysely-codegen --out-file src/db.d.ts"
+    "kysely-codegen": "kysely-codegen --out-file src/db.d.ts",
+    "create-test-data": "ts-node scripts/createTestData.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@faker-js/faker": "^9.3.0",
     "@trivago/prettier-plugin-sort-imports": "^4.3.0",
     "@types/axios": "^0.14.0",
     "@types/cookie-parser": "^1.4.7",
@@ -31,6 +33,7 @@
     "nodemon": "^3.0.3",
     "prettier": "^3.2.4",
     "prettier-plugin-tailwindcss": "^0.5.11",
+    "ts-node": "^10.9.2",
     "typescript": "^5.6.2"
   },
   "dependencies": {
