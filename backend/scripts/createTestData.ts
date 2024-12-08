@@ -6,6 +6,7 @@ import {
     Position,
     Application,
     State,
+    Question,
 
 } from '../src/db'
 import { randomInt } from 'crypto';
@@ -60,7 +61,7 @@ function createRandomHTMLText() {
 
 // **************************
 
-async function createRandomElection(state: State = "open") {
+async function createRandomElection(state: State = "open"): Promise<number> {
     const randomElection: Insertable<Election> = {
         name: faker.animal.type(),
         description: createRandomHTMLText(),
@@ -73,7 +74,7 @@ async function createRandomElection(state: State = "open") {
         .then(result => result.id)
 }
 
-async function createRandomPosition(election_id: number, state: State = "open") {
+async function createRandomPosition(election_id: number, state: State = "open"): Promise<number> {
     const randomPosition: Insertable<Position> = {
         name: faker.commerce.department(),
         description: createRandomHTMLText(),
@@ -89,7 +90,7 @@ async function createRandomPosition(election_id: number, state: State = "open") 
         .then(result => result.id)
 }
 
-async function createRandomApplication(position_id: number) {
+async function createRandomApplication(position_id: number): Promise<number> {
     const randomApplication: Insertable<Application> = {
         applicant_id: randUserId(),
         applicant_name: faker.person.fullName(),
@@ -104,12 +105,60 @@ async function createRandomApplication(position_id: number) {
         .then(result => result.id)
 }
 
+async function createRandomQuestion(position_id: number): Promise<number> {
+    const randomQuestion: Insertable<Question> = {
+        position_id,
+        asker_id: randUserId(),
+        nickname: maybe() ? faker.person.fullName() : faker.person.firstName(),
+        content: createRandomHTMLText(),
+    }
+    return await db.insertInto("question")
+        .values(randomQuestion)
+        .returning("id")
+        .executeTakeFirstOrThrow()
+        .then(result => result.id)
+}
+
 // **************************
 
-async function createTestData() {
-    let id = await createRandomElection()
-    id = await createRandomPosition(id)
-    id = await createRandomApplication(id)
+async function createTestData(
+    MIN_ELECTIONS = 1,
+    MAX_ELECTIONS = 1,
+    MIN_POSITIONS = 3,
+    MAX_POSITIONS = 10,
+    MIN_QUESTIONS = 0,
+    MAX_QUESTIONS = 3,
+    MIN_APPLICATIONS = 1,
+    MAX_APPLICATIONS = 10,
+) {
+
+    // Create random elections
+    const electionIds: number[] = await Promise.all(
+        Array.from({ length: randrange(MIN_ELECTIONS, MAX_ELECTIONS) }).map(() => createRandomElection())
+    )
+
+    // For each election, create random positions
+    const positionIds: number[] = []
+    for (const election of electionIds) {
+        for (var i = 0; i < randrange(MIN_POSITIONS, MAX_POSITIONS); i += 1) {
+            const posId = await createRandomPosition(election)
+            positionIds.push(posId)
+        }
+    }
+
+    // For each position, create random applications and questions
+    const applicationIds: number[] = []
+    const questionIds: number[] = []
+    for (const position of positionIds) {
+        for (var i = 0; i < randrange(MIN_APPLICATIONS, MAX_APPLICATIONS); i += 1) {
+            const aId = await createRandomApplication(position)
+            applicationIds.push(aId)
+        }
+        for (var i = 0; i < randrange(MIN_QUESTIONS, MAX_QUESTIONS); i += 1) {
+            const qId = await createRandomQuestion(position)
+            questionIds.push(qId)
+        }
+    }
 }
 
 createTestData()
