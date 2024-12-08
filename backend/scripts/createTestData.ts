@@ -62,8 +62,14 @@ function createRandomHTMLText() {
 // **************************
 
 async function createRandomElection(state: State = "open"): Promise<number> {
+
+    const name = maybe()
+        ? randFromArray(["Who is the best ", "The next big ", "What is a ", ""]) + faker.animal.type()
+        : faker.animal.type() + randFromArray([" election 2024", " revolution", " government 2024"])
+
+
     const randomElection: Insertable<Election> = {
-        name: faker.animal.type(),
+        name,
         description: createRandomHTMLText(),
         state
     }
@@ -75,8 +81,13 @@ async function createRandomElection(state: State = "open"): Promise<number> {
 }
 
 async function createRandomPosition(election_id: number, state: State = "open"): Promise<number> {
+
+    const name = maybe()
+        ? randFromArray(["minister of ", "chief ", "ceo of ", ""]) + faker.commerce.department()
+        : faker.commerce.department() + randFromArray([" responsible", " representative", " enjoyer", " manager", ""])
+
     const randomPosition: Insertable<Position> = {
-        name: faker.commerce.department(),
+        name,
         description: createRandomHTMLText(),
         state,
         category: randCategory(),
