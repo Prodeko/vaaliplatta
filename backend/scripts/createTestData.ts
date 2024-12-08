@@ -7,7 +7,7 @@ import {
     Application,
     State,
     Question,
-
+    Answer,
 } from '../src/db'
 import { randomInt } from 'crypto';
 
@@ -90,7 +90,7 @@ async function createRandomPosition(election_id: number, state: State = "open"):
         .then(result => result.id)
 }
 
-async function createRandomApplication(position_id: number): Promise<number> {
+async function createRandomApplication(position_id: number): Promise<Application> {
     const randomApplication: Insertable<Application> = {
         applicant_id: randUserId(),
         applicant_name: faker.person.fullName(),
@@ -98,22 +98,40 @@ async function createRandomApplication(position_id: number): Promise<number> {
         position_id,
         profile_picture: null,
     }
-    return await db.insertInto("application")
+
+    const application = await db
+        .insertInto("application")
         .values(randomApplication)
-        .returning("id")
-        .executeTakeFirstOrThrow()
-        .then(result => result.id)
+        .returningAll()
+        .executeTakeFirst()
+
+    return application as unknown as Application
 }
 
-async function createRandomQuestion(position_id: number): Promise<number> {
+async function createRandomQuestion(position_id: number): Promise<Question> {
     const randomQuestion: Insertable<Question> = {
         position_id,
         asker_id: randUserId(),
         nickname: maybe() ? faker.person.fullName() : faker.person.firstName(),
         content: createRandomHTMLText(),
     }
-    return await db.insertInto("question")
+
+    const question = await db.insertInto("question")
         .values(randomQuestion)
+        .returningAll()
+        .executeTakeFirstOrThrow()
+
+    return question as unknown as Question
+}
+
+async function createRandomAnswer(answerer_id: string, question_id: number): Promise<number> {
+    const randomAnswer: Insertable<Answer> = {
+        answerer_id,
+        question_id,
+        content: createRandomHTMLText(),
+    }
+    return await db.insertInto("answer")
+        .values(randomAnswer)
         .returning("id")
         .executeTakeFirstOrThrow()
         .then(result => result.id)
@@ -124,10 +142,12 @@ async function createRandomQuestion(position_id: number): Promise<number> {
 async function createTestData(
     MIN_ELECTIONS = 1,
     MAX_ELECTIONS = 1,
-    MIN_POSITIONS = 3,
-    MAX_POSITIONS = 10,
+    MIN_POSITIONS = 10,
+    MAX_POSITIONS = 20,
     MIN_QUESTIONS = 0,
     MAX_QUESTIONS = 3,
+    MIN_ANSWERS = 0,
+    MAX_ANSWERS = 3,
     MIN_APPLICATIONS = 1,
     MAX_APPLICATIONS = 10,
 ) {
@@ -147,16 +167,31 @@ async function createTestData(
     }
 
     // For each position, create random applications and questions
-    const applicationIds: number[] = []
-    const questionIds: number[] = []
+    const applications: Application[] = []
+    const questions: Question[] = []
     for (const position of positionIds) {
         for (var i = 0; i < randrange(MIN_APPLICATIONS, MAX_APPLICATIONS); i += 1) {
-            const aId = await createRandomApplication(position)
-            applicationIds.push(aId)
+            const application = await createRandomApplication(position)
+            applications.push(application)
         }
         for (var i = 0; i < randrange(MIN_QUESTIONS, MAX_QUESTIONS); i += 1) {
-            const qId = await createRandomQuestion(position)
-            questionIds.push(qId)
+            const question = await createRandomQuestion(position)
+            questions.push(question)
+        }
+    }
+
+    // Create random answers to the questions
+    const answerIds: number[] = []
+    for (const question of questions) {
+        for (var i = 0; i < randrange(MIN_ANSWERS, MAX_ANSWERS); i += 1) {
+
+            const application = applications.find(a => a.position_id === question.position_id)
+
+            const ansId = await createRandomAnswer(
+                application?.applicant_id!,
+                question.id as unknown as number,
+            )
+            answerIds.push(ansId)
         }
     }
 }
