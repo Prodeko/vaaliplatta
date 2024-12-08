@@ -4,10 +4,13 @@ import { faker } from '@faker-js/faker';
 import {
     Election,
     Position,
+    Application,
     State,
 
 } from '../src/db'
 import { randomInt } from 'crypto';
+
+// **************************
 
 function maybe(chance = 0.5): boolean {
     return Math.random() < chance
@@ -39,7 +42,10 @@ function randSeats(): string {
         : maybe(0.6) ? `${randomInt(4)}`
             : "?"
 }
-
+function randUserId(): string {
+    // The django oauth userid is a serial int, currently at a bit over 4000
+    return faker.string.numeric(4)
+}
 function createRandomHTMLText() {
     return (
         (maybe() ? h1(faker.book.title()) : "") +
@@ -83,11 +89,27 @@ async function createRandomPosition(election_id: number, state: State = "open") 
         .then(result => result.id)
 }
 
+async function createRandomApplication(position_id: number) {
+    const randomApplication: Insertable<Application> = {
+        applicant_id: randUserId(),
+        applicant_name: faker.person.fullName(),
+        content: maybe() ? createRandomHTMLText() : null,
+        position_id,
+        profile_picture: null,
+    }
+    return await db.insertInto("application")
+        .values(randomApplication)
+        .returning("id")
+        .executeTakeFirstOrThrow()
+        .then(result => result.id)
+}
 
+// **************************
 
 async function createTestData() {
-    const id = await createRandomElection()
-    await createRandomPosition(id)
+    let id = await createRandomElection()
+    id = await createRandomPosition(id)
+    id = await createRandomApplication(id)
 }
 
 createTestData()
