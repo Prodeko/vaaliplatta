@@ -13,9 +13,9 @@ const client = new AuthorizationCode({
         secret: config.OAUTH_CLIENT_SECRET,
     },
     auth: {
-        tokenHost: config.OAUTH_TOKEN_HOST,
+        tokenHost: config.OAUTH_HOST,
         tokenPath: config.OAUTH_TOKEN_PATH,
-        authorizeHost: config.OAUTH_AUTHORIZE_HOST,
+        authorizeHost: config.OAUTH_HOST,
         authorizePath: config.OAUTH_AUTHORIZE_PATH,
     },
 });
@@ -51,7 +51,9 @@ authRouter.get('/oauth2/callback', async (req, res) => {
     try {
         const accessToken = await client.getToken(options);
 
-        const user = await axios.get(config.OAUTH_PROFILE_URL, { headers: { Authorization: `Bearer ${accessToken.token.access_token}` } })
+        const user = await axios.get(
+            config.OAUTH_HOST + config.OAUTH_PROFILE_PATH,
+            { headers: { Authorization: `Bearer ${accessToken.token.access_token}` } })
             .then(res => res.data as UserDetailsResponse)
             .catch(err => console.error(err))
 
