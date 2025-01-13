@@ -17,7 +17,7 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
     const [showApplicationForm, setShowApplicationForm] = useState<boolean>(false);
     const [ownApplication, setOwnApplication] = useState<Application | null>(null);
     const [showAdminEditApplicantsForm, setShowAdminEditApplicantsForm] = useState<boolean>(false);
-    const { user } = useAuth();
+    const { session } = useAuth();
     const { get, post } = useAuthenticatedRequests()
 
     const getElection = useCallback(async (id: string) => get('/election/' + id)
@@ -37,7 +37,7 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
             .then(result => {
                 const p = result.data as Position
                 setPosition(p)
-                if (user && p) setOwnApplication(p.applications.find(a => a.applicant_id === user) || null)
+                if (session && p) setOwnApplication(p.applications.find(a => a.applicant_id === session.pk) || null)
             })
             .catch(error => {
                 console.error(error)

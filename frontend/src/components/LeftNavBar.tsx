@@ -46,7 +46,7 @@ export default function LeftNavBar() {
     const { election, position, getPosition, clearPosition } = useAppState();
     const { hallitus, vastuutoimarit, toimarit } = groupBy(election?.positions, p => p.category)
     const positionCategories = [{ group: hallitus, label: "HALLITUS" }, { group: vastuutoimarit, label: "VASTUUTOIMARIT" }, { group: toimarit, label: "TOIMARIT" }]
-    const { user } = useAuth()
+    const { session } = useAuth()
 
     return (
         <div className="w-full">
@@ -81,7 +81,7 @@ export default function LeftNavBar() {
                                 </p>
                                 <div className='flex flex-row gap-2'>
 
-                                    {user && unread_count > 0 &&
+                                    {session && unread_count > 0 &&
                                         <p className='font-extrabold text-blue-500'>
                                             {unread_count}
                                         </p>}

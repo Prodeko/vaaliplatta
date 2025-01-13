@@ -19,13 +19,11 @@ export interface DecodedToken extends UserDetailsResponse {
 }
 
 export const authMiddleware = (req: AuthenticatedRequest, res: Response, next: NextFunction) => {
-    const authHeader = req.headers.authorization;
+    const token = req.cookies?.vaaliplatta_auth_token;
 
-    if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    if (!token) {
         return next();
     }
-
-    const token = authHeader.split(' ')[1] ?? "";
 
     try {
         // Verify the token

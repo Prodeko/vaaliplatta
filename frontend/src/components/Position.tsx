@@ -15,7 +15,7 @@ interface ApplicationCardProps {
 function ApplicationCard({ application }: ApplicationCardProps) {
     const { showApplication } = useAppState();
     const { BLOB_URL } = useConfig();
-    const { user } = useAuth()
+    const { session } = useAuth()
 
     return (
         <div className="">
@@ -25,7 +25,7 @@ function ApplicationCard({ application }: ApplicationCardProps) {
             >
                 <h1 className='p-2 text-black text-md font-extrabold rounded-md max-w-full overflow-auto'>{application?.applicant_name}</h1>
                 <div className="flex flex-row items-center flex-shrink-0">
-                    {!application.time && user && <p className="p-2 text-blue-500 font-extrabold">uusi</p>}
+                    {!application.time && session && <p className="p-2 text-blue-500 font-extrabold">uusi</p>}
                     <img
                         src={application.profile_picture ?? BLOB_URL + "/PRODEKO.png"}
                         className="w-12 h-12 mx-2 aspect-square object-cover rounded-full"
@@ -43,12 +43,12 @@ interface PositionProps {
 export default function PositionView({ position }: PositionProps) {
     const { setShowApplicationForm, setShowAdminEditApplicantsForm, getPosition } = useAppState()
     const { BLOB_URL } = useConfig()
-    const { token, user, superuser } = useAuth()
+    const { session } = useAuth()
     const { put } = useAuthenticatedRequests()
     const navigate = useNavigate()
 
     function showApplicationForm() {
-        if (token) setShowApplicationForm(true)
+        if (session) setShowApplicationForm(true)
         else navigate("/login")
     }
 
@@ -73,7 +73,7 @@ export default function PositionView({ position }: PositionProps) {
 
     if (position === "loading") return <Loading />
 
-    const editing: boolean = (!!user && position.applications?.map(a => a.applicant_id).includes(user))
+    const editing: boolean = (!!session && position.applications?.map(a => a.applicant_id).includes(session.pk))
 
     return (
         // Note that the css order property is not redundant here
@@ -86,12 +86,12 @@ export default function PositionView({ position }: PositionProps) {
                 lg:col-span-3
                 xl:col-span-4
                 2xl:col-span-4">
-                {superuser && <button className="w-full p-4 mb-2 text-black font-extrabold rounded-md shadow-inner shadow-red-50 hover:bg-red-100 bg-red-50 border-2 border-red-50 hover:border-red-500 flex items-start"
+                {session?.is_superuser && <button className="w-full p-4 mb-2 text-black font-extrabold rounded-md shadow-inner shadow-red-50 hover:bg-red-100 bg-red-50 border-2 border-red-50 hover:border-red-500 flex items-start"
                     onClick={toggleStateClosed}
                 >
                     {position.state === State.OPEN ? "Sulje hakemuksilta" : "Avaa hakemuksille"}
                 </button>}
-                {superuser && <button className="w-full p-4 mb-2 text-black font-extrabold rounded-md shadow-inner shadow-red-50 hover:bg-red-100 bg-red-50 border-2 border-red-50 hover:border-red-500 flex items-start"
+                {session?.is_superuser && <button className="w-full p-4 mb-2 text-black font-extrabold rounded-md shadow-inner shadow-red-50 hover:bg-red-100 bg-red-50 border-2 border-red-50 hover:border-red-500 flex items-start"
                     onClick={addApplicants}
                 >
                     Muokkaa hakijoita (admin)

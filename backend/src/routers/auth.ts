@@ -1,8 +1,9 @@
-import { Router } from 'express';
+import { Router, Request, Response } from 'express';
 import { config } from '../config'
 import { AuthorizationCode } from 'simple-oauth2';
-import axios from 'axios';
+import axios, { HttpStatusCode } from 'axios';
 import jwt from 'jsonwebtoken';
+import { DecodedToken } from 'middleware/auth';
 
 export const authRouter = Router();
 
@@ -20,8 +21,19 @@ const client = new AuthorizationCode({
     },
 });
 
+function setAuthCookie(res: Response, token: string): void {
+    res.cookie('vaaliplatta_auth_token', token, {
+        httpOnly: true,
+        secure: process.env.ENV === "PROD",
+        sameSite: 'lax',
+        maxAge: config.AUTH_COOKIE_MAX_AGE_MILLISECONDS,
+    })
+}
 
-authRouter.get('/oauth2/login', (req, res) => {
+async function handleLoginWithOauth(req: Request, res: Response) {
+
+    return res.status(HttpStatusCode.NotImplemented)
+
     const authorizationUri = client.authorizeURL({
         redirect_uri: config.OAUTH_CALLBACK_URI,
         scope: 'read',
@@ -29,6 +41,31 @@ authRouter.get('/oauth2/login', (req, res) => {
     });
 
     res.redirect(authorizationUri);
+}
+
+async function handleLoginMockAuth(req: Request, res: Response) {
+
+    const mockUser = {
+        pk: "1",
+        email: 'cto@prodeko.org',
+        first_name: 'CTO',
+        last_name: 'Prodeko',
+        is_superuser: true,
+    };
+
+    const mockToken = jwt.sign(mockUser, config.JWT_SECRET, { expiresIn: config.JWT_EXPIRATION });
+
+    setAuthCookie(res, mockToken)
+
+    res.redirect(config.FRONTEND_URL)
+}
+
+authRouter.get('/oauth2/login', (req, res) => {
+    if (config.USE_MOCK_AUTHENTICATION) {
+        handleLoginMockAuth(req, res)
+    } else {
+        handleLoginWithOauth(req, res)
+    }
 });
 
 export interface UserDetailsResponse {
@@ -72,3 +109,33 @@ authRouter.get('/oauth2/callback', async (req, res) => {
         return res.status(500).json('Authentication failed');
     }
 });
+
+authRouter.post('/oauth2/logout', async (req, res) => {
+    // TODO separate token revocation
+    res.clearCookie("vaaliplatta_auth_token")
+    res.status(200).json({ message: "logged out successfully" })
+})
+
+authRouter.get('/api/session', async (req, res) => {
+    const token = req.cookies?.vaaliplatta_auth_token;
+
+    if (!token) return res.status(HttpStatusCode.NotFound).json({ message: "vaaliplatta_auth_token cookie missing" })
+
+    try {
+        const decoded = jwt.verify(token, config.JWT_SECRET) as DecodedToken // TODO not quite a valid type assertation
+
+        const userInfo = {
+            pk: decoded.pk,
+            email: decoded.email,
+            first_name: decoded.first_name,
+            last_name: decoded.last_name,
+            is_superuser: decoded.is_superuser,
+        }
+
+        res.status(HttpStatusCode.Ok).json(userInfo)
+
+    } catch (error) {
+        console.error(error)
+        res.status(HttpStatusCode.Unauthorized).json({ message: "Invalid or expired token" })
+    }
+})
