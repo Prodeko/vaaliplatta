@@ -1,9 +1,15 @@
 import { createContext, useContext } from "react";
 
+export interface Session {
+    pk: string,
+    email: string,
+    first_name: string,
+    last_name: string,
+    is_superuser: boolean
+}
+
 export interface AuthContextType {
-    token: Token | null;
-    user: string | null;
-    superuser: boolean;
+    session: Session | null;
     login: () => void;
     logout: () => void;
 }

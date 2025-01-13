@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
-import { useAuth } from './useAuth';
 
 const useAdminActions = () => {
-    const { token } = useAuth();
     const [error, setError] = useState<string | null>(null);
 
     const handleAddElection = async (name: string, description: string) => {
@@ -13,9 +11,7 @@ const useAdminActions = () => {
                 description,
                 draft: false,
             }, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                withCredentials: true
             });
             alert('Election added successfully');
         } catch (error) {
@@ -27,9 +23,7 @@ const useAdminActions = () => {
     const handleDeleteElection = async (id: number) => {
         try {
             await axios.delete(`http://localhost:8000/api/election/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                withCredentials: true
             });
             alert('Election deleted successfully');
         } catch (error) {
@@ -46,9 +40,7 @@ const useAdminActions = () => {
                 seats: '8-12', // Example value
                 election_id: electionId,
             }, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                withCredentials: true
             });
             alert('Position added successfully');
         } catch (error) {
@@ -60,9 +52,7 @@ const useAdminActions = () => {
     const handleDeletePosition = async (id: number) => {
         try {
             await axios.delete(`http://localhost:8000/api/position/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                withCredentials: true
             });
             alert('Position deleted successfully');
         } catch (error) {
@@ -79,9 +69,7 @@ const useAdminActions = () => {
                 applicant_id: applicantId,
                 position_id: positionId,
             }, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                withCredentials: true
             });
             alert('Application added successfully');
         } catch (error) {
@@ -93,9 +81,7 @@ const useAdminActions = () => {
     const handleDeleteApplication = async (id: number) => {
         try {
             await axios.delete(`http://localhost:8000/api/application/${id}`, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
+                withCredentials: true
             });
             alert('Application deleted successfully');
         } catch (error) {

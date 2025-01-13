@@ -51,6 +51,8 @@ export const config = {
     POSTGRES_USERTABLE: process.env.POSTGRES_USERTABLE!,
     POSTGRES_USERDB_HOST: process.env.POSTGRES_USERDB_HOST!,
     VAALIPLATTA_SUPERUSERS: process.env.VAALIPLATTA_SUPERUSERS?.split(",") || ["cto@prodeko.org"],
+    USE_MOCK_AUTHENTICATION: process.env.ENV === "DEV",
+    AUTH_COOKIE_MAX_AGE_MILLISECONDS: parseInt(process.env.AUTH_COOKIE_MAX_AGE_MILLISECONDS!),
 }
 
 console.log(config)

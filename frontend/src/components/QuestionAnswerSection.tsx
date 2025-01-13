@@ -16,7 +16,7 @@ type AnswerProps = {
 function AnswerElement({ answer }: AnswerProps) {
     const { refreshPosition } = useAppState();
     const { BLOB_URL } = useConfig();
-    const { user } = useAuth();
+    const { session } = useAuth();
     const { axiosdelete } = useAuthenticatedRequests();
 
     const deleteAnswer = () => {
@@ -35,7 +35,7 @@ function AnswerElement({ answer }: AnswerProps) {
                         <HtmlRenderer htmlContent={answer.content} reduceHeadingSize />
                     </div>
                 </div>
-                {user === answer.answerer_id &&
+                {session?.pk === answer.answerer_id &&
                     <button
                         className="flex-none h-auto self-start py-4 px-6 hover:bg-red-50 rounded-md text-red-500 text-sm italic"
                         onClick={deleteAnswer}
@@ -52,7 +52,7 @@ type QuestionProps = {
 function QuestionElement({ question }: QuestionProps) {
     const [isOpen, setIsOpen] = useState(false); // Toggle state for answers
     const [showAnswer, setShowAnswer] = useState(false);
-    const { user } = useAuth()
+    const { session } = useAuth()
     const { axiosdelete } = useAuthenticatedRequests()
     const { position, refreshPosition } = useAppState()
 
@@ -72,7 +72,7 @@ function QuestionElement({ question }: QuestionProps) {
                     <p className="text-gray-500 italic m-4">{question.nickname} kysyy</p>
                     <div className="flex">
                         <p className="text-gray-500 text-sm italic m-4">{isOpen ? "Piilota" : "Näytä"} {question.answers.length} vastausta</p>
-                        {user === question.asker_id && question.answers.length === 0 &&
+                        {session?.pk === question.asker_id && question.answers.length === 0 &&
                             <div
                                 className="text-left p-4 hover:bg-red-50 rounded-md"
                                 onClick={deleteQuestion}
@@ -82,7 +82,7 @@ function QuestionElement({ question }: QuestionProps) {
                 <HtmlRenderer htmlContent={question.content} reduceHeadingSize />
             </button>
             {
-                user && !question.answers.map(a => a.answerer_id).includes(user) && position.applications.map(a => a.applicant_id).includes(user) &&
+                session && !question.answers.map(a => a.answerer_id).includes(session.pk) && position.applications.map(a => a.applicant_id).includes(session.pk) &&
                 <>
                     <button className="w-full p-4 my-4 text-black font-extrabold rounded-md hover:bg-blue-100 bg-blue-50 flex sitems-start animate-bg-fade "
                         onClick={toggleShowAnswer}
@@ -146,7 +146,7 @@ function QuestionEditor() {
     const { position, refreshPosition } = useAppState()
     const [name, setName] = useState('');
     const [submitting, setSubmitting] = useState<boolean>(false);
-    const { token } = useAuth()
+    const { session } = useAuth()
 
     if (!position) return null
     if (position === "loading") return <Loading />
@@ -163,7 +163,7 @@ function QuestionEditor() {
         }).then(refreshPosition).finally(() => setSubmitting(false))
     }
 
-    if (!token) return (
+    if (!session) return (
         <h2 className="text-black font-extrabold text-2xl m-4">
             <Link to={"/login"} className="text-blue-500 hover:underline hover:underline-offset-2">Kirjaudu sisään</Link>
             {" "}

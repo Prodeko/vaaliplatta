@@ -3,11 +3,11 @@ import { useAuth } from "../hooks/useAuth"
 
 export default function TopHeaderBar() {
     const { election, position } = useAppState()
-    const { login, logout, token } = useAuth()
+    const { login, logout, session } = useAuth()
 
     function handleClick() {
         console.log("handle click")
-        if (token) logout()
+        if (session) logout()
         else login()
     }
 
@@ -34,7 +34,7 @@ export default function TopHeaderBar() {
                     </svg>
                 </button>
                 <span className="opacity-0 group-hover:opacity-100 max-w-md pointer-events-none absolute left-1/2 transform -translate-x-1/2 top-16 w-max rounded bg-gray-900 px-2 py-1 text-sm font-medium text-gray-50 shadow transition-opacity">
-                    {token ? "logout" : "login"}
+                    {session ? "logout" : "login"}
                 </span>
             </div>
         </div>

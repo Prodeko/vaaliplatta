@@ -1,54 +1,43 @@
-import React, { useState, ReactNode, useEffect } from 'react';
+import React, { useState, ReactNode, useEffect, useCallback } from 'react';
 import { AuthContext, AuthContextType } from '../hooks/useAuth';
 import useConfig from '../hooks/useConfig';
+import axios from 'axios';
+import { Session } from '../hooks/useAuth';
 
 interface AuthProviderProps {
     children: ReactNode;
 }
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-    const [token, setToken] = useState<Token | null>(localStorage.getItem("token"));
-    const [user, setUser] = useState<string | null>(localStorage.getItem("user"));
-    const [superuser, setSuperUser] = useState<boolean>(localStorage.getItem("superuser")?.toLowerCase() === "true");
-    const { LOGIN_URL } = useConfig();
+    const [session, setSession] = useState<Session | null>(null);
+    const { LOGIN_URL, LOGOUT_URL, API_URL } = useConfig();
+
+    const getSessionDetails = useCallback(async () => {
+        return axios.get(API_URL + "/session", { withCredentials: true })
+            .then(result => result.data as Session)
+            .catch(() => null);
+    }, [API_URL]);
 
     useEffect(() => {
-        const urlParams = new URLSearchParams(window.location.search);
-        const token = urlParams.get('token');
-        const user = urlParams.get('user');
-        const superuser = urlParams.get('superuser')?.toLowerCase();
-
-        if (token) {
-            localStorage.setItem('token', token);
-            setToken(token)
-        }
-        if (user) {
-            localStorage.setItem('user', user)
-            setUser(user)
-        }
-        if (superuser === "true") {
-            localStorage.setItem('superuser', superuser)
-            setSuperUser(true)
-        }
-    }, [])
+        (async () => {
+            const session = await getSessionDetails();
+            setSession(session);
+        })();
+    }, [getSessionDetails]);
 
     const login = async () => {
-        console.log("login")
+        console.log("login");
         window.location.href = LOGIN_URL;
-    }
-
-    const logout = () => {
-        console.log("logout")
-        setToken(null);
-        setUser(null)
-        setSuperUser(false)
-        localStorage.removeItem('token');
-        localStorage.removeItem('user')
-        localStorage.removeItem('superuser')
-        window.location.href = "/"
     };
 
-    const value: AuthContextType = { token, user, superuser, login, logout };
+    const logout = () => {
+        console.log("logout");
+        axios.post(LOGOUT_URL, {}, { withCredentials: true })
+            .then(() => setSession(null))
+            .catch(error => console.error(error))
+    };
+
+    const value: AuthContextType = { session, login, logout };
 
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
