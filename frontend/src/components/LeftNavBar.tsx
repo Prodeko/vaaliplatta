@@ -45,7 +45,11 @@ function Dropdown({ label, defaultOpen = false, children }: DropdownProps) {
 export default function LeftNavBar() {
     const { election, position, getPosition, clearPosition } = useAppState();
     const { hallitus, vastuutoimarit, toimarit } = groupBy(election?.positions, p => p.category)
-    const positionCategories = [{ group: hallitus, label: "HALLITUS" }, { group: vastuutoimarit, label: "VASTUUTOIMARIT" }, { group: toimarit, label: "TOIMARIT" }]
+    const positionCategories = [
+        { group: hallitus, label: "HALLITUS" },
+        { group: vastuutoimarit, label: "VASTUUTOIMARIT" },
+        { group: toimarit, label: "TOIMARIT" }
+    ]
     const { session } = useAuth()
 
     return (
@@ -62,8 +66,7 @@ export default function LeftNavBar() {
             )}
             {positionCategories.map(t =>
                 <Dropdown label={t.label} key={t.label}>
-                    {t.group?.map(p => {
-
+                    {t.group?.sort((a, b) => a.name.localeCompare(b.name)).map(p => {
                         const unread_count = p.applications.reduce((counter, a) => counter + (a.time ? 0 : 1), 0)
                         const all_count = p.applications.length
                         const all_count_text = all_count === 0
@@ -80,7 +83,6 @@ export default function LeftNavBar() {
                                     {p.name}
                                 </p>
                                 <div className='flex flex-row gap-2'>
-
                                     {session && unread_count > 0 &&
                                         <p className='font-extrabold text-blue-500'>
                                             {unread_count}
