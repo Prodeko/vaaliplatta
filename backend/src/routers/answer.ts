@@ -18,6 +18,7 @@ answerRouter.delete(
         try {
             const answer_id = parseInt(req.params.id!)
             const user_id = req.session?.pk.toString()!
+            const is_superuser = !!req.session?.is_superuser
 
             const answer = await db
                 .selectFrom("answer")
@@ -25,7 +26,7 @@ answerRouter.delete(
                 .selectAll()
                 .executeTakeFirst()
 
-            if (answer?.answerer_id !== user_id) return res.status(403).send("Cannot delete other people's answers!")
+            if (answer?.answerer_id !== user_id && !is_superuser) return res.status(403).send("Cannot delete other people's answers!")
 
             const result = await db
                 .deleteFrom("answer")

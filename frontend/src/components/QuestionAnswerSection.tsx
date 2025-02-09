@@ -20,7 +20,7 @@ function AnswerElement({ answer }: AnswerProps) {
     const { axiosdelete } = useAuthenticatedRequests();
 
     const deleteAnswer = () => {
-        axiosdelete("/answer/" + answer.answer_id.toString()).then(refreshPosition)
+        if (confirm("Oletko varma että haluat poistaa vastauksen? Tätä ei voi perua")) axiosdelete("/answer/" + answer.answer_id.toString()).then(refreshPosition)
     }
 
     return (
@@ -35,7 +35,7 @@ function AnswerElement({ answer }: AnswerProps) {
                         <HtmlRenderer htmlContent={answer.content} reduceHeadingSize />
                     </div>
                 </div>
-                {session?.pk === answer.answerer_id &&
+                {((session?.pk === answer.answerer_id) || session?.is_superuser) &&
                     <button
                         className="flex-none h-auto self-start py-4 px-6 hover:bg-red-50 rounded-md text-red-500 text-sm italic"
                         onClick={deleteAnswer}
