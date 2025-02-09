@@ -15,7 +15,6 @@ nvm use .nvmrc
 # /vaaliplatta/backend
 npm install
 cp .env.template .env # Remember to check all values
-npm run kysely-codegen
 npm run create-test-data
 npm run dev
 
@@ -23,6 +22,8 @@ npm run dev
 npm install
 npm run dev
 ```
+
+
 
 ### Creating migrations:
 1. Write a migration file with name "m[timestamp].ts" into `backend/src/migrations`. The migrations are applied by kysely-migrate in alphabetical order so naming convention has to be followed.
@@ -32,6 +33,8 @@ export async function up(db: Kysely<any>): Promise<void> {}
 export async function down(db: Kysely<any>): Promise<void> {}
 ```
 3. The backend runs up migrations by default in [backend/src/index.ts](./backend/src/index.ts)
+
+After running the migration up, you need to run `npm run kysely-codegen` to create types for the new db schema. This creates the file `db.d.ts`, which is tracked in git. Therefore, you only need to run kysely-codegen when creating new migrations.
 
 If the migration fails in dev environment, just run docker compose down and docker compose up.
 
