@@ -100,6 +100,7 @@ questionRouter.delete(
         try {
             const question_id = parseInt(req.params.id!)
             const user_id = req.session?.pk.toString()!
+            const is_superuser = !!req.session?.is_superuser
 
             const question = await db
                 .selectFrom("question")
@@ -107,7 +108,7 @@ questionRouter.delete(
                 .selectAll()
                 .executeTakeFirst()
 
-            if (question?.asker_id !== user_id) return res.status(403).send("Cannot delete other people's questions!")
+            if (question?.asker_id !== user_id && !is_superuser) return res.status(403).send("Cannot delete other people's questions!")
 
             const answers = await db
                 .selectFrom("answer")
@@ -115,7 +116,7 @@ questionRouter.delete(
                 .selectAll()
                 .execute()
 
-            if (answers.length > 0) return res.status(403).send("Cannot delete a question if it already has answers!")
+            if (answers.length > 0 && !is_superuser) return res.status(403).send("Cannot delete a question if it already has answers!")
 
             const result = await db
                 .deleteFrom("question")

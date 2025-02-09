@@ -58,7 +58,9 @@ function QuestionElement({ question }: QuestionProps) {
 
     const toggleOpen = () => setIsOpen(!isOpen);
     const toggleShowAnswer = () => setShowAnswer(!showAnswer)
-    const deleteQuestion = () => axiosdelete("/question/" + question.id).then(refreshPosition)
+    const deleteQuestion = () => {
+        if (confirm("Oletko varma että haluat poistaa kysymyksen? Tätä ei voi perua")) axiosdelete("/question/" + question.id).then(refreshPosition)
+    }
 
     if (!position || position === "loading") return null
 
@@ -72,8 +74,9 @@ function QuestionElement({ question }: QuestionProps) {
                     <p className="text-gray-500 italic m-4">{question.nickname} kysyy</p>
                     <div className="flex">
                         <p className="text-gray-500 text-sm italic m-4">{isOpen ? "Piilota" : "Näytä"} {question.answers.length} vastausta</p>
-                        {session?.pk === question.asker_id && question.answers.length === 0 &&
-                            <div
+                        {
+                            ((session?.pk === question.asker_id && question.answers.length === 0) || session?.is_superuser)
+                            && <div
                                 className="text-left p-4 hover:bg-red-50 rounded-md"
                                 onClick={deleteQuestion}
                             ><span className="text-red-500 text-sm italic m-4">Poista</span></div>}
