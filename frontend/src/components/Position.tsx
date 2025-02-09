@@ -7,6 +7,7 @@ import Loading from "./Loading"
 import QuestionAnswerSection from "./QuestionAnswerSection"
 import useConfig from "../hooks/useConfig"
 import useAuthenticatedRequests from "../hooks/useAuthenticatedRequests"
+import AdminButtons from './AdminButtons';
 
 interface ApplicationCardProps {
     application: Application
@@ -86,16 +87,6 @@ export default function PositionView({ position }: PositionProps) {
                 lg:col-span-3
                 xl:col-span-4
                 2xl:col-span-4">
-                {session?.is_superuser && <button className="w-full p-4 mb-2 text-black font-extrabold rounded-md shadow-inner shadow-red-50 hover:bg-red-100 bg-red-50 border-2 border-red-50 hover:border-red-500 flex items-start"
-                    onClick={toggleStateClosed}
-                >
-                    {position.state === State.OPEN ? "Sulje hakemuksilta" : "Avaa hakemuksille"}
-                </button>}
-                {session?.is_superuser && <button className="w-full p-4 mb-2 text-black font-extrabold rounded-md shadow-inner shadow-red-50 hover:bg-red-100 bg-red-50 border-2 border-red-50 hover:border-red-500 flex items-start"
-                    onClick={addApplicants}
-                >
-                    Muokkaa hakijoita (admin)
-                </button>}
                 {position.state === State.OPEN
                     ? <button className="w-full p-4 text-black font-extrabold rounded-md hover:bg-blue-100 bg-blue-50 flex items-start animate-bg-fade "
                         onClick={showApplicationForm}
@@ -116,6 +107,16 @@ export default function PositionView({ position }: PositionProps) {
                         ? <div className="px-4">Ei vielä hakemuksia</div>
                         : position.applications?.map(a => <ApplicationCard application={a} key={a.applicant_id} />)}
                 </div>
+                {session?.is_superuser &&
+                    <>
+                        <Divider />
+                        <AdminButtons
+                            positionState={position.state}
+                            onToggleStateClosed={toggleStateClosed}
+                            onAddApplicants={addApplicants}
+                        />
+                    </>
+                }
             </div>
             <div className="
                 order-1

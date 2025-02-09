@@ -6,7 +6,6 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-// import Admin from './pages/admin.tsx';
 import { AuthProvider } from './context/AuthContext.tsx';
 // import ProtectedRoute from './components/ProtectedRoute.tsx';
 import { AppStateProvider } from './context/AppContext.tsx';
@@ -17,10 +16,6 @@ const router = createBrowserRouter([
     path: "/",
     element: <AppStateProvider><App /></AppStateProvider>,
   },
-  // {
-  //   path: "/admin",
-  //   element: <ProtectedRoute><AppStateProvider><Admin /></AppStateProvider></ProtectedRoute>,
-  // },
   {
     path: "/login",
     element: <LoginRedirectToOauth />
