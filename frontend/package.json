@@ -12,6 +12,7 @@
   "dependencies": {
     "@headlessui/react": "^1.7.18",
     "@prodeko/tailwind-theme": "^0.1.1",
+    "@prodeko/visual-assets": "^0.1.2",
     "@tiptap/extension-color": "^2.8.0",
     "@tiptap/extension-image": "^2.8.0",
     "@tiptap/extension-underline": "^2.8.0",

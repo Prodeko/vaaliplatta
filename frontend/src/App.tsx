@@ -5,9 +5,11 @@ import Election from "./components/Election"
 import PositionView from "./components/Position"
 import Error from "./components/Error"
 import { ApplicationModal, ApplicationForm, AdminEditApplicantsFormModal } from "./components/ApplicationModal"
+import useFavicons from "./hooks/useFavicons"
 
 export default function App() {
   const { position } = useAppState();
+  useFavicons();
 
   const content = position
     ? <PositionView position={position} />
@@ -21,7 +23,7 @@ export default function App() {
 
   return (
     <div
-      className="h-screen bg-cover bg-center bg-blue-700 font-sans"
+      className="h-screen bg-cover bg-center bg-prodeko-medium"
       style={{ backgroundImage: `url('/bg-blue.jpg')` }}>
       <Error />
       <TopHeaderBar />
