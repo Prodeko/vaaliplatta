@@ -1,3 +1,9 @@
+/* eslint-disable no-undef */
+/* eslint-disable @typescript-eslint/no-var-requires */
+
+const typography = require('@tailwindcss/typography')
+const prodeko_tailwind = require('@prodeko/tailwind-theme')
+
 /** @type {import('tailwindcss').Config} */
 export default {
   content: [
@@ -5,9 +11,6 @@ export default {
   ],
   theme: {
     extend: {
-      fontFamily: {
-        sans: ['Raleway', 'sans-serif'],
-      },
       keyframes: {
         'bg-fade': {
           '0%, 100%': { backgroundColor: '#eff6ff' }, // bg-blue-50
@@ -20,8 +23,8 @@ export default {
     },
   },
   plugins: [
-    // eslint-disable-next-line no-undef
-    require('@tailwindcss/typography'),
+    typography,
+    prodeko_tailwind(),
   ],
 }
 
