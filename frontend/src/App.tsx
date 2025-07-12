@@ -5,11 +5,11 @@ import Election from "./components/Election"
 import PositionView from "./components/Position"
 import Error from "./components/Error"
 import { ApplicationModal, ApplicationForm, AdminEditApplicantsFormModal } from "./components/ApplicationModal"
-import useFavicons from "./hooks/useFavicons"
+// import useFavicons from "./hooks/useFavicons"
 
 export default function App() {
   const { position } = useAppState();
-  useFavicons();
+  // useFavicons();
 
   const content = position
     ? <PositionView position={position} />
