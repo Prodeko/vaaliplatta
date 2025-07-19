@@ -1,4 +1,4 @@
 @import "tailwindcss";
 @import "tw-animate-css";
-@plugin "@prodeko/tailwind-theme"
-
+@plugin "@tailwindcss/typography";
+@plugin "@prodeko/tailwind-theme";
