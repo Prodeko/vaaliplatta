@@ -12,7 +12,7 @@ interface ElectionsPageProps {
 }
 
 export default async function ElectionsPage({ params }: ElectionsPageProps) {
-  const electionId = Number(params.id)
+  const electionId = Number((await params).id) // 'params' should be awaited before using its properties. 
   if (isNaN(electionId)) return notFound()
 
   const election = await db
@@ -24,9 +24,9 @@ export default async function ElectionsPage({ params }: ElectionsPageProps) {
   if (!election) return notFound()
 
   return (
-    <main className="p-6">
+    <div>
       <h1 className='text-3xl'>{election?.name}</h1>
       <UnsafeServerSideHtmlRenderer htmlContent={election?.description} reduceHeadingSize />
-    </main>
+    </div>
   )
 }
