@@ -4,9 +4,7 @@ import '../globals.css'
 import HeaderBar from '@/components/HeaderBar'
 import { ThemeProvider } from '@/components/ThemeProvider'
 
-import { AppSidebar } from "@/components/AppSidebar"
 import {
-    SidebarInset,
     SidebarProvider,
 } from "@/components/ui/sidebar"
 
@@ -33,14 +31,7 @@ export default function RootLayout({
                     <div className="[--header-height:calc(--spacing(16))]">
                         <SidebarProvider className="flex flex-col">
                             <HeaderBar />
-                            <div className="flex flex-1">
-                                <AppSidebar />
-                                <SidebarInset>
-                                    <main className="p-4">
-                                        {children}
-                                    </main>
-                                </SidebarInset>
-                            </div>
+                            {children}
                         </SidebarProvider>
                     </div>
                 </ThemeProvider>
