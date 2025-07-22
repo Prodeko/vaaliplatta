@@ -71,11 +71,11 @@ export function ElectionNav({
 
                             <CollapsibleContent>
                                 <SidebarMenuSub>
-                                    {cat.group.map((subItem) => (
-                                        <SidebarMenuSubItem key={subItem.id}>
+                                    {cat.group.map((pos) => (
+                                        <SidebarMenuSubItem key={pos.id}>
                                             <SidebarMenuSubButton asChild>
-                                                <a>
-                                                    <span>{subItem.name}</span>
+                                                <a href={`/${pos.election_id}/${pos.id}`}>
+                                                    <span>{pos.name}</span>
                                                 </a>
                                             </SidebarMenuSubButton>
                                         </SidebarMenuSubItem>
