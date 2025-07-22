@@ -7,10 +7,13 @@ import { SidebarTrigger } from "./ui/sidebar";
 import { Separator } from "./ui/separator";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "./ui/breadcrumb";
 import fetcher from "@/lib/fetcher";
+import { Selectable } from 'kysely';
+import { Election } from '@/lib/db';
 
-// TODO accept initial data from the server
-export default function HeaderBar() {
-    const { data } = useSWR('/api/elections/1', fetcher)
+export default function HeaderBar({ initialData }: { initialData: Selectable<Election> }) {
+    const { data }: { data: Selectable<Election> } = useSWR('/api/election?id=1', fetcher, {
+        fallbackData: initialData
+    })
     const election = data
     return (
         <header className="bg-background sticky top-0 z-50 flex w-full items-center border-b">

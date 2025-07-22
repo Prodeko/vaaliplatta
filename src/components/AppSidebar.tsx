@@ -21,8 +21,14 @@ import { Selectable } from "kysely"
 import { groupBy } from "lodash"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible"
 import { ChevronDown } from "lucide-react"
+import useSWR from "swr"
+import fetcher from "@/lib/fetcher"
 
-export function AppSidebar({ positions, ...props }: { positions: Selectable<Position>[], props?: React.ComponentProps<typeof Sidebar> }) {
+export function AppSidebar({ initialData, ...props }: { initialData: Selectable<Position>[], props?: React.ComponentProps<typeof Sidebar> }) {
+    const { data }: { data: Selectable<Position>[] } = useSWR('/api/position?election_id=1', fetcher, {
+        fallbackData: initialData
+    })
+    const positions = data
     return (
         <Sidebar
             className="top-(--header-height) h-[calc(100svh-var(--header-height))]!"
