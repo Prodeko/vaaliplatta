@@ -1,7 +1,6 @@
 import type { Metadata } from 'next'
 
 import '../globals.css'
-import HeaderBar from '@/components/HeaderBar'
 import { ThemeProvider } from '@/components/ThemeProvider'
 
 import {
@@ -30,7 +29,6 @@ export default function RootLayout({
                 >
                     <div className="[--header-height:calc(--spacing(16))]">
                         <SidebarProvider className="flex flex-col">
-                            <HeaderBar />
                             {children}
                         </SidebarProvider>
                     </div>

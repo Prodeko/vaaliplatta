@@ -1,4 +1,5 @@
 import { AppSidebar } from "@/components/AppSidebar"
+import HeaderBar from "@/components/HeaderBar"
 import {
     SidebarInset,
 } from "@/components/ui/sidebar"
@@ -21,6 +22,8 @@ export default async function RootLayout({
         .execute()
 
     return (
+        <>
+            <HeaderBar initialData={election} />
         <div className="flex flex-1">
             <AppSidebar positions={positions} />
             <SidebarInset>
@@ -29,5 +32,6 @@ export default async function RootLayout({
                 </main>
             </SidebarInset>
         </div>
+        </>
     )
 }
