@@ -9,6 +9,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import fetcher from "@/lib/fetcher";
 import { Selectable } from 'kysely';
 import { Election } from '@/lib/db';
+import { SearchForm } from './SearchForm';
 
 export default function HeaderBar({ initialData }: { initialData: Selectable<Election> }) {
     const { data }: { data: Selectable<Election> } = useSWR('/api/election?id=1', fetcher, {
@@ -37,6 +38,7 @@ export default function HeaderBar({ initialData }: { initialData: Selectable<Ele
                         }
                     </BreadcrumbList>
                 </Breadcrumb>
+                <SearchForm className="w-full sm:ml-auto sm:w-auto" />
                 <div className="flex flex-row gap-2 m-2">
                     <DarkModeToggle className="" />
                     <Avatar className="">
