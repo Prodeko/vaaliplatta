@@ -9,10 +9,10 @@ export default async function RootLayout({
     params,
     children,
 }: {
-    params: { id: string }
+    params: { election: string }
     children: React.ReactNode
 }) {
-    const electionId = Number((await params).id)
+    const electionId = Number((await params).election)
 
     const positions = await fetcher(`http://localhost:3000/api/position?election_id=${electionId}`)
 

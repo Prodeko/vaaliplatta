@@ -7,12 +7,12 @@ export const revalidate = 300 // 5 min
 
 interface ElectionsPageProps {
   params: {
-    id: string
+    election: string
   }
 }
 
 export default async function ElectionsPage({ params }: ElectionsPageProps) {
-  const electionId = Number((await params).id) // 'params' should be awaited before using its properties. 
+  const electionId = Number((await params).election) // 'params' should be awaited before using its properties. 
   if (isNaN(electionId)) return notFound()
 
   const election = await db
