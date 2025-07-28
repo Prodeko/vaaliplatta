@@ -12,8 +12,8 @@ importers:
         specifier: ^0.1.3
         version: 0.1.3(tailwindcss@4.1.11)
       '@prodeko/visual-assets':
-        specifier: ^0.1.8
-        version: 0.1.8
+        specifier: ^0.1.9
+        version: 0.1.9
       '@radix-ui/react-avatar':
         specifier: ^1.1.10
         version: 1.1.10(@types/react-dom@19.1.6(@types/react@19.1.8))(@types/react@19.1.8)(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -444,8 +444,8 @@ packages:
     peerDependencies:
       tailwindcss: ^3.4.0
 
-  '@prodeko/visual-assets@0.1.8':
-    resolution: {integrity: sha512-ZEU4Lj9I713PoT218BicD0j8iNGZeBELedGfiej91xeHzmC+JiQxr8OjDl3qAbLAMKue5gbQQxL5snsZ6RShdA==, tarball: https://npm.pkg.github.com/download/@prodeko/visual-assets/0.1.8/be860581067a9d7a30f1fe41eba944757e2847c3}
+  '@prodeko/visual-assets@0.1.9':
+    resolution: {integrity: sha512-E8iq8bI4pSlgg+wVEcfby1uY1PBbHIC4ODk2P7b4NwTCbskf2YmS4S2UPYE8LjdUZVGYmmAI3fPy/NrjcrrDyg==, tarball: https://npm.pkg.github.com/download/@prodeko/visual-assets/0.1.9/21d01e090a485b2523651630a14ec6abc34e3490}
     hasBin: true
 
   '@radix-ui/primitive@1.1.2':
@@ -2918,7 +2918,7 @@ snapshots:
     dependencies:
       tailwindcss: 4.1.11
 
-  '@prodeko/visual-assets@0.1.8': {}
+  '@prodeko/visual-assets@0.1.9': {}
 
   '@radix-ui/primitive@1.1.2': {}
 
