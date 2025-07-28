@@ -3,7 +3,11 @@ import HeaderBar from "@/components/HeaderBar"
 import {
     SidebarInset,
 } from "@/components/ui/sidebar"
-import fetcher from "@/lib/fetcher"
+import { createZodFetcher } from "@/lib/fetcher"
+import { PositionSchema } from "@/lib/zod-validators"
+import z from "zod"
+
+const fetcher = createZodFetcher(z.array(PositionSchema))
 
 export default async function RootLayout({
     params,
@@ -12,8 +16,7 @@ export default async function RootLayout({
     params: Promise<{ election: string }>,
     children: React.ReactNode
 }) {
-    const electionId = Number((await params).election)
-
+    const electionId = (await params).election
     const positions = await fetcher(`http://localhost:3000/api/position?election_id=${electionId}`)
 
     return (

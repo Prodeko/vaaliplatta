@@ -16,16 +16,19 @@ import {
     SidebarMenuSubItem,
     SidebarMenuSubButton,
 } from "@/components/ui/sidebar"
-import { Position } from "@/lib/db"
 import { Selectable } from "kysely"
 import { groupBy } from "lodash"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible"
 import { ChevronDown } from "lucide-react"
 import useSWR from "swr"
-import fetcher from "@/lib/fetcher"
+import { createZodFetcher } from "@/lib/fetcher"
+import { PositionSchema, Position } from "@/lib/zod-validators"
+import z from "zod"
 
-export function AppSidebar({ initialData, ...props }: { initialData: Selectable<Position>[], props?: React.ComponentProps<typeof Sidebar> }) {
-    const { data }: { data: Selectable<Position>[] } = useSWR('/api/position?election_id=1', fetcher, {
+const fetcher = createZodFetcher(z.array(PositionSchema))
+
+export function AppSidebar({ initialData, ...props }: { initialData: Position[], props?: React.ComponentProps<typeof Sidebar> }) {
+    const { data, error, isLoading } = useSWR('/api/position?election_id=1', fetcher, {
         fallbackData: initialData
     })
     const positions = data
