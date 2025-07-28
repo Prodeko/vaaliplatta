@@ -1,4 +1,4 @@
-// app/elections/[id]/page.tsx
+import BreadcrumbSetter from '@/components/BreadcrumbSetter'
 import UnsafeServerSideHtmlRenderer from '@/components/UnsafeServerSideHtmlRenderer'
 import { db } from '@/lib/kysely'
 import { notFound } from 'next/navigation'
@@ -25,6 +25,7 @@ export default async function ElectionsPage({ params }: ElectionsPageProps) {
 
   return (
     <div>
+      <BreadcrumbSetter items={[{ href: `/${electionId}`, label: election.name }]} />
       <h1 className='text-3xl'>{election?.name}</h1>
       <UnsafeServerSideHtmlRenderer htmlContent={election?.description} reduceHeadingSize />
     </div>

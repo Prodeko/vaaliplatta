@@ -9,18 +9,16 @@ export default async function RootLayout({
     params,
     children,
 }: {
-    params: { election: string }
+    params: Promise<{ election: string }>,
     children: React.ReactNode
 }) {
     const electionId = Number((await params).election)
 
     const positions = await fetcher(`http://localhost:3000/api/position?election_id=${electionId}`)
 
-    const election = await fetcher(`http://localhost:3000/api/election?id=${electionId}`)
-
     return (
         <>
-            <HeaderBar initialData={election} />
+            <HeaderBar />
             <div className="flex flex-1">
                 <AppSidebar initialData={positions} />
                 <SidebarInset>

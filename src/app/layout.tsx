@@ -2,10 +2,8 @@ import type { Metadata } from 'next'
 
 import '../globals.css'
 import { ThemeProvider } from '@/components/ThemeProvider'
-
-import {
-    SidebarProvider,
-} from "@/components/ui/sidebar"
+import { SidebarProvider } from "@/components/ui/sidebar"
+import { BreadcrumbProvider } from '@/lib/hooks/useBreadcrumb'
 
 export const metadata: Metadata = {
     title: 'Create Next App',
@@ -29,7 +27,9 @@ export default function RootLayout({
                 >
                     <div className="[--header-height:calc(--spacing(16))]">
                         <SidebarProvider className="flex flex-col">
-                            {children}
+                            <BreadcrumbProvider>
+                                {children}
+                            </BreadcrumbProvider>
                         </SidebarProvider>
                     </div>
                 </ThemeProvider>

@@ -1,3 +1,4 @@
+import BreadcrumbSetter from '@/components/BreadcrumbSetter'
 import UnsafeServerSideHtmlRenderer from '@/components/UnsafeServerSideHtmlRenderer'
 import { db } from '@/lib/kysely'
 import { notFound } from 'next/navigation'
@@ -17,19 +18,27 @@ export default async function PositionPage({ params }: PositionsPageProps) {
     if (isNaN(electionId)) return notFound()
     if (isNaN(positionId)) return notFound()
 
-    const position = await db
-        .selectFrom('position')
-        .where('id', '=', positionId)
-        .where('election_id', '=', electionId)
-        .selectAll()
+    const data = await db
+        .selectFrom('election')
+        .innerJoin('position', 'position.election_id', 'election.id')
+        .where('position.id', '=', positionId)
+        .where('election.id', '=', electionId)
+        .select(['position.description', 'position.name as position_name', 'election.name as election_name'])
         .executeTakeFirst()
 
-    if (!position) return notFound()
+    if (!data) return notFound()
 
     return (
-        <div>
-            <h1 className='text-3xl'>{position?.name}</h1>
-            <UnsafeServerSideHtmlRenderer htmlContent={position?.description} reduceHeadingSize />
-        </div>
+        <>
+            <BreadcrumbSetter items={[
+                { href: `/${electionId}`, label: data.election_name },
+                { href: `/${electionId}/${positionId}`, label: data.position_name }
+            ]} />
+
+            <div>
+                <h1 className='text-3xl'>{data.position_name}</h1>
+                <UnsafeServerSideHtmlRenderer htmlContent={data?.description} reduceHeadingSize />
+            </div>
+        </>
     )
 }
