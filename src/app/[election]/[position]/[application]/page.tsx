@@ -13,6 +13,8 @@ interface ApplicationPageProps {
 }
 
 export default async function Page({ params }: ApplicationPageProps) {
+    const BLOB_URL = "TODO"
+
     const electionId = Number((await params).election)
     const positionId = Number((await params).position)
     const applicationId = Number((await params).application)
@@ -44,9 +46,17 @@ export default async function Page({ params }: ApplicationPageProps) {
                 { href: `/${electionId}/${positionId}`, label: data.position_name },
                 { href: `/${electionId}/${positionId}/${applicationId}`, label: application.applicant_name },
             ]} />
-            <div className={`prose prose-neutral dark:prose-invert m-4
-            ${true && "prose-h1:text-lg prose-h2:text-base prose-h3:text-base prose-h4:text-base prose-h5:text-base prose-h6:text-base"}`}>
-                {application.applicant_name + " "}
+            <div>
+                <div className="w-full flex items-center max-w-2xl">
+                    <img
+                        src={application.profile_picture ?? BLOB_URL + "/PRODEKO.png"}
+                        className="w-24 h-24 m-2 aspect-square object-cover rounded-full"
+                    />
+                    <div className="m-4">
+                        <h1 className="font-semibold overflow-auto text-2xl">{application.applicant_name}</h1>
+                        <p className="text-sm">Hakee virkaan {data.position_name}</p>
+                    </div>
+                </div>
                 <UnsafeServerSideHtmlRenderer htmlContent={application.content} reduceHeadingSize />
             </div>
         </>
