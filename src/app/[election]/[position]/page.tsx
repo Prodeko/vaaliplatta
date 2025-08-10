@@ -34,11 +34,8 @@ export default async function PositionPage({ params }: PositionsPageProps) {
                 { href: `/${electionId}`, label: data.election_name },
                 { href: `/${electionId}/${positionId}`, label: data.position_name }
             ]} />
-
-            <div>
-                <h1 className='text-3xl'>{data.position_name}</h1>
-                <UnsafeServerSideHtmlRenderer htmlContent={data?.description} reduceHeadingSize />
-            </div>
+            <h1 className='text-3xl mb-4'>{data.position_name}</h1>
+            <UnsafeServerSideHtmlRenderer htmlContent={data?.description} reduceHeadingSize />
         </>
     )
 }
