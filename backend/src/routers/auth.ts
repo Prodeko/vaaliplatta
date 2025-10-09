@@ -159,7 +159,9 @@ authRouter.get('/oauth2/callback', async (req, res) => {
 
         const is_superuser = (!!user?.email) && config.VAALIPLATTA_SUPERUSERS.includes(user.email)
 
-        return res.redirect(`${config.FRONTEND_URL}?token=${jwt_token}&user=${user?.pk.toString() || ""}${is_superuser ? "&superuser=true" : ""}`)
+        setAuthCookie(res, jwt_token)
+
+        return res.redirect(config.FRONTEND_URL)
     } catch (error) {
         // @ts-ignore
         console.error('Access Token Error', error.message);
