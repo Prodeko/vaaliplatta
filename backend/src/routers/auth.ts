@@ -1,4 +1,5 @@
 import { Router, Request, Response } from 'express';
+import crypto from 'crypto';
 import { config } from '../config'
 import { AuthorizationCode } from 'simple-oauth2';
 import axios, { HttpStatusCode } from 'axios';
@@ -7,6 +8,42 @@ import { DecodedToken } from 'middleware/auth';
 
 export const authRouter = Router();
 
+const base64UrlEncode = (buffer: Buffer): string =>
+    buffer
+        .toString('base64')
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/, '');
+
+const generateCodeVerifier = (): string => base64UrlEncode(crypto.randomBytes(64));
+
+const generateCodeChallenge = (verifier: string): string =>
+    base64UrlEncode(crypto.createHash('sha256').update(verifier).digest());
+
+const generateState = (): string => base64UrlEncode(crypto.randomBytes(32));
+
+const PKCE_STATE_TTL_MS = 10 * 60 * 1000;
+
+const pkceStore = new Map<string, { verifier: string; expiresAt: number }>();
+
+const storePkceVerifier = (state: string, verifier: string) => {
+    const expiresAt = Date.now() + PKCE_STATE_TTL_MS;
+    pkceStore.set(state, { verifier, expiresAt });
+};
+
+const consumePkceVerifier = (state: string): string | undefined => {
+    const entry = pkceStore.get(state);
+
+    if (!entry) return undefined;
+
+    if (entry.expiresAt < Date.now()) {
+        pkceStore.delete(state);
+        return undefined;
+    }
+
+    pkceStore.delete(state);
+    return entry.verifier;
+};
 
 const client = new AuthorizationCode({
     client: {
@@ -32,13 +69,21 @@ function setAuthCookie(res: Response, token: string): void {
 
 async function handleLoginWithOauth(req: Request, res: Response) {
 
-    return res.status(HttpStatusCode.NotImplemented)
+    const codeVerifier = generateCodeVerifier();
+    const codeChallenge = generateCodeChallenge(codeVerifier);
+    const state = generateState();
 
-    const authorizationUri = client.authorizeURL({
+    storePkceVerifier(state, codeVerifier);
+
+    const authorizationParams = {
         redirect_uri: config.OAUTH_CALLBACK_URI,
         scope: 'read',
-        state: Math.random().toString(36).substring(7) // CSRF protection
-    });
+        state,
+        code_challenge: codeChallenge,
+        code_challenge_method: 'S256',
+    };
+
+    const authorizationUri = client.authorizeURL(authorizationParams);
 
     res.redirect(authorizationUri);
 }
@@ -79,10 +124,22 @@ export interface UserDetailsResponse {
 }
 
 authRouter.get('/oauth2/callback', async (req, res) => {
-    const { code } = req.query;
+    const { code, state } = req.query;
+
+    if (!code || !state) {
+        return res.status(HttpStatusCode.BadRequest).json({ message: "Missing OAuth verifier or state" });
+    }
+
+    const storedVerifier = consumePkceVerifier(state.toString());
+
+    if (!storedVerifier) {
+        return res.status(HttpStatusCode.BadRequest).json({ message: "Invalid or expired OAuth state" });
+    }
+
     const options = {
         code: code?.toString()!,
-        redirect_uri: config.OAUTH_CALLBACK_URI
+        redirect_uri: config.OAUTH_CALLBACK_URI,
+        code_verifier: storedVerifier,
     };
 
     try {
