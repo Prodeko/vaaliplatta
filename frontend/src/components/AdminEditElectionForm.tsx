@@ -15,7 +15,7 @@ const AdminEditElectionForm = () => {
     } = useAppState();
     const editorRef = useRef<EditorRef>(null);
     const [name, setName] = useState('');
-    const [draft, setDraft] = useState(false);
+    const [stateValue, setStateValue] = useState<State>(State.DRAFT);
     const [submitting, setSubmitting] = useState(false);
     const [creatingPosition, setCreatingPosition] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -28,7 +28,7 @@ const AdminEditElectionForm = () => {
         if (!election) return;
 
         setName(election.name);
-        setDraft(election.draft);
+        setStateValue(election.state);
         setNewPositionName(DEFAULT_POSITION_NAME);
         setNewPositionCategory(DEFAULT_POSITION_CATEGORY);
         setPositionMessage(null);
@@ -43,7 +43,7 @@ const AdminEditElectionForm = () => {
 
         const payload = {
             name,
-            draft,
+            state: stateValue,
             description: editorRef.current?.getHTML() ?? '',
         };
 
@@ -119,17 +119,21 @@ const AdminEditElectionForm = () => {
                 />
             </div>
 
-            <div className="flex items-center gap-2 my-4">
-                <input
-                    id="election-draft"
-                    type="checkbox"
-                    checked={draft}
-                    onChange={(e) => setDraft(e.target.checked)}
-                    className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
-                />
-                <label htmlFor="election-draft" className="text-sm font-medium text-gray-700">
-                    Luonnos
+            <div className="flex flex-col gap-2 my-4">
+                <label htmlFor="election-state" className="text-sm font-medium text-gray-700">
+                    Tila
                 </label>
+                <select
+                    id="election-state"
+                    value={stateValue}
+                    onChange={(e) => setStateValue(e.target.value as State)}
+                    className="block w-full border-gray-300 rounded-md bg-blue-50 hover:bg-blue-100 focus:border-blue-500 focus:ring-blue-500 sm:text-sm p-2"
+                >
+                    <option value={State.DRAFT}>Luonnos</option>
+                    <option value={State.OPEN}>Auki</option>
+                    <option value={State.CLOSED}>Suljettu</option>
+                    <option value={State.ARCHIVED}>Arkistoitu</option>
+                </select>
             </div>
 
             <div className="my-4">

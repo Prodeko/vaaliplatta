@@ -70,20 +70,27 @@ electionRouter.get("/:id", validateRouteParams(idRouteParamsSchema), async (req:
     }
 })
 
+const electionStateEnum = z.enum(['draft', 'open', 'closed', 'archived']);
+
 export const createNewElectionSchema = z.object({
     name: z.string(),
-    draft: z.boolean(),
-    description: z.string(),
+    description: z.string().nullable().optional(),
+    state: electionStateEnum.optional(),
 });
 
 type createNewElection = z.infer<typeof createNewElectionSchema>
 
 electionRouter.post('/', requireSuperUser, validateData(createNewElectionSchema), async (req, res, next) => {
     const data: createNewElection = req.body
+    const insertData = {
+        name: data.name,
+        description: data.description ?? null,
+        state: data.state ?? 'draft',
+    }
 
     db
         .insertInto('election')
-        .values(data)
+        .values(insertData)
         .returningAll()
         .executeTakeFirst()
         .then(result => res.status(201).json(result))
@@ -92,8 +99,8 @@ electionRouter.post('/', requireSuperUser, validateData(createNewElectionSchema)
 
 const updateElectionSchema = z.object({
     name: z.string().optional(),
-    draft: z.boolean().optional(),
-    description: z.string().optional(),
+    description: z.string().nullable().optional(),
+    state: electionStateEnum.optional(),
 });
 
 electionRouter.put(
@@ -105,10 +112,15 @@ electionRouter.put(
         try {
             const id = parseInt(req.params.id!);
             const data = req.body as z.infer<typeof updateElectionSchema>;
+            const updateData = {
+                ...(data.name !== undefined ? { name: data.name } : {}),
+                ...(data.description !== undefined ? { description: data.description } : {}),
+                ...(data.state !== undefined ? { state: data.state } : {}),
+            }
 
             const result = await db
                 .updateTable('election')
-                .set(data)
+                .set(updateData)
                 .where('id', '=', id)
                 .returningAll()
                 .executeTakeFirst();

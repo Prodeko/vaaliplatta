@@ -11,8 +11,8 @@ export enum State {
 export interface Election {
     id: number,
     name: string,
-    draft: boolean,
-    description: string,
+    state: State,
+    description: string | null,
     positions: Position[],
 }
 
@@ -79,6 +79,8 @@ export interface AppContextType {
     setShowAdminEditPositionDescriptionModal: (value: boolean) => void;
     showAdminEditElectionModal: boolean;
     setShowAdminEditElectionModal: (value: boolean) => void;
+    showAdminCreateElectionModal: boolean;
+    setShowAdminCreateElectionModal: (value: boolean) => void;
     error: string | null;
     setError: (value: string | null) => void;
 }
