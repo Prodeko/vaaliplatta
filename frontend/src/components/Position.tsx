@@ -42,7 +42,7 @@ interface PositionProps {
 }
 
 export default function PositionView({ position }: PositionProps) {
-    const { setShowApplicationForm, setShowAdminEditApplicantsForm, getPosition } = useAppState()
+    const { setShowApplicationForm, setShowAdminEditApplicantsForm, getPosition, setShowAdminEditPositionDescriptionModal } = useAppState()
     const { BLOB_URL } = useConfig()
     const { session } = useAuth()
     const { put } = useAuthenticatedRequests()
@@ -70,6 +70,10 @@ export default function PositionView({ position }: PositionProps) {
         put(`/position/${position.id}`, { state: newState })
             .then(() => getPosition(position.id.toString()))
             .catch(err => console.error(err))
+    }
+
+    function editDescription() {
+        setShowAdminEditPositionDescriptionModal(true)
     }
 
     if (position === "loading") return <Loading />
@@ -114,6 +118,7 @@ export default function PositionView({ position }: PositionProps) {
                             positionState={position.state}
                             onToggleStateClosed={toggleStateClosed}
                             onAddApplicants={addApplicants}
+                            onEditDescription={editDescription}
                         />
                     </>
                 }

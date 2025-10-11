@@ -4,7 +4,7 @@ import { useAppState } from "./hooks/useAppState"
 import Election from "./components/Election"
 import PositionView from "./components/Position"
 import Error from "./components/Error"
-import { ApplicationModal, ApplicationForm, AdminEditApplicantsFormModal } from "./components/ApplicationModal"
+import { ApplicationModal, ApplicationForm, AdminEditApplicantsFormModal, AdminEditPositionDescriptionFormModal } from "./components/ApplicationModal"
 
 export default function App() {
   const { position } = useAppState();
@@ -28,6 +28,7 @@ export default function App() {
       <ApplicationModal />
       <ApplicationForm />
       <AdminEditApplicantsFormModal />
+      <AdminEditPositionDescriptionFormModal />
       <div className="p-3 min-h-full bg-white 
         sm:block 
         md:grid md:grid-cols-8 

@@ -75,6 +75,8 @@ export interface AppContextType {
     setShowApplicationForm: (value: boolean) => void;
     showAdminEditApplicantsForm: boolean;
     setShowAdminEditApplicantsForm: (value: boolean) => void;
+    showAdminEditPositionDescriptionModal: boolean;
+    setShowAdminEditPositionDescriptionModal: (value: boolean) => void;
     error: string | null;
     setError: (value: string | null) => void;
 }

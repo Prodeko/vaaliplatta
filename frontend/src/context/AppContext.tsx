@@ -17,6 +17,7 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
     const [showApplicationForm, setShowApplicationForm] = useState<boolean>(false);
     const [ownApplication, setOwnApplication] = useState<Application | null>(null);
     const [showAdminEditApplicantsForm, setShowAdminEditApplicantsForm] = useState<boolean>(false);
+    const [showAdminEditPositionDescriptionModal, setShowAdminEditPositionDescriptionModal] = useState<boolean>(false);
     const { session } = useAuth();
     const { get, post } = useAuthenticatedRequests()
 
@@ -99,6 +100,8 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
         setShowApplicationForm,
         showAdminEditApplicantsForm,
         setShowAdminEditApplicantsForm,
+        showAdminEditPositionDescriptionModal,
+        setShowAdminEditPositionDescriptionModal,
         error,
         setError,
     }

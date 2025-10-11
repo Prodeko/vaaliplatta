@@ -5,9 +5,10 @@ interface AdminButtonsProps {
     positionState: State;
     onToggleStateClosed: () => void;
     onAddApplicants: () => void;
+    onEditDescription: () => void;
 }
 
-const AdminButtons: React.FC<AdminButtonsProps> = ({ positionState, onToggleStateClosed, onAddApplicants }) => {
+const AdminButtons: React.FC<AdminButtonsProps> = ({ positionState, onToggleStateClosed, onAddApplicants, onEditDescription }) => {
 
     return (
         <>
@@ -21,7 +22,13 @@ const AdminButtons: React.FC<AdminButtonsProps> = ({ positionState, onToggleStat
                 className="w-full p-4 mb-2 text-black font-extrabold rounded-md shadow-inner shadow-red-50 hover:bg-red-100 bg-red-50 border-2 border-red-50 hover:border-red-500 flex items-start"
                 onClick={onAddApplicants}
             >
-                Muokkaa hakijoita (admin)
+                Muokkaa hakijoita
+            </button>
+            <button
+                className="w-full p-4 mb-2 text-black font-extrabold rounded-md shadow-inner shadow-red-50 hover:bg-red-100 bg-red-50 border-2 border-red-50 hover:border-red-500 flex items-start"
+                onClick={onEditDescription}
+            >
+                Muokkaa kuvausta
             </button>
         </>
     );
