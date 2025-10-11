@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { AppContext, AppContextType, Application, Election, Position } from '../hooks/useAppState';
-import { useParams } from "react-router"
+import { useSearchParams } from "react-router-dom"
 import { useAuth } from '../hooks/useAuth';
 import useAuthenticatedRequests from '../hooks/useAuthenticatedRequests';
 
@@ -9,7 +9,8 @@ interface Props {
 }
 
 export const AppStateProvider: React.FC<Props> = ({ children }) => {
-    const { electionId } = useParams();
+    const [searchParams] = useSearchParams();
+    const electionId = searchParams.get('electionId');
     const [election, setElection] = useState<Election | null>(null);
     const [position, setPosition] = useState<Position | "loading" | null>(null);
     const [application, setApplication] = useState<Application | null>(null);
