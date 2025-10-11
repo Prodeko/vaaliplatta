@@ -7,16 +7,25 @@ import { AuthenticatedRequest, requireSuperUser } from "../middleware/auth";
 
 const electionRouter = Router();
 
-electionRouter.get("/", async (req, res, next) => {
+electionRouter.get("/", async (req: AuthenticatedRequest, res, next) => {
     try {
-        const election = await db
-            .selectFrom("election")
-            .selectAll()
-            .execute()
+        const isAdmin = req.session?.is_superuser === true;
 
-        res.status(200).json(election)
+        const election = isAdmin ?
+            await db
+                .selectFrom("election")
+                .selectAll()
+                .execute()
+            :
+            await db
+                .selectFrom("election")
+                .where('state', '=', 'open')
+                .selectAll()
+                .execute()
+
+        res.status(200).json(election);
     } catch (err) {
-        next(err)
+        next(err);
     }
 })
 
@@ -28,17 +37,28 @@ electionRouter.get("/:id", validateRouteParams(idRouteParamsSchema), async (req:
     try {
         const id = req.params.id!
         const user = req.session?.pk
+        const isAdmin = req.session?.is_superuser === true;
 
         let electionQuery;
         if (id === "newest") {
-            electionQuery = db
-                .selectFrom("election")
-                .orderBy("id", "desc")
-                .limit(1)
+            electionQuery = isAdmin
+                ? db
+                    .selectFrom("election")
+                    .orderBy("id", "desc")
+                    .limit(1)
+                : db
+                    .selectFrom("election")
+                    .where("state", "=", "open")
+                    .orderBy("id", "desc")
+                    .limit(1)
         } else if (!isNaN(parseInt(id))) {
-            electionQuery = db
-                .selectFrom("election")
-                .where("id", "=", parseInt(id))
+            electionQuery = isAdmin
+                ? db
+                    .selectFrom("election")
+                    .where("id", "=", parseInt(id))
+                : db.selectFrom("election")
+                    .where("id", "=", parseInt(id))
+                    .where("state", "=", "open")
         } else {
             return res.status(404).json("Invalid ID!")
         }
