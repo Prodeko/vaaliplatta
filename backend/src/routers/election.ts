@@ -76,25 +76,58 @@ export const createNewElectionSchema = z.object({
     name: z.string(),
     description: z.string().nullable().optional(),
     state: electionStateEnum.optional(),
+    cloneFromElectionId: z.number().optional(),
 });
 
-type createNewElection = z.infer<typeof createNewElectionSchema>
+type CreateNewElectionPayload = z.infer<typeof createNewElectionSchema>
 
 electionRouter.post('/', requireSuperUser, validateData(createNewElectionSchema), async (req, res, next) => {
-    const data: createNewElection = req.body
-    const insertData = {
-        name: data.name,
-        description: data.description ?? null,
-        state: data.state ?? 'draft',
-    }
+    try {
+        const data: CreateNewElectionPayload = req.body;
+        const insertData = {
+            name: data.name,
+            description: data.description ?? null,
+            state: data.state ?? 'draft',
+        };
 
-    db
-        .insertInto('election')
-        .values(insertData)
-        .returningAll()
-        .executeTakeFirst()
-        .then(result => res.status(201).json(result))
-        .catch(e => next(e))
+        const createdElection = await db
+            .insertInto('election')
+            .values(insertData)
+            .returningAll()
+            .executeTakeFirst();
+
+        if (!createdElection) {
+            return res.status(500).json({ message: 'Failed to create election' });
+        }
+
+        if (data.cloneFromElectionId) {
+            const positionsToClone = await db
+                .selectFrom('position')
+                .select(['name', 'description', 'seats', 'category', 'state'])
+                .where('election_id', '=', data.cloneFromElectionId)
+                .execute();
+
+            if (positionsToClone.length > 0) {
+                const clonedPositions = positionsToClone.map(position => ({
+                    name: position.name,
+                    description: position.description,
+                    seats: position.seats,
+                    category: position.category,
+                    state: position.state,
+                    election_id: createdElection.id,
+                }));
+
+                await db
+                    .insertInto('position')
+                    .values(clonedPositions)
+                    .execute();
+            }
+        }
+
+        res.status(201).json(createdElection);
+    } catch (error) {
+        next(error);
+    }
 });
 
 const updateElectionSchema = z.object({

@@ -10,6 +10,7 @@ const DEFAULT_ELECTION_DESCRIPTION = `
 
 const AdminCreateElectionForm = () => {
     const {
+        election,
         getElection,
         clearPosition,
         setShowAdminCreateElectionModal,
@@ -17,6 +18,7 @@ const AdminCreateElectionForm = () => {
     const editorRef = useRef<EditorRef>(null);
     const [name, setName] = useState('');
     const [stateValue, setStateValue] = useState<State>(State.DRAFT);
+    const [clonePositions, setClonePositions] = useState<boolean>(true);
     const [submitting, setSubmitting] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const { post } = useAuthenticatedRequests();
@@ -30,6 +32,7 @@ const AdminCreateElectionForm = () => {
             name: name.trim(),
             state: stateValue,
             description: editorRef.current?.getHTML() ?? DEFAULT_ELECTION_DESCRIPTION,
+            cloneFromElectionId: clonePositions ? election?.id : undefined,
         };
 
         if (!payload.name) {
@@ -52,6 +55,7 @@ const AdminCreateElectionForm = () => {
             setShowAdminCreateElectionModal(false);
             setName('');
             setStateValue(State.DRAFT);
+            setClonePositions(true);
         } catch (createError) {
             console.error(createError);
             setError('Vaalien luonti epäonnistui. Yritä uudelleen.');
@@ -103,6 +107,21 @@ const AdminCreateElectionForm = () => {
                     <option value={State.ARCHIVED}>Arkistoitu</option>
                 </select>
             </div>
+
+            {election && (
+                <div className="flex items-center gap-2 my-4">
+                    <input
+                        id="clone-positions"
+                        type="checkbox"
+                        checked={clonePositions}
+                        onChange={(e) => setClonePositions(e.target.checked)}
+                        className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                    />
+                    <label htmlFor="clone-positions" className="text-sm font-medium text-gray-700">
+                        Kopioi edellisen vaalin virat
+                    </label>
+                </div>
+            )}
 
             <div className="my-4">
                 <label className="text-sm font-medium text-gray-700">
