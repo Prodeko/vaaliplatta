@@ -6,6 +6,7 @@ import Divider from './Divider';
 import AdminEditApplicantsForm from './AdminEditApplicantsForm';
 import useConfig from '../hooks/useConfig';
 import AdminEditPositionDescriptionForm from './AdminEditPositionDescriptionForm';
+import AdminEditElectionForm from './AdminEditElectionForm';
 
 interface ModalProps {
     isOpen: boolean;
@@ -97,4 +98,12 @@ export function AdminEditPositionDescriptionFormModal() {
     const handleClose = () => setShowAdminEditPositionDescriptionModal(false)
 
     return <Modal isOpen={showAdminEditPositionDescriptionModal} onClose={handleClose}><AdminEditPositionDescriptionForm /></Modal>
+}
+
+export function AdminEditElectionFormModal() {
+    const { showAdminEditElectionModal, setShowAdminEditElectionModal } = useAppState()
+
+    const handleClose = () => setShowAdminEditElectionModal(false)
+
+    return <Modal isOpen={showAdminEditElectionModal} onClose={handleClose}><AdminEditElectionForm /></Modal>
 }

@@ -90,4 +90,34 @@ electionRouter.post('/', requireSuperUser, validateData(createNewElectionSchema)
         .catch(e => next(e))
 });
 
+const updateElectionSchema = z.object({
+    name: z.string().optional(),
+    draft: z.boolean().optional(),
+    description: z.string().optional(),
+});
+
+electionRouter.put(
+    '/:id',
+    requireSuperUser,
+    validateRouteParams(idRouteParamsSchema),
+    validateData(updateElectionSchema),
+    async (req, res, next) => {
+        try {
+            const id = parseInt(req.params.id!);
+            const data = req.body as z.infer<typeof updateElectionSchema>;
+
+            const result = await db
+                .updateTable('election')
+                .set(data)
+                .where('id', '=', id)
+                .returningAll()
+                .executeTakeFirst();
+
+            res.status(200).json(result);
+        } catch (error) {
+            next(error);
+        }
+    }
+);
+
 export default electionRouter
