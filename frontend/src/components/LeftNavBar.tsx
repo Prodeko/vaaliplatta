@@ -79,15 +79,18 @@ export default function LeftNavBar() {
                                 className="p-4 text-sm text-gray-700 hover:bg-blue-100 w-full flex items-start justify-between"
                                 key={p.id}
                             >
-                                <p>
+                                <p className="text-left">
                                     {p.name}
                                 </p>
-                                <div className='flex flex-row gap-2'>
-                                    {session && unread_count > 0 &&
-                                        <p className='font-extrabold text-blue-500'>
+                                <div className="flex flex-row-reverse flex-wrap justify-end gap-x-2">
+                                    {all_count_text !== "" && (
+                                        <p className='text-gray-500 whitespace-nowrap grow text-right'>{all_count_text}</p>
+                                    )}
+                                    {session && unread_count > 0 && (
+                                        <p className='font-extrabold text-blue-500 grow text-right'>
                                             {unread_count}
-                                        </p>}
-                                    <p className='text-gray-500'>{all_count_text}</p>
+                                        </p>
+                                    )}
                                 </div>
                             </button>
                         )
