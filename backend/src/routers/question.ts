@@ -22,7 +22,7 @@ questionRouter.post(
     async (req: AuthenticatedRequest, res, next) => {
         try {
             const body: postQuestionType = req.body
-            const asker_id = req.session?.pk?.toString()!
+            const asker_id = req.session?.pk!
             const position_id = parseInt(body.position_id)
 
             const data = { ...body, position_id, asker_id }
@@ -58,7 +58,7 @@ questionRouter.post(
     async (req: AuthenticatedRequest, res, next) => {
         try {
             const body: postAnswerType = req.body
-            const answerer_id = req.session?.pk?.toString()!
+            const answerer_id = req.session?.pk!
             const question_id = parseInt(req.params.id!)
 
             const question = await db
@@ -99,7 +99,7 @@ questionRouter.delete(
     async (req: AuthenticatedRequest, res, next) => {
         try {
             const question_id = parseInt(req.params.id!)
-            const user_id = req.session?.pk.toString()!
+            const user_id = req.session?.pk!
             const is_superuser = !!req.session?.is_superuser
 
             const question = await db

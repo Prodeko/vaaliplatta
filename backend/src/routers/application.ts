@@ -27,7 +27,7 @@ applicationRouter.post(
 
         if (!applicant_id) return res.status(400).send("Applicant id missing from auth session")
 
-        const data = { ...body, "position_id": parseInt(body.position_id), applicant_id: applicant_id.toString() }
+        const data = { ...body, "position_id": parseInt(body.position_id), applicant_id }
 
         try {
             const application = await createOrUpdateApplication(data)
@@ -88,7 +88,7 @@ applicationRouter.post(
     async (req: AuthenticatedRequest, res, next) => {
         try {
             const application_id = parseInt(req.params.id!)
-            const user_id = req.session?.pk.toString()!
+            const user_id = req.session?.pk!
 
             await db.insertInto('read_receipts')
                 .values({ user_id, application_id })

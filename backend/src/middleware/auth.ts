@@ -7,11 +7,10 @@ export interface AuthenticatedRequest extends Request {
     session?: DecodedToken;
 }
 
-export interface DecodedToken extends UserDetailsResponse {
-    token: string,
+export interface DecodedToken {
     iat: number,
     exp: number,
-    pk: number,
+    pk: string,
     email: string,
     first_name: string,
     last_name: string,
