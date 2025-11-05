@@ -151,13 +151,16 @@ authRouter.get('/oauth2/callback', async (req, res) => {
             .then(res => res.data as UserDetailsResponse)
             .catch(err => console.error(err))
 
+        const is_superuser = (!!user?.email) && config.VAALIPLATTA_SUPERUSERS.includes(user.email)
+
         const jwt_data = {
-            token: accessToken.token.access_token,
-            ...user,
+            pk: user?.pk.toString() || "",
+            email: user?.email || "",
+            first_name: user?.first_name || "",
+            last_name: user?.last_name || "",
+            is_superuser,
         }
         const jwt_token = jwt.sign(jwt_data, config.JWT_SECRET, { expiresIn: config.JWT_EXPIRATION })
-
-        const is_superuser = (!!user?.email) && config.VAALIPLATTA_SUPERUSERS.includes(user.email)
 
         setAuthCookie(res, jwt_token)
 
