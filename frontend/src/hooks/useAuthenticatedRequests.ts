@@ -48,7 +48,7 @@ export default function useAuthenticatedRequests() {
     async function axiosdelete(route: string, params?: Record<string, string>) {
         return axios.delete(
             `${API_URL}/${route.replace(/^\/+/, '')}`,  // remove possible leading "/"
-            { withCredentials: true, ...params }
+            { withCredentials: true, params }
         )
     }
 
