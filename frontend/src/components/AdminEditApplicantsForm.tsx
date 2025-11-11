@@ -23,7 +23,7 @@ type UserListElemProps = {
 function UserListElem({ user }: UserListElemProps) {
     const { post, axiosdelete } = useAuthenticatedRequests()
     const { position } = useAppState()
-    const [hasApplied, setHasApplied] = useState<boolean>(!!position && position !== "loading" && position.applications.map(a => a.applicant_id).includes(user.id.toString()))
+    const [hasApplied, setHasApplied] = useState<boolean>(!!position && position !== "loading" && position.applications.map(a => String(a.applicant_id)).includes(user.id.toString()))
 
     if (!position || position === "loading") return null
 

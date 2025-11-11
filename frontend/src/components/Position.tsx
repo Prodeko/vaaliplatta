@@ -77,7 +77,7 @@ export default function PositionView({ position }: PositionProps) {
 
     if (position === "loading") return <Loading />
 
-    const editing: boolean = (!!session && position.applications?.map(a => a.applicant_id).includes(session.pk))
+    const editing: boolean = (!!session && position.applications?.map(a => String(a.applicant_id)).includes(String(session.pk)))
 
     return (
         // Note that the css order property is not redundant here

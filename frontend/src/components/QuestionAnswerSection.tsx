@@ -85,7 +85,7 @@ function QuestionElement({ question }: QuestionProps) {
                 <HtmlRenderer htmlContent={question.content} reduceHeadingSize />
             </button>
             {
-                session && !question.answers.map(a => a.answerer_id).includes(session.pk) && position.applications.map(a => a.applicant_id).includes(session.pk) &&
+                session && !question.answers.map(a => String(a.answerer_id)).includes(String(session.pk)) && position.applications.map(a => String(a.applicant_id)).includes(String(session.pk)) &&
                 <>
                     <button className="w-full p-4 my-4 text-black font-extrabold rounded-md hover:bg-blue-100 bg-blue-50 flex sitems-start animate-bg-fade "
                         onClick={toggleShowAnswer}
