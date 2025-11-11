@@ -43,7 +43,6 @@ interface PositionProps {
 
 export default function PositionView({ position }: PositionProps) {
     const { setShowApplicationForm, setShowAdminEditApplicantsForm, getPosition, setShowAdminEditPositionDescriptionModal } = useAppState()
-    const { BLOB_URL } = useConfig()
     const { session } = useAuth()
     const { put } = useAuthenticatedRequests()
     const navigate = useNavigate()
@@ -131,7 +130,6 @@ export default function PositionView({ position }: PositionProps) {
                 2xl:col-span-6">
                 <HtmlRenderer htmlContent={position?.description} />
                 <QuestionAnswerSection />
-                <img src={`${BLOB_URL}/logate.jpg`} alt="Logate logo" className="max-w-xs m-4 mt-12"></img>
             </div>
         </>
     )

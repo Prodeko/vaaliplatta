@@ -2,7 +2,6 @@ import { useState } from "react"
 import { useSearchParams } from "react-router-dom"
 import { useAppState } from "../hooks/useAppState"
 import type { Election as ElectionType } from "../hooks/useAppState"
-import useConfig from "../hooks/useConfig"
 import useAuthenticatedRequests from "../hooks/useAuthenticatedRequests"
 import HtmlRenderer from "./HtmlRenderer"
 import Loading from "./Loading"
@@ -17,7 +16,6 @@ export default function Election() {
     setShowAdminCreateElectionModal,
     clearPosition,
   } = useAppState()
-  const { BLOB_URL } = useConfig()
   const { session } = useAuth()
   const { get } = useAuthenticatedRequests()
   const [searchParams, setSearchParams] = useSearchParams()
@@ -106,7 +104,6 @@ export default function Election() {
         </div>
       )}
       {election?.description ? <HtmlRenderer htmlContent={election?.description} /> : <Loading />}
-      <img src={`${BLOB_URL}/logate.jpg`} alt="Logate logo" className="max-w-xs m-4 mt-12"></img>
     </div>
   )
 }
