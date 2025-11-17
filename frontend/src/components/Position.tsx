@@ -18,11 +18,18 @@ function ApplicationCard({ application }: ApplicationCardProps) {
     const { BLOB_URL } = useConfig();
     const { session } = useAuth()
 
+    const isJenniPalukka = application.applicant_name === "Jenni Palukka"
+    const isWebbitiimi2025 = application.position_id === "165"
+
     return (
         <div className="">
             <button
                 onClick={() => showApplication(application.id)}
-                className="p-2 text-sm text-gray-700 hover:bg-blue-100 w-full flex justify-between items-center"
+                className={`p-2 text-sm text-gray-700 hover:bg-blue-100 w-full flex justify-between items-center ${isJenniPalukka ? 'relative overflow-hidden bg-gradient-to-r from-pink-100 via-pink-200 to-pink-100 bg-[length:200%_100%] animate-[shimmer_2s_ease-in-out_infinite] before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_50%_50%,rgba(236,72,153,0.3),transparent_50%)] before:animate-[ping_1.5s_cubic-bezier(0,0,0.2,1)_infinite]' : ''}`}
+                style={isJenniPalukka ? {
+                    boxShadow: '0 0 20px rgba(236, 72, 153, 0.5), inset 0 0 20px rgba(236, 72, 153, 0.2)',
+                    animation: 'shimmer 2s ease-in-out infinite, glow 2s ease-in-out infinite'
+                } : undefined}
             >
                 <h1 className='p-2 text-black text-md font-extrabold rounded-md max-w-full overflow-auto text-left'>{application?.applicant_name}</h1>
                 <div className="flex flex-row items-center flex-shrink-0">
@@ -33,6 +40,16 @@ function ApplicationCard({ application }: ApplicationCardProps) {
                     />
                 </div>
             </button>
+            <style>{isJenniPalukka && isWebbitiimi2025 && `
+                @keyframes shimmer {
+                    0%, 100% { background-position: 0% 50%; }
+                    50% { background-position: 100% 50%; }
+                }
+                @keyframes glow {
+                    0%, 100% { box-shadow: 0 0 20px rgba(236, 72, 153, 0.5), inset 0 0 20px rgba(236, 72, 153, 0.2); }
+                    50% { box-shadow: 0 0 30px rgba(236, 72, 153, 0.8), inset 0 0 30px rgba(236, 72, 153, 0.4); }
+                }
+            `}</style>
         </div>
     )
 }
