@@ -31,9 +31,11 @@ function Modal({ isOpen, onClose, children }: ModalProps) {
 
     if (!isOpen) return null
     return (
-        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 overflow-auto">
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 overflow-auto"
+            onClick={onClose}>
             {/* Add max-h-full to prevent exceeding viewport and enable scrolling */}
-            <div className="bg-white rounded-lg p-6 shadow-lg relative mx-auto my-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+            <div className="bg-white rounded-lg p-6 shadow-lg relative mx-auto my-8 w-full max-w-2xl max-h-[90vh] overflow-y-auto"
+                onClick={(e) => e.stopPropagation()}>
                 {/* Close button inside the modal */}
                 <button
                     onClick={onClose}
