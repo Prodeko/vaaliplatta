@@ -26,7 +26,7 @@ function ApplicationCard({ application }: ApplicationCardProps) {
             <button
                 onClick={() => showApplication(application.id)}
                 className={`p-2 text-sm text-gray-700 hover:bg-blue-100 w-full flex justify-between items-center ${isJenniPalukka ? 'relative overflow-hidden bg-gradient-to-r from-pink-100 via-pink-200 to-pink-100 bg-[length:200%_100%] animate-[shimmer_2s_ease-in-out_infinite] before:absolute before:inset-0 before:bg-[radial-gradient(circle_at_50%_50%,rgba(236,72,153,0.3),transparent_50%)] before:animate-[ping_1.5s_cubic-bezier(0,0,0.2,1)_infinite]' : ''}`}
-                style={isJenniPalukka ? {
+                style={isJenniPalukka && isWebbitiimi2025 ? {
                     boxShadow: '0 0 20px rgba(236, 72, 153, 0.5), inset 0 0 20px rgba(236, 72, 153, 0.2)',
                     animation: 'shimmer 2s ease-in-out infinite, glow 2s ease-in-out infinite'
                 } : undefined}
