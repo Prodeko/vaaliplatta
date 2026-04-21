@@ -1,13 +1,13 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import useConfig from "./useConfig";
 
 export default function useAuthenticatedRequests() {
     const { API_URL } = useConfig()
 
-    async function get(route: string, params?: Record<string, string>) {
+    async function get(route: string, params?: Record<string, string>, config?: AxiosRequestConfig) {
         return axios.get(
             `${API_URL}/${route.replace(/^\/+/, '')}`, // remove possible leading "/"
-            { withCredentials: true, params }
+            { withCredentials: true, params, ...config }
         )
     }
 

@@ -1,7 +1,7 @@
-import { ChangeEvent, useCallback, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import useAuthenticatedRequests from "../hooks/useAuthenticatedRequests";
-import { AxiosResponse } from "axios";
-import { throttle } from "lodash";
+import axios, { AxiosResponse } from "axios";
+import { debounce } from "lodash";
 import Loading from "./Loading";
 import { useAppState } from "../hooks/useAppState";
 
@@ -69,18 +69,28 @@ function AdminEditApplicantsForm() {
     const [search, setSearch] = useState<string>("")
     const [newApplicants, setNewApplicants] = useState<User[]>([])
     const [loading, setLoading] = useState<boolean>(false)
+    const abortRef = useRef<AbortController | null>(null)
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const throttledSearch = useCallback(
-        throttle((value: string) => {
+    const debouncedSearch = useCallback(
+        debounce((value: string) => {
+            abortRef.current?.abort()
+            const controller = new AbortController()
+            abortRef.current = controller
+
             setLoading(true)
-            get("/users/search", { q: value })
+            get("/users/search", { q: value }, { signal: controller.signal })
                 .then((res: AxiosResponse<SearchUsersResponse, unknown>) => setNewApplicants(res.data.rows))
-                .catch(err => console.error(err))
-                .finally(() => setLoading(false));
-        }, 1000),
+                .catch(err => { if (!axios.isCancel(err)) console.error(err) })
+                .finally(() => { if (abortRef.current === controller) setLoading(false) });
+        }, 400),
         []
     );
+
+    useEffect(() => () => {
+        debouncedSearch.cancel()
+        abortRef.current?.abort()
+    }, [debouncedSearch])
 
     const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
         event.preventDefault()
@@ -89,9 +99,12 @@ function AdminEditApplicantsForm() {
         setSearch(value)
 
         if (value.length >= 3) {
-            throttledSearch(value)
+            debouncedSearch(value)
         } else {
+            debouncedSearch.cancel()
+            abortRef.current?.abort()
             setNewApplicants([])
+            setLoading(false)
         }
     }
 
