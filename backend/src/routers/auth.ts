@@ -45,16 +45,22 @@ const consumePkceVerifier = (state: string): string | undefined => {
     return entry.verifier;
 };
 
+const realmUrl = `${config.KEYCLOAK_URL}/realms/${config.KEYCLOAK_REALM}`
+const authorizePath = `/realms/${config.KEYCLOAK_REALM}/protocol/openid-connect/auth`
+const tokenPath = `/realms/${config.KEYCLOAK_REALM}/protocol/openid-connect/token`
+const userinfoPath = `/realms/${config.KEYCLOAK_REALM}/protocol/openid-connect/userinfo`
+const logoutPath = `/realms/${config.KEYCLOAK_REALM}/protocol/openid-connect/logout`
+
 const client = new AuthorizationCode({
     client: {
-        id: config.OAUTH_CLIENT_ID,
-        secret: config.OAUTH_CLIENT_SECRET,
+        id: config.KEYCLOAK_CLIENT_ID,
+        secret: config.KEYCLOAK_CLIENT_SECRET,
     },
     auth: {
-        tokenHost: config.OAUTH_HOST,
-        tokenPath: config.OAUTH_TOKEN_PATH,
-        authorizeHost: config.OAUTH_HOST,
-        authorizePath: config.OAUTH_AUTHORIZE_PATH,
+        tokenHost: config.KEYCLOAK_URL,
+        tokenPath,
+        authorizeHost: config.KEYCLOAK_URL,
+        authorizePath,
     },
 });
 
@@ -76,8 +82,8 @@ async function handleLoginWithOauth(req: Request, res: Response) {
     storePkceVerifier(state, codeVerifier);
 
     const authorizationParams = {
-        redirect_uri: config.OAUTH_CALLBACK_URI,
-        scope: 'read',
+        redirect_uri: config.KEYCLOAK_CALLBACK_URI,
+        scope: 'openid profile email',
         state,
         code_challenge: codeChallenge,
         code_challenge_method: 'S256',
@@ -91,7 +97,7 @@ async function handleLoginWithOauth(req: Request, res: Response) {
 async function handleLoginMockAuth(req: Request, res: Response) {
 
     const mockUser = {
-        pk: "1",
+        pk: "00000000-0000-0000-0000-000000000001",
         email: 'cto@prodeko.org',
         first_name: 'CTO',
         last_name: 'Prodeko',
@@ -113,14 +119,15 @@ authRouter.get('/oauth2/login', (req, res) => {
     }
 });
 
-export interface UserDetailsResponse {
-    pk: number,
-    email: string,
-    first_name: string,
-    last_name: string,
-    has_accepted_policies: boolean,
-    is_staff: boolean,
-    is_superuser: boolean,
+interface KeycloakUserinfo {
+    sub: string;
+    email?: string;
+    given_name?: string;
+    family_name?: string;
+}
+
+interface KeycloakAccessTokenPayload {
+    realm_access?: { roles?: string[] };
 }
 
 authRouter.get('/oauth2/callback', async (req, res) => {
@@ -138,26 +145,27 @@ authRouter.get('/oauth2/callback', async (req, res) => {
 
     const options = {
         code: code?.toString()!,
-        redirect_uri: config.OAUTH_CALLBACK_URI,
+        redirect_uri: config.KEYCLOAK_CALLBACK_URI,
         code_verifier: storedVerifier,
     };
 
     try {
         const accessToken = await client.getToken(options);
 
-        const user = await axios.get(
-            config.OAUTH_HOST + config.OAUTH_PROFILE_PATH,
+        const userinfo = await axios.get<KeycloakUserinfo>(
+            realmUrl + '/protocol/openid-connect/userinfo',
             { headers: { Authorization: `Bearer ${accessToken.token.access_token}` } })
-            .then(res => res.data as UserDetailsResponse)
-            .catch(err => console.error(err))
+            .then(r => r.data)
 
-        const is_superuser = (!!user?.email) && config.VAALIPLATTA_SUPERUSERS.includes(user.email)
+        const decodedAccess = jwt.decode(accessToken.token.access_token as string) as KeycloakAccessTokenPayload | null
+        const roles = decodedAccess?.realm_access?.roles ?? []
+        const is_superuser = roles.includes(config.KEYCLOAK_SUPERUSER_ROLE)
 
         const jwt_data = {
-            pk: user?.pk.toString() || "",
-            email: user?.email || "",
-            first_name: user?.first_name || "",
-            last_name: user?.last_name || "",
+            pk: userinfo.sub,
+            email: userinfo.email || "",
+            first_name: userinfo.given_name || "",
+            last_name: userinfo.family_name || "",
             is_superuser,
         }
         const jwt_token = jwt.sign(jwt_data, config.JWT_SECRET, { expiresIn: config.JWT_EXPIRATION })
@@ -173,8 +181,15 @@ authRouter.get('/oauth2/callback', async (req, res) => {
 });
 
 authRouter.post('/oauth2/logout', async (req, res) => {
-    // TODO separate token revocation
     res.clearCookie("vaaliplatta_auth_token")
+
+    if (!config.USE_MOCK_AUTHENTICATION) {
+        const logoutUrl = new URL(realmUrl + '/protocol/openid-connect/logout')
+        logoutUrl.searchParams.set('client_id', config.KEYCLOAK_CLIENT_ID)
+        logoutUrl.searchParams.set('post_logout_redirect_uri', config.FRONTEND_URL)
+        return res.status(200).json({ message: "logged out successfully", logout_url: logoutUrl.toString() })
+    }
+
     res.status(200).json({ message: "logged out successfully" })
 })
 
@@ -184,7 +199,7 @@ authRouter.get('/api/session', async (req, res) => {
     if (!token) return res.status(HttpStatusCode.NotFound).json({ message: "vaaliplatta_auth_token cookie missing" })
 
     try {
-        const decoded = jwt.verify(token, config.JWT_SECRET) as DecodedToken // TODO not quite a valid type assertation
+        const decoded = jwt.verify(token, config.JWT_SECRET) as DecodedToken
 
         const userInfo = {
             pk: decoded.pk,

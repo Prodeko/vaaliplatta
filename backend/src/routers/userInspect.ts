@@ -1,63 +1,82 @@
 import { Router } from "express";
 import { AuthenticatedRequest, requireSuperUser } from "../middleware/auth";
 import { config } from "../config";
-import { Pool } from "pg";
 import { validateQueryParams } from "../middleware/validators";
 import { z } from "zod";
+import axios from "axios";
 
 export const userInspectRouter = Router();
-
-// console.log("Connecting to PostgreSQL with the following config:");
-// console.log(`User: ${config.POSTGRES_READONLY_USER_FOR_USERDB}`);
-// console.log(`Password: ${config.POSTGRES_PASSWORD_FOR_READONLY_USER_FOR_USERDB}`);
-// console.log(`Database: ${config.POSTGRES_USERDB}`);
-// console.log(`Host: ${config.POSTGRES_HOST}`);
-// console.log(`Port: ${config.POSTGRES_PORT}`);
-
-let pool: Pool | null
-let poolError: unknown = null
-try {
-    pool = new Pool({
-        user: config.POSTGRES_READONLY_USER_FOR_USERDB,
-        password: config.POSTGRES_PASSWORD_FOR_READONLY_USER_FOR_USERDB,
-        database: config.POSTGRES_USERDB,
-        host: config.POSTGRES_USERDB_HOST,
-        port: config.POSTGRES_PORT,
-        ssl: true,
-    })
-} catch (error) {
-    pool = null
-    poolError = error
-}
 
 const searchQueryParamsSchema = z.object({
     q: z.string().min(3)
 });
 
+interface KeycloakAdminUser {
+    id: string;
+    username?: string;
+    email?: string;
+    firstName?: string;
+    lastName?: string;
+}
+
+interface TokenResponse {
+    access_token: string;
+    expires_in: number;
+}
+
+const TOKEN_EXPIRY_BUFFER_MS = 30 * 1000;
+
+let cachedAdminToken: { token: string; expiresAt: number } | null = null;
+
+async function getAdminAccessToken(): Promise<string> {
+    if (cachedAdminToken && cachedAdminToken.expiresAt > Date.now()) {
+        return cachedAdminToken.token;
+    }
+
+    const tokenUrl = `${config.KEYCLOAK_URL}/realms/${config.KEYCLOAK_REALM}/protocol/openid-connect/token`;
+    const params = new URLSearchParams({
+        grant_type: 'client_credentials',
+        client_id: config.KEYCLOAK_ADMIN_CLIENT_ID,
+        client_secret: config.KEYCLOAK_ADMIN_CLIENT_SECRET,
+    });
+
+    const response = await axios.post<TokenResponse>(tokenUrl, params.toString(), {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+    });
+
+    cachedAdminToken = {
+        token: response.data.access_token,
+        expiresAt: Date.now() + response.data.expires_in * 1000 - TOKEN_EXPIRY_BUFFER_MS,
+    };
+
+    return cachedAdminToken.token;
+}
+
 userInspectRouter.get(
     '/search',
     requireSuperUser,
     validateQueryParams(searchQueryParamsSchema),
-    async (req: AuthenticatedRequest, res, next) => {
-        if (!pool) return res.status(500).json({ "message": "User inspect db pool connection failed", "error": poolError })
-
+    async (req: AuthenticatedRequest, res) => {
         try {
-            const searchTerm = (req.query.q! as string).toLowerCase()
-            const result = await pool.query(`
-                select id, first_name, last_name, email
-                from ${config.POSTGRES_USERTABLE}
-                where lower(last_name) like '${searchTerm}%'
-                or lower(first_name) like '${searchTerm}%'
-                or lower(email) like '${searchTerm}%'
-                or (position(' ' in '${searchTerm}') > 0 
-                    and (lower(first_name) || ' ' || lower(last_name)) like lower('${searchTerm}') || '%')
-                order by id desc
-                limit 25`
-            )
+            const searchTerm = req.query.q! as string;
+            const token = await getAdminAccessToken();
 
-            return res.status(200).json(result)
+            const url = `${config.KEYCLOAK_URL}/admin/realms/${config.KEYCLOAK_REALM}/users`;
+            const response = await axios.get<KeycloakAdminUser[]>(url, {
+                params: { search: searchTerm, max: 25 },
+                headers: { Authorization: `Bearer ${token}` },
+            });
+
+            const rows = response.data.map(u => ({
+                id: u.id,
+                first_name: u.firstName ?? "",
+                last_name: u.lastName ?? "",
+                email: u.email ?? "",
+            }));
+
+            return res.status(200).json({ rows });
         } catch (error) {
-            return res.status(404).json(error)
+            console.error('Keycloak user search failed', error);
+            return res.status(500).json({ message: 'User search failed' });
         }
     })
-

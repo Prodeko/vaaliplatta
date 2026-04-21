@@ -33,7 +33,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     const logout = () => {
         console.log("logout");
         axios.post(LOGOUT_URL, {}, { withCredentials: true })
-            .then(() => setSession(null))
+            .then(res => {
+                setSession(null)
+                const logoutUrl = res.data?.logout_url
+                if (typeof logoutUrl === "string") window.location.href = logoutUrl
+            })
             .catch(error => console.error(error))
     };
 

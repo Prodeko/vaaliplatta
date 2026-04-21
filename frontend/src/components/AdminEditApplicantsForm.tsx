@@ -6,7 +6,7 @@ import Loading from "./Loading";
 import { useAppState } from "../hooks/useAppState";
 
 interface User {
-    id: number,
+    id: string,
     first_name: string,
     last_name: string,
     email: string,
