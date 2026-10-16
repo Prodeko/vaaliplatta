@@ -2,7 +2,7 @@ import { useAppState } from "../hooks/useAppState"
 import { useAuth } from "../hooks/useAuth"
 
 export default function TopHeaderBar() {
-    const { election, position } = useAppState()
+    const { election, position, clearPosition } = useAppState()
     const { login, logout, session } = useAuth()
 
     function handleClick() {
@@ -17,14 +17,21 @@ export default function TopHeaderBar() {
 
     return (
         <div className="flex justify-between items-center">
-            <h1 className="font-semibold text-white
-                p-8 text-3xl
-                sm:p-8 sm:text-4xl
-                md:p-12 md:text-6xl
-                lg:p-12 lg:text-6xl
-                xl:p-12 xl:text-6xl
-                2xl:p-12 2xl:text-6xl
-                ">{text}</h1>
+            <div className="flex items-center gap-2 p-8 md:p-12">
+                {position && (
+                    <button
+                        onClick={clearPosition}
+                        aria-label="Etusivulle"
+                        title="Etusivulle"
+                        className="shrink-0 flex items-center justify-center w-10 h-10 md:w-14 md:h-14 rounded-full border-2 border-transparent hover:border-white transition duration-300 focus:outline-none"
+                    >
+                        <svg viewBox="0 0 20 20" fill="white" className="w-8 h-8 md:w-12 md:h-12">
+                            <path fillRule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                    </button>
+                )}
+                <h1 className="font-semibold text-white text-3xl sm:text-4xl md:text-6xl">{text}</h1>
+            </div>
             <div className="m-8 sm:m-6 md:m-12 lg:m-12 xl:m-12 2xl:m-12 relative inline-block group">
                 <button
                     onClick={handleClick}

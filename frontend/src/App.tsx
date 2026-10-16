@@ -11,13 +11,7 @@ export default function App() {
 
   const content = position
     ? <PositionView position={position} />
-    : <div className="
-        md:col-span-6
-        lg:col-span-8
-        xl:col-span-10
-        2xl:col-span-10">
-      <Election />
-    </div>
+    : <Election />
 
   return (
     <div

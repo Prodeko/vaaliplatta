@@ -16,6 +16,11 @@ function Dropdown({ label, defaultOpen = false, children }: DropdownProps) {
         setIsOpen(prevState => !prevState);
     };
 
+    // On mobile the nav sits above the content, so collapse it after a selection
+    const closeOnMobile = () => {
+        if (!window.matchMedia('(min-width: 768px)').matches) setIsOpen(false);
+    };
+
     return (
         <div className="relative">
             <button
@@ -35,6 +40,7 @@ function Dropdown({ label, defaultOpen = false, children }: DropdownProps) {
                 id={`${label}-dropdown`}
                 className={`origin-top transition-all transform ${isOpen ? 'scale-y-100' : 'scale-y-0'} overflow-hidden bg-white border-t-0 rounded-md shadow-lg`}
                 style={isOpen ? {} : { maxHeight: '0' }}
+                onClick={closeOnMobile}
             >
                 {children}
             </div>
@@ -43,7 +49,7 @@ function Dropdown({ label, defaultOpen = false, children }: DropdownProps) {
 }
 
 export default function LeftNavBar() {
-    const { election, position, getPosition, clearPosition } = useAppState();
+    const { election, getPosition } = useAppState();
     const { hallitus, vastuutoimarit, toimarit } = groupBy(election?.positions, p => p.category)
     const positionCategories = [
         { group: hallitus, label: "HALLITUS" },
@@ -54,16 +60,6 @@ export default function LeftNavBar() {
 
     return (
         <div className="w-full">
-            {position && (
-                <button
-                    onClick={clearPosition}
-                    className="w-full p-4 text-black font-extrabold hover:bg-slate-200 rounded-md focus:outline-none"
-                >
-                    <div className='text-left'>
-                        ETUSIVULLE
-                    </div>
-                </button>
-            )}
             {positionCategories.map(t =>
                 <Dropdown label={t.label} key={t.label}>
                     {t.group?.sort((a, b) => a.name.localeCompare(b.name)).map(p => {
