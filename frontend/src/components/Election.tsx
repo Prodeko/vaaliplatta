@@ -92,14 +92,6 @@ export default function Election() {
             Muokkaa vaaleja
           </button>
         )}
-        {election && (
-          <button
-            onClick={() => openScheduler()}
-            className={adminButtonClass}
-          >
-            Aikatauluta haut
-          </button>
-        )}
         <button
           onClick={() => setShowAdminCreateElectionModal(true)}
           className={adminButtonClass}
@@ -133,6 +125,14 @@ export default function Election() {
               </div>
             )}
           </div>
+        )}
+        {election && (
+          <button
+            onClick={() => openScheduler()}
+            className={adminButtonClass}
+          >
+            Aikatauluta haut
+          </button>
         )}
       </div>
       <div className="

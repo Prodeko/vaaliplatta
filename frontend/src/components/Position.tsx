@@ -125,16 +125,11 @@ export default function PositionView({ position }: PositionProps) {
                         disabled
                         onClick={() => { }}
                     >
-                        {position.next_opens_at
+                        {position.state === State.CLOSED && position.next_opens_at
                             ? `Haku aukeaa ${formatDateTime(position.next_opens_at)}`
                             : "Hakeminen on päättynyt"}
                     </button>
                 }
-                {position.state === State.OPEN && position.current_closes_at && (
-                    <p className="px-4 pt-2 text-sm text-gray-600">
-                        Haku päättyy {formatDateTime(position.current_closes_at)}
-                    </p>
-                )}
                 <Divider />
 
                 <div className="rounded-md overflow-hidden">

@@ -56,21 +56,17 @@ export async function up(db: Kysely<any>): Promise<void> {
                 WHEN sched.in_window THEN 'open'::state
                 ELSE 'closed'::state
             END AS state,
-            sched.is_scheduled,
-            sched.next_opens_at,
-            sched.current_closes_at
+            sched.next_opens_at
         FROM position p
         CROSS JOIN LATERAL (
             SELECT
-                count(*) > 0 AS is_scheduled,
                 coalesce(bool_or(now() >= s.opens_at AND now() < s.closes_at), false) AS in_window,
                 max(greatest(
                     s.updated_at,
                     CASE WHEN s.opens_at <= now() THEN s.opens_at END,
                     CASE WHEN s.closes_at <= now() THEN s.closes_at END
                 )) AS last_event_at,
-                min(s.opens_at) FILTER (WHERE s.opens_at > now()) AS next_opens_at,
-                max(s.closes_at) FILTER (WHERE now() >= s.opens_at AND now() < s.closes_at) AS current_closes_at
+                min(s.opens_at) FILTER (WHERE s.opens_at > now()) AS next_opens_at
             FROM schedule_position sp
             JOIN schedule s ON s.id = sp.schedule_id
             WHERE sp.position_id = p.id

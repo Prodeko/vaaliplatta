@@ -46,9 +46,7 @@ export interface Position {
     questions?: Question[];
     category: string;
     state: State;
-    is_scheduled?: boolean;
     next_opens_at?: string | null;
-    current_closes_at?: string | null;
     schedules?: PositionSchedule[]; // only returned to admins
 }
 

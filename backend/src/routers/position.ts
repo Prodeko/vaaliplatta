@@ -52,12 +52,29 @@ positionRouter.put(
     async (req, res, next) => {
         try {
             const id = parseInt(req.params.id!)
-            const data: createNewPositionType = req.body
+            const { state, ...data }: createNewPositionType = req.body
 
-            // A manual state change overrides schedules until their next event
+            // A manual state change overrides schedules until their next event.
+            // The edit form always sends the current state, so only an actual
+            // change counts.
+            const current = await db
+                .selectFrom('position_effective')
+                .select('state')
+                .where('id', '=', id)
+                .executeTakeFirst()
+            const stateChange = state && state !== current?.state
+                ? { state, state_changed_at: sql<Date>`now()` }
+                : {}
+
+            const update = { ...data, ...stateChange }
+            if (Object.keys(update).length === 0) {
+                const unchanged = await db.selectFrom('position').selectAll().where('id', '=', id).executeTakeFirst()
+                return res.status(200).json(unchanged)
+            }
+
             const result = await db
                 .updateTable('position')
-                .set({ ...data, ...(data.state ? { state_changed_at: sql`now()` } : {}) })
+                .set(update)
                 .where('id', '=', id)
                 .returningAll()
                 .executeTakeFirst()

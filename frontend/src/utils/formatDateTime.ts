@@ -9,7 +9,7 @@ export function formatDateTime(value: string): string {
     })
 }
 
-// Converts a timestamp to the local "YYYY-MM-DDTHH:mm" format of datetime-local inputs
+// Converts a timestamp to a local "YYYY-MM-DDTHH:mm" string
 export function toDateTimeLocalValue(value: string): string {
     const date = new Date(value)
     const pad = (n: number) => n.toString().padStart(2, "0")

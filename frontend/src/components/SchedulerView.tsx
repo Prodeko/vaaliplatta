@@ -6,15 +6,34 @@ import useSchedulerView from "../hooks/useSchedulerView"
 import { formatDateTime, toDateTimeLocalValue } from "../utils/formatDateTime"
 import Loading from "./Loading"
 
+// Times are typed as text instead of using datetime-local inputs, because those
+// follow the browser's locale and may show a 12h clock
 interface ScheduleDraft {
     id: number | null
     name: string
-    opens_at: string // datetime-local value
-    closes_at: string // datetime-local value
+    opens_date: string // YYYY-MM-DD
+    opens_time: string // e.g. "12.00"
+    closes_date: string
+    closes_time: string
     position_ids: number[]
 }
 
-const emptyDraft: ScheduleDraft = { id: null, name: "", opens_at: "", closes_at: "", position_ids: [] }
+const emptyDraft: ScheduleDraft = { id: null, name: "", opens_date: "", opens_time: "", closes_date: "", closes_time: "", position_ids: [] }
+
+// Parses a 24h time like "9.00" or "09:00" into "09:00", or null if invalid
+function parseTime(value: string): string | null {
+    const match = value.trim().match(/^(\d{1,2})[.:](\d{2})$/)
+    if (!match) return null
+    const [hours, minutes] = [parseInt(match[1]), parseInt(match[2])]
+    if (hours > 23 || minutes > 59) return null
+    return `${hours.toString().padStart(2, "0")}:${match[2]}`
+}
+
+// Splits a timestamp into the draft's local date and time fields
+function toDateAndTime(value: string): [string, string] {
+    const [date, time] = toDateTimeLocalValue(value).split("T")
+    return [date, time.replace(":", ".")]
+}
 
 const positionCategories = [
     { key: "hallitus", label: "HALLITUS" },
@@ -70,11 +89,15 @@ export default function SchedulerView() {
 
     const editSchedule = (schedule: Schedule) => {
         setError(null)
+        const [opens_date, opens_time] = toDateAndTime(schedule.opens_at)
+        const [closes_date, closes_time] = toDateAndTime(schedule.closes_at)
         setDraft({
             id: schedule.id,
             name: schedule.name,
-            opens_at: toDateTimeLocalValue(schedule.opens_at),
-            closes_at: toDateTimeLocalValue(schedule.closes_at),
+            opens_date,
+            opens_time,
+            closes_date,
+            closes_time,
             position_ids: schedule.position_ids,
         })
     }
@@ -108,8 +131,11 @@ export default function SchedulerView() {
 
     const validate = (d: ScheduleDraft): string | null => {
         if (!d.name.trim()) return "Anna aikataululle nimi."
-        if (!d.opens_at || !d.closes_at) return "Valitse aukeamis- ja sulkeutumisaika."
-        if (new Date(d.closes_at) <= new Date(d.opens_at)) return "Sulkeutumisajan pitää olla aukeamisen jälkeen."
+        if (!d.opens_date || !d.closes_date) return "Valitse aukeamis- ja sulkeutumispäivä."
+        const opensTime = parseTime(d.opens_time)
+        const closesTime = parseTime(d.closes_time)
+        if (!opensTime || !closesTime) return "Anna kellonajat muodossa 12.00."
+        if (new Date(`${d.closes_date}T${closesTime}`) <= new Date(`${d.opens_date}T${opensTime}`)) return "Sulkeutumisajan pitää olla aukeamisen jälkeen."
         if (d.position_ids.length === 0) return "Valitse vähintään yksi rooli."
         return null
     }
@@ -127,8 +153,8 @@ export default function SchedulerView() {
 
         const body = {
             name: draft.name.trim(),
-            opens_at: new Date(draft.opens_at).toISOString(),
-            closes_at: new Date(draft.closes_at).toISOString(),
+            opens_at: new Date(`${draft.opens_date}T${parseTime(draft.opens_time)}`).toISOString(),
+            closes_at: new Date(`${draft.closes_date}T${parseTime(draft.closes_time)}`).toISOString(),
             position_ids: draft.position_ids,
         }
 
@@ -200,27 +226,32 @@ export default function SchedulerView() {
                     />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 my-4">
-                    <div className="flex flex-col gap-2">
-                        <label htmlFor="schedule-opens" className={labelClass}>Haku aukeaa</label>
-                        <input
-                            id="schedule-opens"
-                            type="datetime-local"
-                            className={inputClass}
-                            value={draft.opens_at}
-                            onChange={e => updateDraft({ opens_at: e.target.value })}
-                        />
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <label htmlFor="schedule-closes" className={labelClass}>Haku sulkeutuu</label>
-                        <input
-                            id="schedule-closes"
-                            type="datetime-local"
-                            className={inputClass}
-                            value={draft.closes_at}
-                            onChange={e => updateDraft({ closes_at: e.target.value })}
-                        />
-                    </div>
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-4 my-4">
+                    {([
+                        { label: "Haku aukeaa", id: "schedule-opens", date: "opens_date", time: "opens_time" },
+                        { label: "Haku sulkeutuu", id: "schedule-closes", date: "closes_date", time: "closes_time" },
+                    ] as const).map(field => (
+                        <div key={field.id} className="flex flex-col gap-2">
+                            <label htmlFor={field.id} className={labelClass}>{field.label}</label>
+                            <div className="flex gap-2">
+                                <input
+                                    id={field.id}
+                                    type="date"
+                                    className={`${inputClass} min-w-0 flex-1`}
+                                    value={draft[field.date]}
+                                    onChange={e => updateDraft({ [field.date]: e.target.value })}
+                                />
+                                <input
+                                    aria-label={`${field.label}, kellonaika`}
+                                    inputMode="numeric"
+                                    placeholder="12.00"
+                                    className={`${inputClass.replace("w-full", "w-20")} shrink-0`}
+                                    value={draft[field.time]}
+                                    onChange={e => updateDraft({ [field.time]: e.target.value })}
+                                />
+                            </div>
+                        </div>
+                    ))}
                 </div>
 
                 <p className={labelClass}>Roolit ({roleCount(draft.position_ids.length)})</p>
