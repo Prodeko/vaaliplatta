@@ -26,6 +26,7 @@ import questionRouter from './routers/question'
 import answerRouter from './routers/answer'
 import { userInspectRouter } from './routers/userInspect'
 import { adminRouter } from './routers/admin'
+import scheduleRouter from './routers/schedule'
 
 
 async function migrateToLatest() {
@@ -99,6 +100,7 @@ app.use("/api/question", questionRouter)
 app.use("/api/answer", answerRouter)
 app.use("/api/users", userInspectRouter)
 app.use("/api/admin", requireSuperUser, adminRouter)
+app.use("/api/schedule", requireSuperUser, scheduleRouter)
 app.use("/", authRouter)
 
 app.use(express.static(path.join(__dirname, config.FRONTEND_DIST_FOLDER)));

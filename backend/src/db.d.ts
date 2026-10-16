@@ -39,6 +39,20 @@ export interface Position {
   name: string;
   seats: string | null;
   state: Generated<State>;
+  state_changed_at: Timestamp | null;
+}
+
+export interface PositionEffective {
+  category: string | null;
+  current_closes_at: Timestamp | null;
+  description: string | null;
+  election_id: number | null;
+  id: number | null;
+  is_scheduled: boolean | null;
+  name: string | null;
+  next_opens_at: Timestamp | null;
+  seats: string | null;
+  state: State | null;
 }
 
 export interface Question {
@@ -62,12 +76,29 @@ export interface ReadReceiptsWithElectionId {
   user_id: string | null;
 }
 
+export interface Schedule {
+  closes_at: Timestamp;
+  election_id: number;
+  id: Generated<number>;
+  name: string;
+  opens_at: Timestamp;
+  updated_at: Generated<Timestamp>;
+}
+
+export interface SchedulePosition {
+  position_id: number;
+  schedule_id: number;
+}
+
 export interface DB {
   answer: Answer;
   application: Application;
   election: Election;
   position: Position;
+  position_effective: PositionEffective;
   question: Question;
   read_receipts: ReadReceipts;
   read_receipts_with_election_id: ReadReceiptsWithElectionId;
+  schedule: Schedule;
+  schedule_position: SchedulePosition;
 }

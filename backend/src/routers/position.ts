@@ -4,7 +4,7 @@ import { validateData, validateRouteParams } from "../middleware/validators";
 import { db } from "../database";
 import { jsonArrayFrom } from "kysely/helpers/postgres";
 import { AuthenticatedRequest, requireAuthenticated, requireSuperUser } from "../middleware/auth";
-import { ExpressionBuilder } from "kysely";
+import { ExpressionBuilder, sql } from "kysely";
 import { DB } from "../db";
 
 const positionRouter = Router();
@@ -54,9 +54,10 @@ positionRouter.put(
             const id = parseInt(req.params.id!)
             const data: createNewPositionType = req.body
 
+            // A manual state change overrides schedules until their next event
             const result = await db
                 .updateTable('position')
-                .set(data)
+                .set({ ...data, ...(data.state ? { state_changed_at: sql`now()` } : {}) })
                 .where('id', '=', id)
                 .returningAll()
                 .executeTakeFirst()
@@ -73,6 +74,7 @@ positionRouter.get('/:id', validateRouteParams(idRouteParamsSchema), async (req:
     try {
         const id = parseInt(req.params.id!)
         const user = req.session?.pk || -1
+        const isAdmin = req.session?.is_superuser === true
 
         const applicationsJoinReadReceipts = (eb: ExpressionBuilder<DB, "position">) => jsonArrayFrom(
             eb.selectFrom("application")
@@ -85,7 +87,7 @@ positionRouter.get('/:id', validateRouteParams(idRouteParamsSchema), async (req:
 
 
         const result = await db
-            .selectFrom("position")
+            .selectFrom("position_effective as position")
             .where("id", "=", id)
             .selectAll()
             .select(applicationsJoinReadReceipts)
@@ -101,6 +103,13 @@ positionRouter.get('/:id', validateRouteParams(idRouteParamsSchema), async (req:
                     ).as("answers"))
                     .whereRef("question.position_id", "=", "position.id")
             ).as("questions"))
+            .$if(isAdmin, qb => qb.select(eb => jsonArrayFrom(
+                eb.selectFrom("schedule")
+                    .innerJoin("schedule_position", "schedule_position.schedule_id", "schedule.id")
+                    .select(["schedule.id", "schedule.name", "schedule.opens_at", "schedule.closes_at"])
+                    .whereRef("schedule_position.position_id", "=", "position.id")
+                    .orderBy("schedule.opens_at")
+            ).as("schedules")))
             .executeTakeFirst()
 
         res.status(200).json(result)

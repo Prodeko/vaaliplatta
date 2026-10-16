@@ -40,7 +40,7 @@ applicationRouter.post(
 export async function createOrUpdateApplication(data: Insertable<Application>) {
 
     const position = await db
-        .selectFrom("position")
+        .selectFrom("position_effective")
         .selectAll()
         .where("id", "=", data.position_id)
         .executeTakeFirst();

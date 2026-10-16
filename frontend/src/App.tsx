@@ -3,15 +3,22 @@ import LeftNavBar from "./components/LeftNavBar"
 import { useAppState } from "./hooks/useAppState"
 import Election from "./components/Election"
 import PositionView from "./components/Position"
+import SchedulerView from "./components/SchedulerView"
 import Error from "./components/Error"
+import useSchedulerView from "./hooks/useSchedulerView"
+import { useAuth } from "./hooks/useAuth"
 import { ApplicationModal, ApplicationForm, AdminEditApplicantsFormModal, AdminEditPositionDescriptionFormModal, AdminEditElectionFormModal, AdminCreateElectionFormModal } from "./components/ApplicationModal"
 
 export default function App() {
   const { position } = useAppState();
+  const { isSchedulerOpen } = useSchedulerView()
+  const { session } = useAuth()
 
   const content = position
     ? <PositionView position={position} />
-    : <Election />
+    : isSchedulerOpen && session?.is_superuser
+      ? <SchedulerView />
+      : <Election />
 
   return (
     <div

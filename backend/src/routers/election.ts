@@ -65,7 +65,7 @@ electionRouter.get("/:id", validateRouteParams(idRouteParamsSchema), async (req:
 
         const result = await electionQuery.selectAll()
             .select(eb => jsonArrayFrom(
-                eb.selectFrom("position")
+                eb.selectFrom("position_effective as position")
                     .selectAll()
                     .select(eb => jsonArrayFrom(
                         user

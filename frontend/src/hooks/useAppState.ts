@@ -46,6 +46,21 @@ export interface Position {
     questions?: Question[];
     category: string;
     state: State;
+    is_scheduled?: boolean;
+    next_opens_at?: string | null;
+    current_closes_at?: string | null;
+    schedules?: PositionSchedule[]; // only returned to admins
+}
+
+export type PositionSchedule = Pick<Schedule, "id" | "name" | "opens_at" | "closes_at">
+
+export interface Schedule {
+    id: number;
+    election_id: number;
+    name: string;
+    opens_at: string;
+    closes_at: string;
+    position_ids: number[];
 }
 
 export interface Application {

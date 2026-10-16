@@ -6,6 +6,7 @@ import useAuthenticatedRequests from "../hooks/useAuthenticatedRequests"
 import HtmlRenderer from "./HtmlRenderer"
 import Loading from "./Loading"
 import { useAuth } from "../hooks/useAuth"
+import useSchedulerView from "../hooks/useSchedulerView"
 
 type ElectionSummary = Pick<ElectionType, "id" | "name" | "state">
 
@@ -17,6 +18,7 @@ export default function Election() {
     clearPosition,
   } = useAppState()
   const { session } = useAuth()
+  const { openScheduler } = useSchedulerView()
   const { get } = useAuthenticatedRequests()
   const [searchParams, setSearchParams] = useSearchParams()
   const [browseOpen, setBrowseOpen] = useState(false)
@@ -88,6 +90,14 @@ export default function Election() {
             className={adminButtonClass}
           >
             Muokkaa vaaleja
+          </button>
+        )}
+        {election && (
+          <button
+            onClick={() => openScheduler()}
+            className={adminButtonClass}
+          >
+            Aikatauluta haut
           </button>
         )}
         <button

@@ -8,6 +8,8 @@ import QuestionAnswerSection from "./QuestionAnswerSection"
 import useConfig from "../hooks/useConfig"
 import useAuthenticatedRequests from "../hooks/useAuthenticatedRequests"
 import AdminButtons from './AdminButtons';
+import useSchedulerView from "../hooks/useSchedulerView"
+import { formatDateTime } from "../utils/formatDateTime"
 
 interface ApplicationCardProps {
     application: Application
@@ -59,7 +61,8 @@ interface PositionProps {
 }
 
 export default function PositionView({ position }: PositionProps) {
-    const { setShowApplicationForm, setShowAdminEditApplicantsForm, getPosition, setShowAdminEditPositionDescriptionModal } = useAppState()
+    const { setShowApplicationForm, setShowAdminEditApplicantsForm, getPosition, setShowAdminEditPositionDescriptionModal, clearPosition } = useAppState()
+    const { openScheduler } = useSchedulerView()
     const { session } = useAuth()
     const { put } = useAuthenticatedRequests()
     const navigate = useNavigate()
@@ -86,6 +89,11 @@ export default function PositionView({ position }: PositionProps) {
         put(`/position/${position.id}`, { state: newState })
             .then(() => getPosition(position.id.toString()))
             .catch(err => console.error(err))
+    }
+
+    function showSchedule(scheduleId: number) {
+        clearPosition()
+        openScheduler(scheduleId)
     }
 
     function editDescription() {
@@ -117,9 +125,16 @@ export default function PositionView({ position }: PositionProps) {
                         disabled
                         onClick={() => { }}
                     >
-                        Hakeminen on päättynyt
+                        {position.next_opens_at
+                            ? `Haku aukeaa ${formatDateTime(position.next_opens_at)}`
+                            : "Hakeminen on päättynyt"}
                     </button>
                 }
+                {position.state === State.OPEN && position.current_closes_at && (
+                    <p className="px-4 pt-2 text-sm text-gray-600">
+                        Haku päättyy {formatDateTime(position.current_closes_at)}
+                    </p>
+                )}
                 <Divider />
 
                 <div className="rounded-md overflow-hidden">
@@ -136,6 +151,26 @@ export default function PositionView({ position }: PositionProps) {
                             onAddApplicants={addApplicants}
                             onEditDescription={editDescription}
                         />
+                        {position.schedules && position.schedules.length > 0 && (
+                            <div className="mt-2 rounded-md bg-gray-50 p-4">
+                                <p className="font-extrabold text-black">Hakuaikataulut</p>
+                                {position.schedules.map(schedule => (
+                                    <button
+                                        key={schedule.id}
+                                        onClick={() => showSchedule(schedule.id)}
+                                        className="mt-2 w-full rounded-md p-2 text-left text-sm hover:bg-blue-100"
+                                    >
+                                        <span className="block font-bold text-gray-800">{schedule.name}</span>
+                                        <span className="block text-gray-600">
+                                            {formatDateTime(schedule.opens_at)} → {formatDateTime(schedule.closes_at)}
+                                        </span>
+                                    </button>
+                                ))}
+                                <p className="mt-2 text-xs text-gray-500">
+                                    Käsin avaaminen tai sulkeminen on voimassa seuraavaan aikataulun muutokseen asti.
+                                </p>
+                            </div>
+                        )}
                     </>
                 }
             </div>
