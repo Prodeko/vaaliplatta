@@ -1126,6 +1126,8 @@
           "teksti": "Viinitonkka",
           "teemat": {
             "TAP": 2,
+            "PER": 1,
+            "URH": 1,
             "KAY": 1
           }
         }
