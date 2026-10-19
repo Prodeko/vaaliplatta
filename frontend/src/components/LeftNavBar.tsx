@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { State, useAppState } from '../hooks/useAppState';
+import { useAppState } from '../hooks/useAppState';
 import { groupBy } from 'lodash';
 import { useAuth } from '../hooks/useAuth';
 import useToimarivisaView from '../hooks/useToimarivisaView';
@@ -95,7 +95,7 @@ export default function LeftNavBar() {
                     })}
                 </Dropdown>
             )}
-            {election?.state === State.OPEN && (
+            {election?.show_toimarivisa && (
                 <button
                     onClick={openToimarivisa}
                     className="mt-2 flex items-center justify-between w-full p-4 text-black bg-blue-50 hover:bg-blue-100 rounded-md focus:outline-none"

@@ -16,6 +16,7 @@ const AdminEditElectionForm = () => {
     const editorRef = useRef<EditorRef>(null);
     const [name, setName] = useState('');
     const [stateValue, setStateValue] = useState<State>(State.DRAFT);
+    const [showToimarivisa, setShowToimarivisa] = useState(false);
     const [submitting, setSubmitting] = useState(false);
     const [creatingPosition, setCreatingPosition] = useState(false);
     const [error, setError] = useState<string | null>(null);
@@ -29,6 +30,7 @@ const AdminEditElectionForm = () => {
 
         setName(election.name);
         setStateValue(election.state);
+        setShowToimarivisa(election.show_toimarivisa);
         setNewPositionName(DEFAULT_POSITION_NAME);
         setNewPositionCategory(DEFAULT_POSITION_CATEGORY);
         setPositionMessage(null);
@@ -44,6 +46,7 @@ const AdminEditElectionForm = () => {
         const payload = {
             name,
             state: stateValue,
+            show_toimarivisa: showToimarivisa,
             description: editorRef.current?.getHTML() ?? '',
         };
 
@@ -134,6 +137,21 @@ const AdminEditElectionForm = () => {
                     <option value={State.CLOSED}>Suljettu</option>
                     <option value={State.ARCHIVED}>Arkistoitu</option>
                 </select>
+            </div>
+
+            <div className="my-4">
+                <label className="flex items-start gap-3 cursor-pointer">
+                    <input
+                        type="checkbox"
+                        checked={showToimarivisa}
+                        onChange={(e) => setShowToimarivisa(e.target.checked)}
+                        className="mt-0.5 h-5 w-5 shrink-0 accent-blue-600"
+                    />
+                    <span>
+                        <span className="block text-sm font-medium text-gray-700">Näytä toimarivisa</span>
+                        <span className="block text-sm text-gray-500">Näyttää visan kortin etusivulla ja rivin sivuvalikossa. Visa toimii suoralla linkillä aina.</span>
+                    </span>
+                </label>
             </div>
 
             <div className="my-4">

@@ -13,6 +13,7 @@ export interface Election {
     name: string,
     state: State,
     description: string | null,
+    show_toimarivisa: boolean,
     positions: Position[],
 }
 

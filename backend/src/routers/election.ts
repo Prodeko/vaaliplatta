@@ -154,6 +154,7 @@ const updateElectionSchema = z.object({
     name: z.string().optional(),
     description: z.string().nullable().optional(),
     state: electionStateEnum.optional(),
+    show_toimarivisa: z.boolean().optional(),
 });
 
 electionRouter.put(
@@ -169,6 +170,7 @@ electionRouter.put(
                 ...(data.name !== undefined ? { name: data.name } : {}),
                 ...(data.description !== undefined ? { description: data.description } : {}),
                 ...(data.state !== undefined ? { state: data.state } : {}),
+                ...(data.show_toimarivisa !== undefined ? { show_toimarivisa: data.show_toimarivisa } : {}),
             }
 
             const result = await db

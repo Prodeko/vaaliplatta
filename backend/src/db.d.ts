@@ -40,6 +40,7 @@ export interface Election {
   description: string | null;
   id: Generated<number>;
   name: string;
+  show_toimarivisa: Generated<boolean>;
   state: Generated<State>;
 }
 

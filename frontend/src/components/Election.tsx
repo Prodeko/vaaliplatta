@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useSearchParams } from "react-router-dom"
-import { State, useAppState } from "../hooks/useAppState"
+import { useAppState } from "../hooks/useAppState"
 import type { Election as ElectionType } from "../hooks/useAppState"
 import useAuthenticatedRequests from "../hooks/useAuthenticatedRequests"
 import HtmlRenderer from "./HtmlRenderer"
@@ -62,8 +62,8 @@ export default function Election() {
 
   const description = election?.description
     ? <>
-      {/* The quiz is only offered while the election is running */}
-      {election.state === State.OPEN && <ToimarivisaCard />}
+      {/* Admins choose whether the quiz is shown; it is always reachable with a direct link */}
+      {election.show_toimarivisa && <ToimarivisaCard />}
       <HtmlRenderer htmlContent={election.description} />
     </>
     : <Loading />
