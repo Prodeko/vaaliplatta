@@ -1093,7 +1093,12 @@
           }
         },
         {
-          "teksti": "Omien projektien edistäminen"
+          "teksti": "Omien projektien edistäminen",
+          "teemat": {
+            "VIE": 1,
+            "LUO": 1,
+            "TEK": 1
+          }
         }
       ]
     },
