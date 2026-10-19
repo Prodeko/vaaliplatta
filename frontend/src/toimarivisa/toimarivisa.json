@@ -1304,41 +1304,37 @@
         {
           "teksti": "TUAS",
           "teemat": {
-            "TEK": 1,
-            "URA": 1
+            "TEK": 2
           }
         },
         {
           "teksti": "A Bloc",
           "teemat": {
-            "RAH": 1,
-            "KAY": 1
+            "RAH": 2
           }
         },
         {
           "teksti": "Kandilafka",
           "teemat": {
-            "OPI": 1,
-            "YHT": 1
+            "OPI": 2
           }
         },
         {
           "teksti": "Otaniemen kappeli",
           "teemat": {
-            "PER": 1,
-            "LUO": 1
+            "LUO": 2
           }
         },
         {
           "teksti": "Harald Herlin",
           "teemat": {
-            "OPI": 2
+            "VIE": 2
           }
         },
         {
           "teksti": "Rantasauna",
           "teemat": {
-            "YHT": 2
+            "KAY": 2
           }
         },
         {
