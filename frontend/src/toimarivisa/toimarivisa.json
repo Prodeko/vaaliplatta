@@ -1208,33 +1208,33 @@
       "tyyppi": "valinta",
       "vastaukset": [
         {
-          "teksti": "nurkkasohvalta jutustelemasta",
+          "teksti": "Nurkkasohvalta jutustelemasta",
           "teemat": {
             "YHT": 1,
             "VIE": 1
           }
         },
         {
-          "teksti": "bilispöydän äärestä",
+          "teksti": "Bilispöydän äärestä",
           "teemat": {
             "URH": 2
           }
         },
         {
-          "teksti": "jääkaapilta cokista hakemassa",
+          "teksti": "Jääkaapilta cokista hakemassa",
           "teemat": {
             "KAY": 2
           }
         },
         {
-          "teksti": "sohvalta pelaamassa",
+          "teksti": "Sohvalta pelaamassa",
           "teemat": {
             "URH": 1,
             "TEK": 1
           }
         },
         {
-          "teksti": "ei mistään, olen tuta-klubilla hommissa",
+          "teksti": "Ei mistään, olen tuta-klubilla hommissa",
           "teemat": {
             "URA": 2
           }
