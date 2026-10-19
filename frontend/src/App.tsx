@@ -6,12 +6,15 @@ import PositionView from "./components/Position"
 import SchedulerView from "./components/SchedulerView"
 import Error from "./components/Error"
 import useSchedulerView from "./hooks/useSchedulerView"
+import Toimarivisa from "./components/Toimarivisa"
+import useToimarivisaView from "./hooks/useToimarivisaView"
 import { useAuth } from "./hooks/useAuth"
 import { ApplicationModal, ApplicationForm, AdminEditApplicantsFormModal, AdminEditPositionDescriptionFormModal, AdminEditElectionFormModal, AdminCreateElectionFormModal } from "./components/ApplicationModal"
 
 export default function App() {
   const { position } = useAppState();
   const { isSchedulerOpen } = useSchedulerView()
+  const { isToimarivisaOpen } = useToimarivisaView()
   const { session } = useAuth()
 
   const content = position
@@ -32,17 +35,22 @@ export default function App() {
       <AdminEditPositionDescriptionFormModal />
       <AdminEditElectionFormModal />
       <AdminCreateElectionFormModal />
-      <div className="p-3 min-h-full bg-white 
-        sm:block 
-        md:grid md:grid-cols-8 
-        lg:grid-cols-10 
-        xl:grid-cols-12 
-        2xl:grid-cols-12 gap-3">
-        <div className="col-span-2">
-          <LeftNavBar />
+      {!position && isToimarivisaOpen
+        // The quiz has no role menu: it is a narrow centered column
+        ? <div className="p-3 min-h-full bg-white">
+          <Toimarivisa />
         </div>
-        {content}
-      </div>
+        : <div className="p-3 min-h-full bg-white 
+          sm:block 
+          md:grid md:grid-cols-8 
+          lg:grid-cols-10 
+          xl:grid-cols-12 
+          2xl:grid-cols-12 gap-3">
+          <div className="col-span-2">
+            <LeftNavBar />
+          </div>
+          {content}
+        </div>}
     </div>
   );
 }

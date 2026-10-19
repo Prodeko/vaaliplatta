@@ -1,11 +1,13 @@
 import { useAppState } from "../hooks/useAppState"
 import { useAuth } from "../hooks/useAuth"
 import useSchedulerView from "../hooks/useSchedulerView"
+import useToimarivisaView from "../hooks/useToimarivisaView"
 
 export default function TopHeaderBar() {
     const { election, position, clearPosition } = useAppState()
     const { login, logout, session } = useAuth()
     const { isSchedulerOpen, closeScheduler } = useSchedulerView()
+    const { isToimarivisaOpen, closeToimarivisa } = useToimarivisaView()
 
     function handleClick() {
         console.log("handle click")
@@ -14,19 +16,22 @@ export default function TopHeaderBar() {
     }
 
     const showScheduler = !position && isSchedulerOpen && !!session?.is_superuser
+    const showToimarivisa = !position && isToimarivisaOpen
 
     const text = position && position !== "loading"
         ? position.name
         : showScheduler
             ? "Hakuaikataulut"
-            : election?.name || "Vaaliplatta"
+            : showToimarivisa
+                ? "Toimarivisa"
+                : election?.name || "Vaaliplatta"
 
     return (
         <div className="flex justify-between items-center">
             <div className="flex items-center gap-2 p-8 md:p-12">
-                {(position || showScheduler) && (
+                {(position || showScheduler || showToimarivisa) && (
                     <button
-                        onClick={position ? clearPosition : closeScheduler}
+                        onClick={position ? clearPosition : showScheduler ? closeScheduler : closeToimarivisa}
                         aria-label="Etusivulle"
                         title="Etusivulle"
                         className="shrink-0 flex items-center justify-center w-10 h-10 md:w-14 md:h-14 rounded-full border-2 border-transparent hover:border-white transition duration-300 focus:outline-none"
@@ -38,7 +43,7 @@ export default function TopHeaderBar() {
                 )}
                 <div>
                     <h1 className="font-semibold text-white text-3xl sm:text-4xl md:text-6xl">{text}</h1>
-                    {showScheduler && election && (
+                    {(showScheduler || showToimarivisa) && election && (
                         <p className="mt-1 text-white md:text-xl">{election.name}</p>
                     )}
                 </div>

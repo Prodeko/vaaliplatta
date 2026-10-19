@@ -1,12 +1,13 @@
 import { useState } from "react"
 import { useSearchParams } from "react-router-dom"
-import { useAppState } from "../hooks/useAppState"
+import { State, useAppState } from "../hooks/useAppState"
 import type { Election as ElectionType } from "../hooks/useAppState"
 import useAuthenticatedRequests from "../hooks/useAuthenticatedRequests"
 import HtmlRenderer from "./HtmlRenderer"
 import Loading from "./Loading"
 import { useAuth } from "../hooks/useAuth"
 import useSchedulerView from "../hooks/useSchedulerView"
+import ToimarivisaCard from "./ToimarivisaCard"
 
 type ElectionSummary = Pick<ElectionType, "id" | "name" | "state">
 
@@ -59,7 +60,13 @@ export default function Election() {
 
   const adminButtonClass = "w-full p-4 mb-2 text-black font-extrabold rounded-md shadow-inner shadow-red-50 hover:bg-red-100 bg-red-50 border-2 border-red-50 hover:border-red-500 flex items-start"
 
-  const description = election?.description ? <HtmlRenderer htmlContent={election?.description} /> : <Loading />
+  const description = election?.description
+    ? <>
+      {/* The quiz is only offered while the election is running */}
+      {election.state === State.OPEN && <ToimarivisaCard />}
+      <HtmlRenderer htmlContent={election.description} />
+    </>
+    : <Loading />
 
   if (!isAdmin) {
     return (

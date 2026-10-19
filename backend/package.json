@@ -11,7 +11,8 @@
     "lint:fix": "biome lint --apply .",
     "lint:force": "biome lint --apply-unsafe .",
     "kysely-codegen": "kysely-codegen --out-file src/db.d.ts",
-    "create-test-data": "ts-node scripts/createTestData.ts"
+    "create-test-data": "ts-node scripts/createTestData.ts",
+    "create-toimarivisa-test-data": "ts-node scripts/createToimarivisaTestData.ts"
   },
   "keywords": [],
   "author": "",

@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { useAppState } from '../hooks/useAppState';
+import { State, useAppState } from '../hooks/useAppState';
 import { groupBy } from 'lodash';
 import { useAuth } from '../hooks/useAuth';
+import useToimarivisaView from '../hooks/useToimarivisaView';
 
 interface DropdownProps {
     label: string;
@@ -57,6 +58,7 @@ export default function LeftNavBar() {
         { group: toimarit, label: "TOIMARIT" }
     ]
     const { session } = useAuth()
+    const { openToimarivisa } = useToimarivisaView()
 
     return (
         <div className="w-full">
@@ -92,6 +94,17 @@ export default function LeftNavBar() {
                         )
                     })}
                 </Dropdown>
+            )}
+            {election?.state === State.OPEN && (
+                <button
+                    onClick={openToimarivisa}
+                    className="mt-2 flex items-center justify-between w-full p-4 text-black bg-blue-50 hover:bg-blue-100 rounded-md focus:outline-none"
+                >
+                    <span className="font-extrabold">TOIMARIVISA</span>
+                    <svg viewBox="0 0 20 20" fill="currentColor" className="w-5 h-5" aria-hidden="true">
+                        <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                    </svg>
+                </button>
             )}
         </div>
     );

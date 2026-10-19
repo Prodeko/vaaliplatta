@@ -4,6 +4,18 @@ export type Generated<T> = T extends ColumnType<infer S, infer I, infer U>
   ? ColumnType<S, I | undefined, U>
   : ColumnType<T, T | undefined, T>;
 
+export type Json = JsonValue;
+
+export type JsonArray = JsonValue[];
+
+export type JsonObject = {
+  [K in string]?: JsonValue;
+};
+
+export type JsonPrimitive = boolean | number | string | null;
+
+export type JsonValue = JsonArray | JsonObject | JsonPrimitive;
+
 export type State = "archived" | "closed" | "draft" | "open";
 
 export type Timestamp = ColumnType<Date, Date | string, Date | string>;
@@ -88,6 +100,14 @@ export interface SchedulePosition {
   schedule_id: number;
 }
 
+export interface ToimarivisaResult {
+  answers: Json;
+  created_at: Generated<Timestamp>;
+  election_id: number;
+  id: Generated<number>;
+  top_results: string[];
+}
+
 export interface DB {
   answer: Answer;
   application: Application;
@@ -99,4 +119,5 @@ export interface DB {
   read_receipts_with_election_id: ReadReceiptsWithElectionId;
   schedule: Schedule;
   schedule_position: SchedulePosition;
+  toimarivisa_result: ToimarivisaResult;
 }

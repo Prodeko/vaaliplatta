@@ -1,0 +1,1325 @@
+{
+  "teemat": [
+    "TAP",
+    "YHT",
+    "OPI",
+    "URA",
+    "KV",
+    "VIE",
+    "LUO",
+    "TEK",
+    "RAH",
+    "PER",
+    "URH",
+    "KAY"
+  ],
+  "roolit": [
+    {
+      "slug": "puheenjohtaja",
+      "nimi": "Puheenjohtaja",
+      "kategoria": "hallitus",
+      "mukanaVisassa": true,
+      "teemat": {
+        "YHT": 2,
+        "OPI": 2,
+        "URA": 1,
+        "VIE": 1,
+        "RAH": 1
+      },
+      "aika": 5,
+      "tyyli": "koordinoi",
+      "fuksi": "ei",
+      "kokemus": "vaaditaan",
+      "kuvaus": "Pidät hallituksen kokoukset raiteillaan ja langat käsissäsi laitokselta AYY:n neuvostoon asti. Kun joku kysyy, kuka tästä oikein päättää, kaikki kääntyvät katsomaan sinua."
+    },
+    {
+      "slug": "varapuheenjohtaja",
+      "nimi": "Varapuheenjohtaja",
+      "kategoria": "hallitus",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 1,
+        "YHT": 3,
+        "OPI": 1,
+        "VIE": 2,
+        "KAY": 2
+      },
+      "aika": 5,
+      "tyyli": "koordinoi",
+      "fuksi": "ei",
+      "kokemus": "hyodyllinen",
+      "kuvaus": "Tuuraat puheenjohtajaa, pidät toimijat virkeinä ja tiedät, missä killan postit, kaapit ja arkisto ovat. Hyvikset, terdet ja kiltistoimikunta kulkevat sinun siipiesi alla."
+    },
+    {
+      "slug": "rahastonhoitaja",
+      "nimi": "Rahastonhoitaja",
+      "kategoria": "hallitus",
+      "mukanaVisassa": true,
+      "teemat": {
+        "URA": 1,
+        "RAH": 3,
+        "KAY": 1
+      },
+      "aika": 4,
+      "tyyli": "itsenainen",
+      "fuksi": "ei",
+      "kokemus": "hyodyllinen",
+      "kuvaus": "Sinulle tase on rakkauskirje ja kuitti on pyhä. Pidät killan rahat ojennuksessa budjetista tilinpäätökseen, ja AYY:n avustushakemuskin syntyy sinun näppäimistöltäsi."
+    },
+    {
+      "slug": "excumestari",
+      "nimi": "Excumestari",
+      "kategoria": "hallitus",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 2,
+        "URA": 3,
+        "KV": 1,
+        "RAH": 1
+      },
+      "aika": 5,
+      "tyyli": "koordinoi",
+      "fuksi": "varauksin",
+      "kokemus": "hyodyllinen",
+      "kuvaus": "Viet kiltalaiset kurkistamaan yritysmaailman kulisseihin, puolipitkillä vähän kauemmaksikin. Teekkariexcujen perinne on turvassa sinun käsissäsi."
+    },
+    {
+      "slug": "fuksikapteeni",
+      "nimi": "Fuksikapteeni",
+      "kategoria": "hallitus",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 3,
+        "YHT": 3,
+        "KV": 1,
+        "VIE": 1,
+        "PER": 1
+      },
+      "aika": 5,
+      "tyyli": "koordinoi",
+      "fuksi": "ei",
+      "kokemus": "hyodyllinen",
+      "kuvaus": "Johdatat uudet prodekolaiset killan ja teekkarikulttuurin saloihin ja rakennat syksyn, jota fuksit muistelevat vielä valmistuttuaankin. Iso vuosi, vielä isompi porukka."
+    },
+    {
+      "slug": "isanta",
+      "nimi": "Isäntä",
+      "kategoria": "hallitus",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 3,
+        "YHT": 2,
+        "LUO": 1,
+        "PER": 1
+      },
+      "aika": 5,
+      "tyyli": "koordinoi",
+      "fuksi": "varauksin",
+      "kokemus": "hyodyllinen",
+      "kuvaus": "Tapahtumakalenteri, pakuvaraukset, varasto ja vuosijuhlat: sinulla on avain kaikkeen, ihan kirjaimellisesti. Juhlat pyörivät, koska sinä pyörität niitä."
+    },
+    {
+      "slug": "maisteri-ja-kv-kapteeni",
+      "nimi": "Maisteri- ja KV-kapteeni",
+      "kategoria": "hallitus",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 2,
+        "YHT": 3,
+        "KV": 3
+      },
+      "aika": 5,
+      "tyyli": "koordinoi",
+      "fuksi": "ei",
+      "kokemus": "hyodyllinen",
+      "kuvaus": "Toivotat maisterifuksit ja vaihtarit tervetulleiksi ja pidät huolen, ettei kukaan jää ulkopuolelle kielen takia. Prodeko kuulostaa kotoisalta millä kielellä tahansa, kun sinä olet paikalla."
+    },
+    {
+      "slug": "mediakeisari",
+      "nimi": "Mediakeisari",
+      "kategoria": "hallitus",
+      "mukanaVisassa": true,
+      "teemat": {
+        "YHT": 2,
+        "VIE": 3,
+        "LUO": 1,
+        "TEK": 1
+      },
+      "aika": 5,
+      "tyyli": "koordinoi",
+      "fuksi": "varauksin",
+      "kokemus": "hyodyllinen",
+      "kuvaus": "Päätät, miltä Prodeko näyttää ja kuulostaa, sähköpostilistoista someen. Johdat viestintätiimiä, kirjoitat hallituksen pöytäkirjat ja osaat jäsenrekisterin ulkoa."
+    },
+    {
+      "slug": "opintovastaava",
+      "nimi": "Opintovastaava",
+      "kategoria": "hallitus",
+      "mukanaVisassa": true,
+      "teemat": {
+        "YHT": 1,
+        "OPI": 3,
+        "VIE": 1
+      },
+      "aika": 3,
+      "tyyli": "koordinoi",
+      "fuksi": "varauksin",
+      "kokemus": "hyodyllinen",
+      "kuvaus": "Kun kurssi menee pieleen, sinä viet asian laitokselle ja AYY:n opintoneuvostoon asti. Johdat opintojaostoa ja teet opiskelusta vähän parempaa kaikille."
+    },
+    {
+      "slug": "sisa-ja-kulttuuriministeri",
+      "nimi": "Sisä- ja kulttuuriministeri",
+      "kategoria": "hallitus",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 3,
+        "YHT": 2,
+        "LUO": 1,
+        "PER": 2
+      },
+      "aika": 5,
+      "tyyli": "koordinoi",
+      "fuksi": "varauksin",
+      "kokemus": "hyodyllinen",
+      "kuvaus": "Ideoit killan tapahtumat yhdessä Isännän kanssa ja pidät kulttuurijaoston luovan kaaoksen kasassa. PowerPoint-illasta sitseihin: jos se on hauskaa, sinä keksit sen ensin."
+    },
+    {
+      "slug": "ulkoministeri",
+      "nimi": "Ulkoministeri",
+      "kategoria": "hallitus",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 2,
+        "YHT": 1,
+        "KV": 2
+      },
+      "aika": 4,
+      "tyyli": "koordinoi",
+      "fuksi": "varauksin",
+      "kokemus": "hyodyllinen",
+      "kuvaus": "Rakennat siltoja Aallon ulkopuolelle ja ulkomaille, ESTIEMistä puolipitkiin. Ulkojaosto lähtee liikkeelle, kun sinä näytät suunnan."
+    },
+    {
+      "slug": "yrityssuhdevastaava",
+      "nimi": "Yrityssuhdevastaava",
+      "kategoria": "hallitus",
+      "mukanaVisassa": true,
+      "teemat": {
+        "URA": 3,
+        "VIE": 1,
+        "RAH": 2
+      },
+      "aika": 5,
+      "tyyli": "itsenainen",
+      "fuksi": "varauksin",
+      "kokemus": "hyodyllinen",
+      "kuvaus": "LinkedIn on toinen kotisi, ja yrityskumppanit tuntevat sinut etunimeltä. Pidät Prodeko Networkin pystyssä ja budjetin täynnä, jotta muut voivat juhlia."
+    },
+    {
+      "slug": "abivastaava",
+      "nimi": "Abivastaava",
+      "kategoria": "vastuutoimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 1,
+        "YHT": 1,
+        "OPI": 1,
+        "VIE": 2
+      },
+      "aika": 2,
+      "tyyli": "koordinoi",
+      "fuksi": "varauksin",
+      "kokemus": "ei",
+      "kuvaus": "Kierrät lukioita ja somea ja saat abit haaveilemaan tuotantotaloudesta. Abikiertue, abipäivä ja oma tiimi: ensi vuoden fuksit ovat osittain sinun ansiotasi."
+    },
+    {
+      "slug": "cto",
+      "nimi": "CTO",
+      "kategoria": "vastuutoimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "VIE": 1,
+        "LUO": 1,
+        "TEK": 3
+      },
+      "aika": 3,
+      "tyyli": "itsenainen",
+      "fuksi": "varauksin",
+      "kokemus": "hyodyllinen",
+      "kuvaus": "Johdat webbitiimiä, käynnistät uusia softaprojekteja ja olet se, jolle soitetaan, kun ilmokilke kaatuu. Koodi on runoutta ja tuotanto on pyhä."
+    },
+    {
+      "slug": "diskonttaustirehtoori",
+      "nimi": "Diskonttaustirehtööri",
+      "kategoria": "vastuutoimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 3,
+        "LUO": 1,
+        "PER": 2
+      },
+      "aika": 3,
+      "tyyli": "koordinoi",
+      "fuksi": "ei",
+      "kokemus": "hyodyllinen",
+      "kuvaus": "Vedät vuosijuhlat kokonaisuutena: tilat, tiimi ja yhteys hallitukseen. Kun sillis on syöty ja viimeinenkin juhlija kotona, kaikki tietävät kenen ansiota se oli."
+    },
+    {
+      "slug": "estiem-vastaava",
+      "nimi": "ESTIEM-vastaava",
+      "kategoria": "vastuutoimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 1,
+        "KV": 3
+      },
+      "aika": 2,
+      "tyyli": "koordinoi",
+      "fuksi": "varauksin",
+      "kokemus": "ei",
+      "kuvaus": "Olet killan linkki ESTIEMiin: hoidat tiedotuksen ja Athene-yhteistyön ja edustat LG Helsinkiä CM:ssä ja Nordic ReCoMissa. Passi kulkee aina mukana, ihan varmuuden vuoksi."
+    },
+    {
+      "slug": "isovastaava",
+      "nimi": "ISOvastaava",
+      "kategoria": "vastuutoimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 2,
+        "YHT": 2,
+        "VIE": 1,
+        "PER": 1
+      },
+      "aika": 3,
+      "tyyli": "koordinoi",
+      "fuksi": "ei",
+      "kokemus": "hyodyllinen",
+      "kuvaus": "Valitset ja koulutat ISOt ja varmistat, että jokainen fuksi saa hyvän alun. Sitsejä, kokouksia ja puolentoista vuoden pesti AYY:n ISOtoimikunnassa."
+    },
+    {
+      "slug": "paatoimittaja",
+      "nimi": "Päätoimittaja",
+      "kategoria": "vastuutoimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "YHT": 1,
+        "VIE": 2,
+        "LUO": 1,
+        "PER": 1
+      },
+      "aika": 2,
+      "tyyli": "koordinoi",
+      "fuksi": "varauksin",
+      "kokemus": "ei",
+      "kuvaus": "Johdat Prolekoa, pidät vääntökokoukset ennen painoa ja saat toimittajat ja taittajat liikkeelle. Kun lehti kolahtaa kiltikseen, se on sinun ansiotasi."
+    },
+    {
+      "slug": "seminaaritsaari",
+      "nimi": "Seminaaritsaari",
+      "kategoria": "vastuutoimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 3,
+        "URA": 2,
+        "KV": 1
+      },
+      "aika": 3,
+      "tyyli": "koordinoi",
+      "fuksi": "ei",
+      "kokemus": "hyodyllinen",
+      "kuvaus": "Kevään Prodeko-seminaari on sinun käsialaasi kokonaisuutena, budjetista yrityskumppaneihin. Kun yksi semma päättyy, seuraava on jo työn alla."
+    },
+    {
+      "slug": "abitiimi",
+      "nimi": "Abitiimi",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 1,
+        "YHT": 1,
+        "OPI": 1,
+        "VIE": 1
+      },
+      "aika": 1,
+      "tyyli": "tiimi",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Lähdet lukiovierailuille, teet abeille sisältöä ja näytät, miltä teekkarielämä oikeasti näyttää. Kevyt tapa päästä mukaan heti ensimmäisenä vuonna."
+    },
+    {
+      "slug": "biljardivastaava",
+      "nimi": "Biljardivastaava",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 1,
+        "YHT": 1,
+        "URH": 3,
+        "KAY": 1
+      },
+      "aika": 1,
+      "tyyli": "itsenainen",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Pöydän verka on sileä ja kepit suorat, koska sinä pidät niistä huolen. Järjestät biljardi-iltoja ja tiedät aina, minne valkoinen pallo kannattaa lähettää."
+    },
+    {
+      "slug": "disdollaraustirehtoori",
+      "nimi": "Disdollaraustirehtööri",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 2,
+        "URA": 2,
+        "RAH": 3
+      },
+      "aika": 2,
+      "tyyli": "itsenainen",
+      "fuksi": "varauksin",
+      "kokemus": "ei",
+      "kuvaus": "Laskelmoit vuosijuhlien budjetin ja hankit yrityskumppanit, jotta kuohuvaa riittää kaikille. Juhlaviikolla laskin jää pöydälle ja sinä hyppäät diskotiimin mukaan."
+    },
+    {
+      "slug": "dokumentoija",
+      "nimi": "Dokumentoija",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 2,
+        "VIE": 2,
+        "LUO": 3
+      },
+      "aika": 2,
+      "tyyli": "itsenainen",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Kamera kaulassa olet joka tapahtumassa, eikä kukaan ole turvassa hyvältä kuvalta. Kuvat päätyvät killan galleriaan, ja kokemukseksi riittää innostus."
+    },
+    {
+      "slug": "estiem-emissaari",
+      "nimi": "ESTIEM-emissaari",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 1,
+        "KV": 2
+      },
+      "aika": 1,
+      "tyyli": "tiimi",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Hyppäät mukaan ESTIEM-tapahtumiin ympäri Eurooppaa ja kannat vastuuta ESTIEM-vastaavan rinnalla. Hanseatic ReCom, ESTIEM-info ja uudet ystävät ympäri mantereen kuuluvat pakettiin."
+    },
+    {
+      "slug": "fabujuomanlaskijat",
+      "nimi": "Fabujuomanlaskijat",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 2,
+        "YHT": 1,
+        "PER": 2,
+        "KAY": 1
+      },
+      "aika": 1,
+      "tyyli": "tiimi",
+      "fuksi": "sopii",
+      "kokemus": "vaaditaan",
+      "kuvaus": "Olet nähnyt sitsit jos toisetkin, ja juomanlaskijan ansiot ovat jo plakkarissa. Kun apua tarvitaan, sinä saavut paikalle energiaa täynnä."
+    },
+    {
+      "slug": "historioitsija",
+      "nimi": "Historioitsija",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "VIE": 1,
+        "PER": 3
+      },
+      "aika": 1,
+      "tyyli": "itsenainen",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Tiedät, mitä kiltiksellä tapahtui vuosikymmeniä sitten, ja varmistat, että tämänkin vuoden hetket säilyvät. Arkistoit, kirjoitat vuoden kertomuksen ja viet aarteita museoon."
+    },
+    {
+      "slug": "hyvis",
+      "nimi": "Hyvis",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 1,
+        "YHT": 3
+      },
+      "aika": 1,
+      "tyyli": "tiimi",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Pääsiäismunajahdista epäonnistumisiltaan pidät huolen, että kiltalaiset voivat hyvin. Nyt mukana myös vastuullisuus: kilta voi olla kiva ja fiksu yhtä aikaa."
+    },
+    {
+      "slug": "juomanlaskija",
+      "nimi": "Juomanlaskija",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 3,
+        "YHT": 1,
+        "LUO": 1,
+        "PER": 1,
+        "KAY": 1
+      },
+      "aika": 2,
+      "tyyli": "tiimi",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Tunnet Thunderin salaisen reseptin, eikä killan tapahtuma pyöri ilman sinua. Vuosijuhlaviikon bileet ovat juomanlaskijoiden omaa käsialaa."
+    },
+    {
+      "slug": "kauppavastaava",
+      "nimi": "Kauppavastaava",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "LUO": 1,
+        "RAH": 1,
+        "KAY": 2
+      },
+      "aika": 1,
+      "tyyli": "itsenainen",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Uudet Prodeko-tuotteet syntyvät sinun ideoistasi, ja myyt niitä kiltiksellä ja tapahtumissa. Teet killasta brändin, jota kannetaan ylpeänä."
+    },
+    {
+      "slug": "kiltis-macgyver",
+      "nimi": "Kiltis MacGyver",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "YHT": 1,
+        "KAY": 3
+      },
+      "aika": 1,
+      "tyyli": "itsenainen",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Sohva hankittu, pöytä rakennettu, kirjasto järjestyksessä. Kun kiltiksellä jokin narisee, sinä saavut paikalle akkuporakoneen kanssa."
+    },
+    {
+      "slug": "kulttuurikuvernoori",
+      "nimi": "Kulttuurikuvernööri",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 2,
+        "YHT": 1,
+        "VIE": 1
+      },
+      "aika": 2,
+      "tyyli": "koordinoi",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Johdat kulttuurijaostoa Sisäkumin kanssa, laitat ilmot pystyyn ja järjestät itsekin kulttuuria. Sieniretki vai teatteri? Kyllä."
+    },
+    {
+      "slug": "kulttuuripersoona",
+      "nimi": "Kulttuuripersoona",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 2,
+        "YHT": 1,
+        "LUO": 1,
+        "URH": 1
+      },
+      "aika": 1,
+      "tyyli": "tiimi",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "PowerPoint-illat, sieniretket ja teatterin yhteislähdöt: jos idea on vähän hullu ja tosi hauska, se on sinun. Kulttuuria omalla tavallasi ja omaan tahtiin."
+    },
+    {
+      "slug": "lukkari",
+      "nimi": "Lukkari",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 2,
+        "YHT": 1,
+        "PER": 2
+      },
+      "aika": 2,
+      "tyyli": "itsenainen",
+      "fuksi": "varauksin",
+      "kokemus": "hyodyllinen",
+      "kuvaus": "Kun sitsipöytä hiljenee, sinä annat sävelen. Johdat laulua killan pöytäjuhlissa ja olet mukana tekemässä sitsejä."
+    },
+    {
+      "slug": "lukkarikisalli",
+      "nimi": "Lukkarikisälli",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 1,
+        "YHT": 1,
+        "PER": 2
+      },
+      "aika": 1,
+      "tyyli": "tiimi",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Autat lukkareita laulun johtamisessa ja opit, miten sitsit saadaan soimaan. Toteemisitsilaulun salat avautuvat sinulle pikkuhiljaa."
+    },
+    {
+      "slug": "lukkarimestari",
+      "nimi": "Lukkarimestari",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 2,
+        "YHT": 1,
+        "VIE": 1,
+        "PER": 3
+      },
+      "aika": 2,
+      "tyyli": "koordinoi",
+      "fuksi": "ei",
+      "kokemus": "hyodyllinen",
+      "kuvaus": "Johdat killan lukkaristoa ja varmistat, että jokaisilla sitseillä on osaava laulajaporukka. Prodekon ääni kuuluu myös Lutkussa."
+    },
+    {
+      "slug": "maitotytto",
+      "nimi": "Maitotyttö",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "YHT": 1,
+        "PER": 1,
+        "KAY": 3
+      },
+      "aika": 1,
+      "tyyli": "itsenainen",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Kiltiksen kahvi, tee ja maito ovat kunnossa, koska sinä pidät niistä huolen. Tunnet myös reivimaidon salaisen reseptin, ja se on vastuu, jota ei kevyesti kanneta."
+    },
+    {
+      "slug": "mentorointimanageri",
+      "nimi": "Mentorointimanageri",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "YHT": 2,
+        "OPI": 1,
+        "URA": 2
+      },
+      "aika": 1,
+      "tyyli": "koordinoi",
+      "fuksi": "varauksin",
+      "kokemus": "ei",
+      "kuvaus": "Rakennat siltaa lukiosta yliopistoon ja yliopistosta työelämään abi- ja alumnimentoroinnin avulla. Pienellä vaivalla iso vaikutus jonkun tulevaisuuteen."
+    },
+    {
+      "slug": "n-toimettomuushenkilo",
+      "nimi": "N-toimettomuushenkilö",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 1,
+        "YHT": 1,
+        "PER": 1
+      },
+      "aika": 1,
+      "tyyli": "itsenainen",
+      "fuksi": "ei",
+      "kokemus": "ei",
+      "kuvaus": "Olet nähnyt kiltiksen kalusteet tulevan ja menevän ja tunnet oman vuosikurssisi N-laiset. Pidät infot kulkemassa omalla tahdillasi, ilman turhaa kiirettä."
+    },
+    {
+      "slug": "n-vastaamaton",
+      "nimi": "N-vastaamaton",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "YHT": 1,
+        "PER": 1
+      },
+      "aika": 1,
+      "tyyli": "itsenainen",
+      "fuksi": "ei",
+      "kokemus": "ei",
+      "kuvaus": "Pesti on kevyt ja sisältö sinun päätettävissäsi: afterworkeja, yhteislähtöjä ja Ännä-jaoksen huumoria. Vuosijuhlilla jaat N-pinssit niille, jotka ne ansaitsevat."
+    },
+    {
+      "slug": "namu-oy-n-toimitusjohtaja",
+      "nimi": "Namu Oy:n toimitusjohtaja",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "YHT": 1,
+        "RAH": 1,
+        "KAY": 2
+      },
+      "aika": 2,
+      "tyyli": "itsenainen",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Pyörität kiltiksen ruokamyyntiä ja päätät, mitä namukilkissä on ja mitä se maksaa. Tilaukset tehdään epäsäännöllisen epäsäännöllisesti, kuten kunnon toimitusjohtajalle sopii."
+    },
+    {
+      "slug": "paaainevastaava",
+      "nimi": "Pääainevastaava",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "YHT": 1,
+        "OPI": 3
+      },
+      "aika": 1,
+      "tyyli": "itsenainen",
+      "fuksi": "ei",
+      "kokemus": "ei",
+      "kuvaus": "Olet oman pääaineesi ääni ja tunnet vastuuprofessorit nimeltä. Autat DI-vaiheen edunvalvonnassa ja toivotat pääainefuksit tervetulleiksi."
+    },
+    {
+      "slug": "prolekon-taittaja",
+      "nimi": "Prolekon taittaja",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "VIE": 2,
+        "LUO": 2
+      },
+      "aika": 1,
+      "tyyli": "itsenainen",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Pääkirjoitus unohtui taittaa tunti ennen painoa? Ei hätää, sinä hoidat. Teet Prolekosta näköisensä sivu kerrallaan."
+    },
+    {
+      "slug": "prolekon-toimittaja",
+      "nimi": "Prolekon toimittaja",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "YHT": 1,
+        "VIE": 2,
+        "LUO": 1
+      },
+      "aika": 1,
+      "tyyli": "tiimi",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Kirjoitat kiltalehteen juttuja ja päätät, mihin suuntaan Prolekon journalismi kulkee. Luku- ja kirjoitustaitoa ei kuulemma vaadita, mutta ei siitä haittaakaan ole."
+    },
+    {
+      "slug": "punttisvastaava",
+      "nimi": "Punttisvastaava",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "YHT": 1,
+        "URH": 3,
+        "KAY": 1
+      },
+      "aika": 1,
+      "tyyli": "itsenainen",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Killan sali on sinun valtakuntasi: kehität sitä, pidät sen kunnossa ja näytät mallia rautojen äärellä. Uudet kuntopyörät olivat vasta alkua."
+    },
+    {
+      "slug": "sedinaaritsaari",
+      "nimi": "Sedinaaritsaari",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 1,
+        "URA": 2,
+        "RAH": 2
+      },
+      "aika": 2,
+      "tyyli": "itsenainen",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Pidät seminaarin budjetin kurissa ja suunnittelet yritysyhteistyön, jotta kevään semma on täynnä hyvää sisältöä. Numerot ja kumppanit ovat sinun juttusi."
+    },
+    {
+      "slug": "seminaaritoimikunnan-jasen",
+      "nimi": "Seminaaritoimikunnan jäsen",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 2,
+        "URA": 2
+      },
+      "aika": 2,
+      "tyyli": "tiimi",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Teet kevään seminaarin yhdessä tsaarin, laitoksen ja Alumnin kanssa, ja syksyllä suunnittelet jo seuraavaa. Hyvä tapa nähdä, miten iso tapahtuma syntyy."
+    },
+    {
+      "slug": "shakkimatti",
+      "nimi": "Shakkimatti",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 2,
+        "YHT": 1,
+        "PER": 1,
+        "URH": 1
+      },
+      "aika": 1,
+      "tyyli": "itsenainen",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Vaalit killan olutkulttuuria olutkoneesta nimikko-olueen ja järjestät vuosittaisen shakkiturnauksen. Strategiaa ja humalaa, molempia sopivasti."
+    },
+    {
+      "slug": "some-omena",
+      "nimi": "Some-omena",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "VIE": 3,
+        "LUO": 1
+      },
+      "aika": 2,
+      "tyyli": "itsenainen",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Instagram ja TikTok ovat leikkikenttäsi, ja tyyli on vapaa. Teet Prodekosta somen hauskimman killan ja opit samalla markkinointia."
+    },
+    {
+      "slug": "teekkarikokouksen-edustajat",
+      "nimi": "Teekkarikokouksen edustajat",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "OPI": 3,
+        "PER": 1
+      },
+      "aika": 1,
+      "tyyli": "tiimi",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Edustat Prodekoa Teekkarikokouksessa ja pääset vaikuttamaan teekkariyhteisön suuntaan. Pieni pesti, iso ääni."
+    },
+    {
+      "slug": "tek-kiltayhdyshenkilo",
+      "nimi": "TEK-kiltayhdyshenkilö",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "YHT": 1,
+        "URA": 1,
+        "PER": 1
+      },
+      "aika": 1,
+      "tyyli": "itsenainen",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Kerrot fukseille orientaatioviikolla, mitä TEK tekee, ja jaat TEK-vyöt. Kevyt pesti, jolla verkostot kasvavat huomaamatta."
+    },
+    {
+      "slug": "terdetaikuri",
+      "nimi": "Terdetaikuri",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 2,
+        "YHT": 1,
+        "KAY": 3
+      },
+      "aika": 2,
+      "tyyli": "koordinoi",
+      "fuksi": "varauksin",
+      "kokemus": "hyodyllinen",
+      "kuvaus": "Johdat terdetoimikuntaa ja hoidat terassin huollot, rakennusprojektit ja varaukset. Kun aurinko paistaa ja koko kilta on terdellä, sinä teit sen mahdolliseksi."
+    },
+    {
+      "slug": "terdetaituri",
+      "nimi": "Terdetaituri",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 1,
+        "KAY": 1
+      },
+      "aika": 1,
+      "tyyli": "tiimi",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Öljäät, rakennat ja hankit terassille sen, mitä siltä puuttuu, viimeksi sadepurjeelle nostovinssin. Avajaiset ja päättäjäiset kuuluvat myös sinun kalenteriisi."
+    },
+    {
+      "slug": "ulkotoimari",
+      "nimi": "Ulkotoimari",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 1,
+        "YHT": 1,
+        "KV": 2
+      },
+      "aika": 1,
+      "tyyli": "tiimi",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Hankit approliput, järjestät approreissut ja otat vaihtarit mukaan menoon. Tutanic ja Fuksiexchange kuuluvat myös sinun maailmaasi."
+    },
+    {
+      "slug": "viestintavelho",
+      "nimi": "Viestintävelho",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 1,
+        "VIE": 1,
+        "LUO": 3
+      },
+      "aika": 1,
+      "tyyli": "tiimi",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Sitsien, seminaarin ja vuosijuhlien ilme syntyy sinun käsissäsi. Teet Prodekosta kauniin ja autat Mediakeisaria sisällöissä."
+    },
+    {
+      "slug": "vuosijuhlatoimikunnan-jasen",
+      "nimi": "Vuosijuhlatoimikunnan jäsen",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "TAP": 3,
+        "PER": 2
+      },
+      "aika": 2,
+      "tyyli": "tiimi",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Cocktailtilaisuus, pääjuhla, jatkot vai sillis? Jokaisella on oma tonttinsa, ja sinun tonttisi tekee illasta unohtumattoman."
+    },
+    {
+      "slug": "webbitiimi",
+      "nimi": "Webbitiimi",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "LUO": 1,
+        "TEK": 3
+      },
+      "aika": 2,
+      "tyyli": "tiimi",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Ilmokilke, namukilke, biliskilke ja kiltiskamera pyörivät, koska sinä koodaat. Kokemusta ei tarvita, motivaatio riittää."
+    },
+    {
+      "slug": "ys-toimihenkilo",
+      "nimi": "YS-toimihenkilö",
+      "kategoria": "toimarit",
+      "mukanaVisassa": true,
+      "teemat": {
+        "URA": 3
+      },
+      "aika": 2,
+      "tyyli": "tiimi",
+      "fuksi": "sopii",
+      "kokemus": "ei",
+      "kuvaus": "Järjestät internship-illan ja kesätyöoppaan ja autat excujen kanssa. Yritysmaailma tulee tutuksi, ja YS-tiimi on viikoittainen kotipesäsi."
+    },
+    {
+      "slug": "wild-card",
+      "nimi": "Wild Card: Ehdota omaa!",
+      "kategoria": "toimarit",
+      "mukanaVisassa": false,
+      "kuvaus": "Eikö mikään osunut täysin? Keksi oma pesti ja ehdota sitä. Ideoita voi pallotella @mrprodeko:n kanssa Telegramissa."
+    }
+  ],
+  "kysymykset": [
+    {
+      "id": "vuosikurssi",
+      "teksti": "Monettako vuotta opiskelet?",
+      "tyyppi": "asteikko",
+      "vastaukset": [
+        {
+          "teksti": "1",
+          "vuosikurssi": 1
+        },
+        {
+          "teksti": "2",
+          "vuosikurssi": 2
+        },
+        {
+          "teksti": "3",
+          "vuosikurssi": 3
+        },
+        {
+          "teksti": "4",
+          "vuosikurssi": 4
+        },
+        {
+          "teksti": "5+",
+          "vuosikurssi": 5
+        }
+      ]
+    },
+    {
+      "id": "kokemus",
+      "teksti": "Paljonko sinulla on kokemusta killan hommista?",
+      "tyyppi": "valinta",
+      "vastaukset": [
+        {
+          "teksti": "En ole vielä tehnyt paljon",
+          "vahanKokemusta": true
+        },
+        {
+          "teksti": "Olen ollut aiemminkin toimari"
+        },
+        {
+          "teksti": "Vuosien toimarikokemus"
+        },
+        {
+          "teksti": "Olen ollut hallituksessa tai vastuutehtävässä"
+        }
+      ]
+    },
+    {
+      "id": "ilta",
+      "teksti": "Millainen on ideaali-iltasi?",
+      "tyyppi": "valinta",
+      "vastaukset": [
+        {
+          "teksti": "Haippiset sitsit",
+          "teemat": {
+            "TAP": 2,
+            "PER": 1
+          }
+        },
+        {
+          "teksti": "Mielenkiintoinen excu",
+          "teemat": {
+            "URA": 2,
+            "KV": 1
+          }
+        },
+        {
+          "teksti": "Lautapeli-ilta kiltiksellä",
+          "teemat": {
+            "URH": 1,
+            "YHT": 1
+          }
+        },
+        {
+          "teksti": "Hyvän dinnerin kokkaaminen",
+          "teemat": {
+            "KAY": 1,
+            "YHT": 1,
+            "TAP": 1
+          }
+        },
+        {
+          "teksti": "Lennokasta mouhoa",
+          "teemat": {
+            "VIE": 1,
+            "YHT": 1
+          }
+        },
+        {
+          "teksti": "Ylös, ulos ja lenkille",
+          "teemat": {
+            "URH": 2
+          }
+        },
+        {
+          "teksti": "Rentoutuminen kotona"
+        }
+      ]
+    },
+    {
+      "id": "tapahtumat",
+      "teksti": "Pidätkö tapahtumien järjestämisestä?",
+      "tyyppi": "valinta",
+      "vastaukset": [
+        {
+          "teksti": "Kyllä, haluan järjestää vuoden parhaat bileet",
+          "teemat": {
+            "TAP": 3
+          }
+        },
+        {
+          "teksti": "Voisin järjestää useamman yhteisen illanvieton",
+          "teemat": {
+            "TAP": 1,
+            "YHT": 2
+          }
+        },
+        {
+          "teksti": "Ei, ennemmin jotain muuta",
+          "teemat": {
+            "TAP": -2
+          }
+        }
+      ]
+    },
+    {
+      "id": "tyokalu",
+      "teksti": "Valitse työkalusi",
+      "tyyppi": "monivalinta",
+      "max": 2,
+      "vastaukset": [
+        {
+          "teksti": "Excel",
+          "teemat": {
+            "RAH": 3
+          }
+        },
+        {
+          "teksti": "Photoshop tai Canva",
+          "teemat": {
+            "LUO": 2,
+            "VIE": 1
+          }
+        },
+        {
+          "teksti": "Claude Code",
+          "teemat": {
+            "TEK": 3
+          }
+        },
+        {
+          "teksti": "Kamera",
+          "teemat": {
+            "VIE": 2,
+            "LUO": 1
+          }
+        },
+        {
+          "teksti": "Laulukirja",
+          "teemat": {
+            "PER": 2,
+            "TAP": 1
+          }
+        },
+        {
+          "teksti": "Akkuporakone",
+          "teemat": {
+            "KAY": 2
+          }
+        },
+        {
+          "teksti": "Linkkari",
+          "teemat": {
+            "URA": 2
+          }
+        },
+        {
+          "teksti": "Passi",
+          "teemat": {
+            "KV": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "kiltis",
+      "teksti": "Kiltiksellä sinut löytää todennäköisimmin…",
+      "tyyppi": "valinta",
+      "vastaukset": [
+        {
+          "teksti": "nurkkasohvalta jutustelemasta",
+          "teemat": {
+            "YHT": 1,
+            "VIE": 1
+          }
+        },
+        {
+          "teksti": "bilispöydän äärestä",
+          "teemat": {
+            "URH": 2
+          }
+        },
+        {
+          "teksti": "jääkaapilta cokista hakemassa",
+          "teemat": {
+            "KAY": 2
+          }
+        },
+        {
+          "teksti": "sohvalta pelaamassa",
+          "teemat": {
+            "URH": 1,
+            "TEK": 1
+          }
+        },
+        {
+          "teksti": "ei mistään, olen tuta-klubilla hommissa",
+          "teemat": {
+            "URA": 2
+          }
+        }
+      ]
+    },
+    {
+      "id": "aika",
+      "teksti": "Kuinka paljon aikaa (1–5) pystyt laittamaan ensi vuonna?",
+      "tyyppi": "asteikko",
+      "vastaukset": [
+        {
+          "teksti": "1",
+          "aika": 1
+        },
+        {
+          "teksti": "2",
+          "aika": 2
+        },
+        {
+          "teksti": "3",
+          "aika": 3
+        },
+        {
+          "teksti": "4",
+          "aika": 4
+        },
+        {
+          "teksti": "5",
+          "aika": 5
+        }
+      ]
+    },
+    {
+      "id": "tyyli",
+      "teksti": "Olen parhaimmillani…",
+      "tyyppi": "valinta",
+      "vastaukset": [
+        {
+          "teksti": "kun pääsen koordinoimaan toimintaa",
+          "tyyli": "koordinoi"
+        },
+        {
+          "teksti": "osana tiimiä",
+          "tyyli": "tiimi"
+        },
+        {
+          "teksti": "omaa visiotani toteuttaen",
+          "tyyli": "itsenainen"
+        }
+      ]
+    },
+    {
+      "id": "rakennus",
+      "teksti": "Mikä on lempirakennuksesi Otaniemessä?",
+      "tyyppi": "valinta",
+      "vastaukset": [
+        {
+          "teksti": "Smökki",
+          "teemat": {
+            "TAP": 2,
+            "PER": 1
+          }
+        },
+        {
+          "teksti": "TUAS",
+          "teemat": {
+            "TEK": 1,
+            "URA": 1
+          }
+        },
+        {
+          "teksti": "A Bloc",
+          "teemat": {
+            "RAH": 1,
+            "KAY": 1
+          }
+        },
+        {
+          "teksti": "Kandilafka",
+          "teemat": {
+            "OPI": 1,
+            "YHT": 1
+          }
+        },
+        {
+          "teksti": "Otaniemen kappeli",
+          "teemat": {
+            "PER": 1,
+            "LUO": 1
+          }
+        },
+        {
+          "teksti": "Harald Herlin",
+          "teemat": {
+            "OPI": 2
+          }
+        },
+        {
+          "teksti": "Rantasauna",
+          "teemat": {
+            "YHT": 2
+          }
+        },
+        {
+          "teksti": "JMT1",
+          "teemat": {
+            "YHT": 1,
+            "PER": 1
+          }
+        }
+      ]
+    },
+    {
+      "id": "teema",
+      "teksti": "Mikä kuulostaa parhaalta ensi vuodelle?",
+      "tyyppi": "monivalinta",
+      "max": 2,
+      "vastaukset": [
+        {
+          "teksti": "Yhteisö",
+          "teemat": {
+            "YHT": 3
+          }
+        },
+        {
+          "teksti": "Tapahtumat",
+          "teemat": {
+            "TAP": 3
+          }
+        },
+        {
+          "teksti": "Perinteet",
+          "teemat": {
+            "PER": 3
+          }
+        },
+        {
+          "teksti": "Vaikuttaminen",
+          "teemat": {
+            "OPI": 3
+          }
+        },
+        {
+          "teksti": "Ura ja yritykset",
+          "teemat": {
+            "URA": 3
+          }
+        },
+        {
+          "teksti": "Kansainvälisyys",
+          "teemat": {
+            "KV": 3
+          }
+        },
+        {
+          "teksti": "Luova tekeminen",
+          "teemat": {
+            "LUO": 2,
+            "VIE": 1
+          }
+        }
+      ]
+    }
+  ]
+}

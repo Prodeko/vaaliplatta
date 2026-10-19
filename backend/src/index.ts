@@ -27,6 +27,7 @@ import answerRouter from './routers/answer'
 import { userInspectRouter } from './routers/userInspect'
 import { adminRouter } from './routers/admin'
 import scheduleRouter from './routers/schedule'
+import toimarivisaRouter from './routers/toimarivisa'
 
 
 async function migrateToLatest() {
@@ -101,6 +102,7 @@ app.use("/api/answer", answerRouter)
 app.use("/api/users", userInspectRouter)
 app.use("/api/admin", requireSuperUser, adminRouter)
 app.use("/api/schedule", requireSuperUser, scheduleRouter)
+app.use("/api/toimarivisa", toimarivisaRouter)
 app.use("/", authRouter)
 
 app.use(express.static(path.join(__dirname, config.FRONTEND_DIST_FOLDER)));
