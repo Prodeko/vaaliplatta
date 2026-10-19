@@ -351,7 +351,7 @@ export default function Toimarivisa() {
                     <div className="flex flex-wrap items-center justify-between gap-3 rounded-md border-2 border-dashed border-blue-300 p-5">
                         <div className="flex-[1_1_320px]">
                             <p className="mb-1 text-lg font-extrabold">Eikö mikään osunut?</p>
-                            <p className="leading-normal text-gray-700">Keksi oma pesti ja ehdota sitä Wild Card -roolina.</p>
+                            <p className="leading-normal text-gray-700">Keksi itsellesi täydellisesti sopiva pesti!</p>
                         </div>
                         <button className={softButton} onClick={() => getPosition(wildCard.id.toString())}>
                             Ehdota omaa roolia
