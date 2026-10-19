@@ -52,8 +52,11 @@ export default function Toimarivisa() {
     const [state, setState] = useState<QuizState>(initialState)
     const [loadedFor, setLoadedFor] = useState<number | null>(null)
     const headingRef = useRef<HTMLHeadingElement>(null)
+    const contentRef = useRef<HTMLDivElement>(null)
     const advanceTimer = useRef<number>()
     const moved = useRef(false)
+    // True between a single choice click and moving to the next question
+    const [advancing, setAdvancing] = useState(false)
 
     // Restore the stored quiz once the election is known
     useEffect(() => {
@@ -72,13 +75,14 @@ export default function Toimarivisa() {
         }
     }, [state, loadedFor])
 
-    // Move focus to the new heading when the question changes, so that screen
-    // readers and keyboard users follow along. Not on the first render.
+    // When the question changes, scroll so that the progress bar is at the top
+    // of the screen and move focus to the new heading, so that screen readers
+    // and keyboard users follow along. Not on the first render.
     useEffect(() => {
-        const heading = headingRef.current
-        if (!moved.current || !heading) return
-        heading.focus({ preventScroll: true })
-        if (heading.getBoundingClientRect().top < 0) heading.scrollIntoView({ block: "start", behavior: "smooth" })
+        setAdvancing(false)
+        if (!moved.current) return
+        headingRef.current?.focus({ preventScroll: true })
+        contentRef.current?.scrollIntoView({ block: "start", behavior: "smooth" })
     }, [state.screen, state.index])
 
     useEffect(() => () => window.clearTimeout(advanceTimer.current), [])
@@ -163,7 +167,8 @@ export default function Toimarivisa() {
         const isScale = question.tyyppi === "asteikko"
         const max = question.max ?? 1
         const isLast = state.index === questions.length - 1
-        const showNext = isMulti || picked.length > 0
+        // Single choice questions only show Seuraava when returning to an answered question
+        const showNext = isMulti || (picked.length > 0 && !advancing)
 
         const pick = (optionIndex: number) => {
             if (isMulti) {
@@ -174,6 +179,7 @@ export default function Toimarivisa() {
             } else {
                 const answers = { ...state.answers, [question.id]: [optionIndex] }
                 update({ answers })
+                setAdvancing(true)
                 // Show the selection briefly before moving on
                 window.clearTimeout(advanceTimer.current)
                 advanceTimer.current = window.setTimeout(() => goNext(answers), 220)
@@ -211,20 +217,31 @@ export default function Toimarivisa() {
                 )}
 
                 {isScale ? (
-                    <div className="mt-1 grid grid-cols-5 gap-2">
-                        {question.vastaukset.map((option, i) => {
-                            const selected = picked.includes(i)
-                            return (
-                                <button
-                                    key={option.teksti}
-                                    onClick={() => pick(i)}
-                                    aria-pressed={selected}
-                                    className={`min-h-[60px] rounded-md text-3xl font-extrabold transition ${selected ? "bg-blue-50 ring-2 ring-blue-600" : "bg-white ring-1 ring-gray-300 hover:ring-2 hover:ring-blue-600"}`}
-                                >
-                                    {option.teksti}
-                                </button>
-                            )
-                        })}
+                    <div className="mt-1 flex flex-col gap-2">
+                        <div className="grid grid-cols-5 gap-2">
+                            {question.vastaukset.map((option, i) => {
+                                const selected = picked.includes(i)
+                                const ends = question.asteikonPaat
+                                const endLabel = ends && i === 0 ? ends.min : ends && i === question.vastaukset.length - 1 ? ends.max : null
+                                return (
+                                    <button
+                                        key={option.teksti}
+                                        onClick={() => pick(i)}
+                                        aria-pressed={selected}
+                                        aria-label={endLabel ? `${option.teksti}, ${endLabel.toLowerCase()}` : undefined}
+                                        className={`min-h-[60px] rounded-md text-3xl font-extrabold transition ${selected ? "bg-blue-50 ring-2 ring-blue-600" : "bg-white ring-1 ring-gray-300 hover:ring-2 hover:ring-blue-600"}`}
+                                    >
+                                        {option.teksti}
+                                    </button>
+                                )
+                            })}
+                        </div>
+                        {question.asteikonPaat && (
+                            <div aria-hidden="true" className="flex justify-between gap-4 text-sm font-semibold text-gray-600">
+                                <span>{question.asteikonPaat.min}</span>
+                                <span className="text-right">{question.asteikonPaat.max}</span>
+                            </div>
+                        )}
                     </div>
                 ) : (
                     <div className="mt-1 flex flex-col gap-2">
@@ -353,7 +370,7 @@ export default function Toimarivisa() {
     }
 
     return (
-        <div className="mx-auto max-w-2xl px-1 pb-16 pt-6 md:pt-12">
+        <div ref={contentRef} className="mx-auto max-w-2xl px-1 pb-16 pt-6 md:pt-12">
             {content}
         </div>
     )

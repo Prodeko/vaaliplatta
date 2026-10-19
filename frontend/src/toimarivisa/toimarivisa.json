@@ -1167,6 +1167,10 @@
       "id": "aika",
       "teksti": "Kuinka paljon aikaa (1–5) pystyt laittamaan ensi vuonna?",
       "tyyppi": "asteikko",
+      "asteikonPaat": {
+        "min": "En juurikaan",
+        "max": "Hallitusvuosi"
+      },
       "vastaukset": [
         {
           "teksti": "1",

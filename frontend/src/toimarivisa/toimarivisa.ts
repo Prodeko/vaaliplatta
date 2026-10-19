@@ -34,6 +34,8 @@ export interface QuizQuestion {
     teksti: string
     tyyppi: "valinta" | "monivalinta" | "asteikko"
     max?: number
+    // Labels shown under the ends of a scale
+    asteikonPaat?: { min: string, max: string }
     vastaukset: QuizOption[]
 }
 
