@@ -647,7 +647,7 @@
       "kategoria": "toimarit",
       "mukanaVisassa": true,
       "teemat": {
-        "YHT": 2,
+        "YHT": 1,
         "OPI": 1,
         "URA": 2
       },
@@ -814,7 +814,6 @@
       "mukanaVisassa": true,
       "teemat": {
         "TAP": 2,
-        "YHT": 1,
         "PER": 1,
         "URH": 1
       },
@@ -864,8 +863,7 @@
       "mukanaVisassa": true,
       "teemat": {
         "YHT": 1,
-        "URA": 1,
-        "PER": 1
+        "URA": 1
       },
       "aika": 1,
       "tyyli": "itsenainen",

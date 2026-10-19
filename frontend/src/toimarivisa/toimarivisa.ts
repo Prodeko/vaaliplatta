@@ -131,7 +131,9 @@ export function scoreRoles(answers: QuizAnswers, candidates: QuizRole[] = roles)
 
             const parts: ScoreParts = {
                 themes: weights.reduce((sum, [theme, w]) => sum + (profile[theme] ?? 0) * w, 0) / norm,
-                time: roleTime > time ? -(roleTime - time) : 0,
+                // −1 per step the role takes more time than the respondent has,
+                // −0.4 per step it takes less
+                time: roleTime > time ? -(roleTime - time) : -0.4 * (time - roleTime),
                 style: styleBonus,
                 year: outsideYears ? -3 : 0,
                 experience: littleExperience && role.kokemus === "vaaditaan" ? -2 : 0,
