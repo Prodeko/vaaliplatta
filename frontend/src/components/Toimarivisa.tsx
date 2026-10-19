@@ -3,7 +3,7 @@ import { Position, useAppState } from "../hooks/useAppState"
 import useAuthenticatedRequests from "../hooks/useAuthenticatedRequests"
 import useToimarivisaView from "../hooks/useToimarivisaView"
 import ToimarivisaDebug from "./ToimarivisaDebug"
-import { QuizAnswers, QuizRole, debugEnabled, firstSentence, questions, roleKey, roles, scoreRoles } from "../toimarivisa/toimarivisa"
+import { OptionOrder, QuizAnswers, QuizRole, shuffleOptions, debugEnabled, firstSentence, questions, roleKey, roles, scoreRoles } from "../toimarivisa/toimarivisa"
 
 type Screen = "start" | "question" | "result"
 
@@ -11,6 +11,7 @@ interface QuizState {
     screen: Screen
     index: number
     answers: QuizAnswers
+    optionOrder?: OptionOrder
 }
 
 const initialState: QuizState = { screen: "start", index: 0, answers: {} }
@@ -155,7 +156,7 @@ export default function Toimarivisa() {
                     Vastaa kymmeneen kysymykseen, niin ehdotamme sinulle kolmea pestiä tämän vuoden vaalien rooleista. Mukana ovat hallitus, vastuutoimarit ja toimarit.
                 </p>
                 <div>
-                    <button className={`${primaryButton} text-lg px-8 py-4`} onClick={() => update({ screen: "question", index: 0, answers: {} })}>
+                    <button className={`${primaryButton} text-lg px-8 py-4`} onClick={() => update({ screen: "question", index: 0, answers: {}, optionOrder: shuffleOptions() })}>
                         Aloita visa
                     </button>
                 </div>
@@ -246,7 +247,8 @@ export default function Toimarivisa() {
                     </div>
                 ) : (
                     <div className="mt-1 flex flex-col gap-2">
-                        {question.vastaukset.map((option, i) => {
+                        {(state.optionOrder?.[question.id] ?? question.vastaukset.map((_, i) => i)).map(i => {
+                            const option = question.vastaukset[i]
                             const selected = picked.includes(i)
                             const disabled = isMulti && !selected && picked.length >= max
                             const colors = selected

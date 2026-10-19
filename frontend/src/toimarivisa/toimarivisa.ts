@@ -36,6 +36,8 @@ export interface QuizQuestion {
     teksti: string
     tyyppi: "valinta" | "monivalinta" | "asteikko"
     max?: number
+    // Show the options in random order
+    sekoita?: boolean
     // Labels shown under the ends of a scale
     asteikonPaat?: { min: string, max: string }
     vastaukset: QuizOption[]
@@ -144,6 +146,24 @@ export function scoreRoles(answers: QuizAnswers, candidates: QuizRole[] = roles)
         })
         // Ties go to the role that takes less time
         .sort((a, b) => b.score - a.score || (a.role.aika ?? 1) - (b.role.aika ?? 1))
+}
+
+// Option display order per question id. Shuffled questions get a random order
+// once per quiz run; answers are always stored with the original indices.
+export type OptionOrder = Record<string, number[]>
+
+export function shuffleOptions(): OptionOrder {
+    const order: OptionOrder = {}
+    for (const question of questions) {
+        if (!question.sekoita) continue
+        const indices = question.vastaukset.map((_, i) => i)
+        for (let i = indices.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [indices[i], indices[j]] = [indices[j], indices[i]]
+        }
+        order[question.id] = indices
+    }
+    return order
 }
 
 export function firstSentence(text: string): string {

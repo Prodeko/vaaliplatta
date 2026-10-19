@@ -1047,6 +1047,7 @@
       "teksti": "Millainen on ideaali-iltasi?",
       "tyyppi": "monivalinta",
       "max": 3,
+      "sekoita": true,
       "vastaukset": [
         {
           "teksti": "Haippiset sitsit",
@@ -1131,6 +1132,7 @@
       "teksti": "Valitse työkalusi",
       "tyyppi": "monivalinta",
       "max": 2,
+      "sekoita": true,
       "vastaukset": [
         {
           "teksti": "Excel",
@@ -1293,6 +1295,7 @@
       "id": "rakennus",
       "teksti": "Mikä on lempirakennuksesi Otaniemessä?",
       "tyyppi": "valinta",
+      "sekoita": true,
       "vastaukset": [
         {
           "teksti": "Smökki",
