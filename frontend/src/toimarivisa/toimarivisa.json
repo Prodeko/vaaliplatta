@@ -28,7 +28,8 @@
       },
       "aika": 5,
       "tyyli": "koordinoi",
-      "fuksi": "ei",
+      "minVuosikurssi": 3,
+      "maxVuosikurssi": 5,
       "kokemus": "vaaditaan",
       "kuvaus": "Pidät hallituksen kokoukset raiteillaan ja langat käsissäsi laitokselta AYY:n neuvostoon asti. Kun joku kysyy, kuka tästä oikein päättää, kaikki kääntyvät katsomaan sinua."
     },
@@ -46,7 +47,8 @@
       },
       "aika": 5,
       "tyyli": "koordinoi",
-      "fuksi": "ei",
+      "minVuosikurssi": 2,
+      "maxVuosikurssi": 5,
       "kokemus": "hyodyllinen",
       "kuvaus": "Tuuraat puheenjohtajaa, pidät toimijat virkeinä ja tiedät, missä killan postit, kaapit ja arkisto ovat. Hyvikset, terdet ja kiltistoimikunta kulkevat sinun siipiesi alla."
     },
@@ -62,7 +64,8 @@
       },
       "aika": 4,
       "tyyli": "itsenainen",
-      "fuksi": "ei",
+      "minVuosikurssi": 2,
+      "maxVuosikurssi": 5,
       "kokemus": "hyodyllinen",
       "kuvaus": "Sinulle tase on rakkauskirje ja kuitti on pyhä. Pidät killan rahat ojennuksessa budjetista tilinpäätökseen, ja AYY:n avustushakemuskin syntyy sinun näppäimistöltäsi."
     },
@@ -79,7 +82,8 @@
       },
       "aika": 5,
       "tyyli": "koordinoi",
-      "fuksi": "varauksin",
+      "minVuosikurssi": 2,
+      "maxVuosikurssi": 5,
       "kokemus": "hyodyllinen",
       "kuvaus": "Viet kiltalaiset kurkistamaan yritysmaailman kulisseihin, puolipitkillä vähän kauemmaksikin. Teekkariexcujen perinne on turvassa sinun käsissäsi."
     },
@@ -97,7 +101,8 @@
       },
       "aika": 5,
       "tyyli": "koordinoi",
-      "fuksi": "ei",
+      "minVuosikurssi": 2,
+      "maxVuosikurssi": 5,
       "kokemus": "hyodyllinen",
       "kuvaus": "Johdatat uudet prodekolaiset killan ja teekkarikulttuurin saloihin ja rakennat syksyn, jota fuksit muistelevat vielä valmistuttuaankin. Iso vuosi, vielä isompi porukka."
     },
@@ -114,7 +119,8 @@
       },
       "aika": 5,
       "tyyli": "koordinoi",
-      "fuksi": "varauksin",
+      "minVuosikurssi": 2,
+      "maxVuosikurssi": 5,
       "kokemus": "hyodyllinen",
       "kuvaus": "Tapahtumakalenteri, pakuvaraukset, varasto ja vuosijuhlat: sinulla on avain kaikkeen, ihan kirjaimellisesti. Juhlat pyörivät, koska sinä pyörität niitä."
     },
@@ -130,7 +136,8 @@
       },
       "aika": 5,
       "tyyli": "koordinoi",
-      "fuksi": "ei",
+      "minVuosikurssi": 2,
+      "maxVuosikurssi": 5,
       "kokemus": "hyodyllinen",
       "kuvaus": "Toivotat maisterifuksit ja vaihtarit tervetulleiksi ja pidät huolen, ettei kukaan jää ulkopuolelle kielen takia. Prodeko kuulostaa kotoisalta millä kielellä tahansa, kun sinä olet paikalla."
     },
@@ -147,7 +154,8 @@
       },
       "aika": 5,
       "tyyli": "koordinoi",
-      "fuksi": "varauksin",
+      "minVuosikurssi": 2,
+      "maxVuosikurssi": 5,
       "kokemus": "hyodyllinen",
       "kuvaus": "Päätät, miltä Prodeko näyttää ja kuulostaa, sähköpostilistoista someen. Johdat viestintätiimiä, kirjoitat hallituksen pöytäkirjat ja osaat jäsenrekisterin ulkoa."
     },
@@ -162,8 +170,9 @@
         "VIE": 1
       },
       "aika": 3,
-      "tyyli": "koordinoi",
-      "fuksi": "varauksin",
+      "tyyli": "itsenainen",
+      "minVuosikurssi": 2,
+      "maxVuosikurssi": 5,
       "kokemus": "hyodyllinen",
       "kuvaus": "Kun kurssi menee pieleen, sinä viet asian laitokselle ja AYY:n opintoneuvostoon asti. Johdat opintojaostoa ja teet opiskelusta vähän parempaa kaikille."
     },
@@ -180,7 +189,8 @@
       },
       "aika": 5,
       "tyyli": "koordinoi",
-      "fuksi": "varauksin",
+      "minVuosikurssi": 2,
+      "maxVuosikurssi": 5,
       "kokemus": "hyodyllinen",
       "kuvaus": "Ideoit killan tapahtumat yhdessä Isännän kanssa ja pidät kulttuurijaoston luovan kaaoksen kasassa. PowerPoint-illasta sitseihin: jos se on hauskaa, sinä keksit sen ensin."
     },
@@ -196,7 +206,8 @@
       },
       "aika": 4,
       "tyyli": "koordinoi",
-      "fuksi": "varauksin",
+      "minVuosikurssi": 2,
+      "maxVuosikurssi": 5,
       "kokemus": "hyodyllinen",
       "kuvaus": "Rakennat siltoja Aallon ulkopuolelle ja ulkomaille, ESTIEMistä puolipitkiin. Ulkojaosto lähtee liikkeelle, kun sinä näytät suunnan."
     },
@@ -211,8 +222,9 @@
         "RAH": 2
       },
       "aika": 5,
-      "tyyli": "itsenainen",
-      "fuksi": "varauksin",
+      "tyyli": "koordinoi",
+      "minVuosikurssi": 2,
+      "maxVuosikurssi": 5,
       "kokemus": "hyodyllinen",
       "kuvaus": "LinkedIn on toinen kotisi, ja yrityskumppanit tuntevat sinut etunimeltä. Pidät Prodeko Networkin pystyssä ja budjetin täynnä, jotta muut voivat juhlia."
     },
@@ -229,7 +241,8 @@
       },
       "aika": 2,
       "tyyli": "koordinoi",
-      "fuksi": "varauksin",
+      "minVuosikurssi": 1,
+      "maxVuosikurssi": 3,
       "kokemus": "ei",
       "kuvaus": "Kierrät lukioita ja somea ja saat abit haaveilemaan tuotantotaloudesta. Abikiertue, abipäivä ja oma tiimi: ensi vuoden fuksit ovat osittain sinun ansiotasi."
     },
@@ -244,8 +257,9 @@
         "TEK": 3
       },
       "aika": 3,
-      "tyyli": "itsenainen",
-      "fuksi": "varauksin",
+      "tyyli": "koordinoi",
+      "minVuosikurssi": 2,
+      "maxVuosikurssi": 5,
       "kokemus": "hyodyllinen",
       "kuvaus": "Johdat webbitiimiä, käynnistät uusia softaprojekteja ja olet se, jolle soitetaan, kun ilmokilke kaatuu. Koodi on runoutta ja tuotanto on pyhä."
     },
@@ -261,7 +275,8 @@
       },
       "aika": 3,
       "tyyli": "koordinoi",
-      "fuksi": "ei",
+      "minVuosikurssi": 2,
+      "maxVuosikurssi": 5,
       "kokemus": "hyodyllinen",
       "kuvaus": "Vedät vuosijuhlat kokonaisuutena: tilat, tiimi ja yhteys hallitukseen. Kun sillis on syöty ja viimeinenkin juhlija kotona, kaikki tietävät kenen ansiota se oli."
     },
@@ -276,7 +291,8 @@
       },
       "aika": 2,
       "tyyli": "koordinoi",
-      "fuksi": "varauksin",
+      "minVuosikurssi": 2,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Olet killan linkki ESTIEMiin: hoidat tiedotuksen ja Athene-yhteistyön ja edustat LG Helsinkiä CM:ssä ja Nordic ReCoMissa. Passi kulkee aina mukana, ihan varmuuden vuoksi."
     },
@@ -293,7 +309,8 @@
       },
       "aika": 3,
       "tyyli": "koordinoi",
-      "fuksi": "ei",
+      "minVuosikurssi": 2,
+      "maxVuosikurssi": 4,
       "kokemus": "hyodyllinen",
       "kuvaus": "Valitset ja koulutat ISOt ja varmistat, että jokainen fuksi saa hyvän alun. Sitsejä, kokouksia ja puolentoista vuoden pesti AYY:n ISOtoimikunnassa."
     },
@@ -310,7 +327,8 @@
       },
       "aika": 2,
       "tyyli": "koordinoi",
-      "fuksi": "varauksin",
+      "minVuosikurssi": 2,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Johdat Prolekoa, pidät vääntökokoukset ennen painoa ja saat toimittajat ja taittajat liikkeelle. Kun lehti kolahtaa kiltikseen, se on sinun ansiotasi."
     },
@@ -326,7 +344,8 @@
       },
       "aika": 3,
       "tyyli": "koordinoi",
-      "fuksi": "ei",
+      "minVuosikurssi": 2,
+      "maxVuosikurssi": 5,
       "kokemus": "hyodyllinen",
       "kuvaus": "Kevään Prodeko-seminaari on sinun käsialaasi kokonaisuutena, budjetista yrityskumppaneihin. Kun yksi semma päättyy, seuraava on jo työn alla."
     },
@@ -343,7 +362,8 @@
       },
       "aika": 1,
       "tyyli": "tiimi",
-      "fuksi": "sopii",
+      "minVuosikurssi": 1,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Lähdet lukiovierailuille, teet abeille sisältöä ja näytät, miltä teekkarielämä oikeasti näyttää. Kevyt tapa päästä mukaan heti ensimmäisenä vuonna."
     },
@@ -360,7 +380,8 @@
       },
       "aika": 1,
       "tyyli": "itsenainen",
-      "fuksi": "sopii",
+      "minVuosikurssi": 1,
+      "maxVuosikurssi": 4,
       "kokemus": "ei",
       "kuvaus": "Pöydän verka on sileä ja kepit suorat, koska sinä pidät niistä huolen. Järjestät biljardi-iltoja ja tiedät aina, minne valkoinen pallo kannattaa lähettää."
     },
@@ -375,8 +396,9 @@
         "RAH": 3
       },
       "aika": 2,
-      "tyyli": "itsenainen",
-      "fuksi": "varauksin",
+      "tyyli": "tiimi",
+      "minVuosikurssi": 2,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Laskelmoit vuosijuhlien budjetin ja hankit yrityskumppanit, jotta kuohuvaa riittää kaikille. Juhlaviikolla laskin jää pöydälle ja sinä hyppäät diskotiimin mukaan."
     },
@@ -392,7 +414,8 @@
       },
       "aika": 2,
       "tyyli": "itsenainen",
-      "fuksi": "sopii",
+      "minVuosikurssi": 1,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Kamera kaulassa olet joka tapahtumassa, eikä kukaan ole turvassa hyvältä kuvalta. Kuvat päätyvät killan galleriaan, ja kokemukseksi riittää innostus."
     },
@@ -407,7 +430,8 @@
       },
       "aika": 1,
       "tyyli": "tiimi",
-      "fuksi": "sopii",
+      "minVuosikurssi": 1,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Hyppäät mukaan ESTIEM-tapahtumiin ympäri Eurooppaa ja kannat vastuuta ESTIEM-vastaavan rinnalla. Hanseatic ReCom, ESTIEM-info ja uudet ystävät ympäri mantereen kuuluvat pakettiin."
     },
@@ -424,8 +448,9 @@
       },
       "aika": 1,
       "tyyli": "tiimi",
-      "fuksi": "sopii",
-      "kokemus": "vaaditaan",
+      "minVuosikurssi": 3,
+      "maxVuosikurssi": 5,
+      "kokemus": "ei",
       "kuvaus": "Olet nähnyt sitsit jos toisetkin, ja juomanlaskijan ansiot ovat jo plakkarissa. Kun apua tarvitaan, sinä saavut paikalle energiaa täynnä."
     },
     {
@@ -439,8 +464,9 @@
       },
       "aika": 1,
       "tyyli": "itsenainen",
-      "fuksi": "sopii",
-      "kokemus": "ei",
+      "minVuosikurssi": 2,
+      "maxVuosikurssi": 5,
+      "kokemus": "hyodyllinen",
       "kuvaus": "Tiedät, mitä kiltiksellä tapahtui vuosikymmeniä sitten, ja varmistat, että tämänkin vuoden hetket säilyvät. Arkistoit, kirjoitat vuoden kertomuksen ja viet aarteita museoon."
     },
     {
@@ -454,7 +480,8 @@
       },
       "aika": 1,
       "tyyli": "tiimi",
-      "fuksi": "sopii",
+      "minVuosikurssi": 1,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Pääsiäismunajahdista epäonnistumisiltaan pidät huolen, että kiltalaiset voivat hyvin. Nyt mukana myös vastuullisuus: kilta voi olla kiva ja fiksu yhtä aikaa."
     },
@@ -472,7 +499,8 @@
       },
       "aika": 2,
       "tyyli": "tiimi",
-      "fuksi": "sopii",
+      "minVuosikurssi": 1,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Tunnet Thunderin salaisen reseptin, eikä killan tapahtuma pyöri ilman sinua. Vuosijuhlaviikon bileet ovat juomanlaskijoiden omaa käsialaa."
     },
@@ -488,7 +516,8 @@
       },
       "aika": 1,
       "tyyli": "itsenainen",
-      "fuksi": "sopii",
+      "minVuosikurssi": 1,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Uudet Prodeko-tuotteet syntyvät sinun ideoistasi, ja myyt niitä kiltiksellä ja tapahtumissa. Teet killasta brändin, jota kannetaan ylpeänä."
     },
@@ -503,7 +532,8 @@
       },
       "aika": 1,
       "tyyli": "itsenainen",
-      "fuksi": "sopii",
+      "minVuosikurssi": 1,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Sohva hankittu, pöytä rakennettu, kirjasto järjestyksessä. Kun kiltiksellä jokin narisee, sinä saavut paikalle akkuporakoneen kanssa."
     },
@@ -519,7 +549,8 @@
       },
       "aika": 2,
       "tyyli": "koordinoi",
-      "fuksi": "sopii",
+      "minVuosikurssi": 2,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Johdat kulttuurijaostoa Sisäkumin kanssa, laitat ilmot pystyyn ja järjestät itsekin kulttuuria. Sieniretki vai teatteri? Kyllä."
     },
@@ -536,7 +567,8 @@
       },
       "aika": 1,
       "tyyli": "tiimi",
-      "fuksi": "sopii",
+      "minVuosikurssi": 1,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "PowerPoint-illat, sieniretket ja teatterin yhteislähdöt: jos idea on vähän hullu ja tosi hauska, se on sinun. Kulttuuria omalla tavallasi ja omaan tahtiin."
     },
@@ -551,9 +583,10 @@
         "PER": 2
       },
       "aika": 2,
-      "tyyli": "itsenainen",
-      "fuksi": "varauksin",
-      "kokemus": "hyodyllinen",
+      "tyyli": "tiimi",
+      "minVuosikurssi": 2,
+      "maxVuosikurssi": 5,
+      "kokemus": "ei",
       "kuvaus": "Kun sitsipöytä hiljenee, sinä annat sävelen. Johdat laulua killan pöytäjuhlissa ja olet mukana tekemässä sitsejä."
     },
     {
@@ -568,7 +601,8 @@
       },
       "aika": 1,
       "tyyli": "tiimi",
-      "fuksi": "sopii",
+      "minVuosikurssi": 1,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Autat lukkareita laulun johtamisessa ja opit, miten sitsit saadaan soimaan. Toteemisitsilaulun salat avautuvat sinulle pikkuhiljaa."
     },
@@ -585,7 +619,8 @@
       },
       "aika": 2,
       "tyyli": "koordinoi",
-      "fuksi": "ei",
+      "minVuosikurssi": 2,
+      "maxVuosikurssi": 5,
       "kokemus": "hyodyllinen",
       "kuvaus": "Johdat killan lukkaristoa ja varmistat, että jokaisilla sitseillä on osaava laulajaporukka. Prodekon ääni kuuluu myös Lutkussa."
     },
@@ -601,7 +636,8 @@
       },
       "aika": 1,
       "tyyli": "itsenainen",
-      "fuksi": "sopii",
+      "minVuosikurssi": 1,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Kiltiksen kahvi, tee ja maito ovat kunnossa, koska sinä pidät niistä huolen. Tunnet myös reivimaidon salaisen reseptin, ja se on vastuu, jota ei kevyesti kanneta."
     },
@@ -617,7 +653,8 @@
       },
       "aika": 1,
       "tyyli": "koordinoi",
-      "fuksi": "varauksin",
+      "minVuosikurssi": 2,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Rakennat siltaa lukiosta yliopistoon ja yliopistosta työelämään abi- ja alumnimentoroinnin avulla. Pienellä vaivalla iso vaikutus jonkun tulevaisuuteen."
     },
@@ -632,8 +669,9 @@
         "PER": 1
       },
       "aika": 1,
-      "tyyli": "itsenainen",
-      "fuksi": "ei",
+      "tyyli": "tiimi",
+      "minVuosikurssi": 5,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Olet nähnyt kiltiksen kalusteet tulevan ja menevän ja tunnet oman vuosikurssisi N-laiset. Pidät infot kulkemassa omalla tahdillasi, ilman turhaa kiirettä."
     },
@@ -648,7 +686,8 @@
       },
       "aika": 1,
       "tyyli": "itsenainen",
-      "fuksi": "ei",
+      "minVuosikurssi": 5,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Pesti on kevyt ja sisältö sinun päätettävissäsi: afterworkeja, yhteislähtöjä ja Ännä-jaoksen huumoria. Vuosijuhlilla jaat N-pinssit niille, jotka ne ansaitsevat."
     },
@@ -664,7 +703,8 @@
       },
       "aika": 2,
       "tyyli": "itsenainen",
-      "fuksi": "sopii",
+      "minVuosikurssi": 1,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Pyörität kiltiksen ruokamyyntiä ja päätät, mitä namukilkissä on ja mitä se maksaa. Tilaukset tehdään epäsäännöllisen epäsäännöllisesti, kuten kunnon toimitusjohtajalle sopii."
     },
@@ -679,7 +719,8 @@
       },
       "aika": 1,
       "tyyli": "itsenainen",
-      "fuksi": "ei",
+      "minVuosikurssi": 4,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Olet oman pääaineesi ääni ja tunnet vastuuprofessorit nimeltä. Autat DI-vaiheen edunvalvonnassa ja toivotat pääainefuksit tervetulleiksi."
     },
@@ -693,8 +734,9 @@
         "LUO": 2
       },
       "aika": 1,
-      "tyyli": "itsenainen",
-      "fuksi": "sopii",
+      "tyyli": "tiimi",
+      "minVuosikurssi": 1,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Pääkirjoitus unohtui taittaa tunti ennen painoa? Ei hätää, sinä hoidat. Teet Prolekosta näköisensä sivu kerrallaan."
     },
@@ -710,7 +752,8 @@
       },
       "aika": 1,
       "tyyli": "tiimi",
-      "fuksi": "sopii",
+      "minVuosikurssi": 1,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Kirjoitat kiltalehteen juttuja ja päätät, mihin suuntaan Prolekon journalismi kulkee. Luku- ja kirjoitustaitoa ei kuulemma vaadita, mutta ei siitä haittaakaan ole."
     },
@@ -726,7 +769,8 @@
       },
       "aika": 1,
       "tyyli": "itsenainen",
-      "fuksi": "sopii",
+      "minVuosikurssi": 1,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Killan sali on sinun valtakuntasi: kehität sitä, pidät sen kunnossa ja näytät mallia rautojen äärellä. Uudet kuntopyörät olivat vasta alkua."
     },
@@ -741,8 +785,9 @@
         "RAH": 2
       },
       "aika": 2,
-      "tyyli": "itsenainen",
-      "fuksi": "sopii",
+      "tyyli": "tiimi",
+      "minVuosikurssi": 2,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Pidät seminaarin budjetin kurissa ja suunnittelet yritysyhteistyön, jotta kevään semma on täynnä hyvää sisältöä. Numerot ja kumppanit ovat sinun juttusi."
     },
@@ -757,7 +802,8 @@
       },
       "aika": 2,
       "tyyli": "tiimi",
-      "fuksi": "sopii",
+      "minVuosikurssi": 1,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Teet kevään seminaarin yhdessä tsaarin, laitoksen ja Alumnin kanssa, ja syksyllä suunnittelet jo seuraavaa. Hyvä tapa nähdä, miten iso tapahtuma syntyy."
     },
@@ -774,7 +820,8 @@
       },
       "aika": 1,
       "tyyli": "itsenainen",
-      "fuksi": "sopii",
+      "minVuosikurssi": 2,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Vaalit killan olutkulttuuria olutkoneesta nimikko-olueen ja järjestät vuosittaisen shakkiturnauksen. Strategiaa ja humalaa, molempia sopivasti."
     },
@@ -785,11 +832,12 @@
       "mukanaVisassa": true,
       "teemat": {
         "VIE": 3,
-        "LUO": 1
+        "LUO": 2
       },
       "aika": 2,
-      "tyyli": "itsenainen",
-      "fuksi": "sopii",
+      "tyyli": "tiimi",
+      "minVuosikurssi": 1,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Instagram ja TikTok ovat leikkikenttäsi, ja tyyli on vapaa. Teet Prodekosta somen hauskimman killan ja opit samalla markkinointia."
     },
@@ -803,9 +851,10 @@
         "PER": 1
       },
       "aika": 1,
-      "tyyli": "tiimi",
-      "fuksi": "sopii",
-      "kokemus": "ei",
+      "tyyli": "itsenainen",
+      "minVuosikurssi": 3,
+      "maxVuosikurssi": 5,
+      "kokemus": "hyodyllinen",
       "kuvaus": "Edustat Prodekoa Teekkarikokouksessa ja pääset vaikuttamaan teekkariyhteisön suuntaan. Pieni pesti, iso ääni."
     },
     {
@@ -820,7 +869,8 @@
       },
       "aika": 1,
       "tyyli": "itsenainen",
-      "fuksi": "sopii",
+      "minVuosikurssi": 3,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Kerrot fukseille orientaatioviikolla, mitä TEK tekee, ja jaat TEK-vyöt. Kevyt pesti, jolla verkostot kasvavat huomaamatta."
     },
@@ -836,8 +886,9 @@
       },
       "aika": 2,
       "tyyli": "koordinoi",
-      "fuksi": "varauksin",
-      "kokemus": "hyodyllinen",
+      "minVuosikurssi": 2,
+      "maxVuosikurssi": 5,
+      "kokemus": "ei",
       "kuvaus": "Johdat terdetoimikuntaa ja hoidat terassin huollot, rakennusprojektit ja varaukset. Kun aurinko paistaa ja koko kilta on terdellä, sinä teit sen mahdolliseksi."
     },
     {
@@ -851,7 +902,8 @@
       },
       "aika": 1,
       "tyyli": "tiimi",
-      "fuksi": "sopii",
+      "minVuosikurssi": 1,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Öljäät, rakennat ja hankit terassille sen, mitä siltä puuttuu, viimeksi sadepurjeelle nostovinssin. Avajaiset ja päättäjäiset kuuluvat myös sinun kalenteriisi."
     },
@@ -867,7 +919,8 @@
       },
       "aika": 1,
       "tyyli": "tiimi",
-      "fuksi": "sopii",
+      "minVuosikurssi": 1,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Hankit approliput, järjestät approreissut ja otat vaihtarit mukaan menoon. Tutanic ja Fuksiexchange kuuluvat myös sinun maailmaasi."
     },
@@ -883,7 +936,8 @@
       },
       "aika": 1,
       "tyyli": "tiimi",
-      "fuksi": "sopii",
+      "minVuosikurssi": 1,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Sitsien, seminaarin ja vuosijuhlien ilme syntyy sinun käsissäsi. Teet Prodekosta kauniin ja autat Mediakeisaria sisällöissä."
     },
@@ -898,7 +952,8 @@
       },
       "aika": 2,
       "tyyli": "tiimi",
-      "fuksi": "sopii",
+      "minVuosikurssi": 1,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Cocktailtilaisuus, pääjuhla, jatkot vai sillis? Jokaisella on oma tonttinsa, ja sinun tonttisi tekee illasta unohtumattoman."
     },
@@ -913,7 +968,8 @@
       },
       "aika": 2,
       "tyyli": "tiimi",
-      "fuksi": "sopii",
+      "minVuosikurssi": 1,
+      "maxVuosikurssi": 5,
       "kokemus": "ei",
       "kuvaus": "Ilmokilke, namukilke, biliskilke ja kiltiskamera pyörivät, koska sinä koodaat. Kokemusta ei tarvita, motivaatio riittää."
     },
@@ -927,7 +983,8 @@
       },
       "aika": 2,
       "tyyli": "tiimi",
-      "fuksi": "sopii",
+      "minVuosikurssi": 1,
+      "maxVuosikurssi": 2,
       "kokemus": "ei",
       "kuvaus": "Järjestät internship-illan ja kesätyöoppaan ja autat excujen kanssa. Yritysmaailma tulee tutuksi, ja YS-tiimi on viikoittainen kotipesäsi."
     },
@@ -1129,6 +1186,13 @@
             "TAP": 2,
             "PER": 1,
             "KAY": 1
+          }
+        },
+        {
+          "teksti": "Haalarit",
+          "teemat": {
+            "YHT": 2,
+            "PER": 1
           }
         }
       ]

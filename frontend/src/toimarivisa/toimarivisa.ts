@@ -15,7 +15,9 @@ export interface QuizRole {
     teemat?: Partial<Record<Theme, number>>
     aika?: number
     tyyli?: WorkStyle
-    fuksi?: "sopii" | "varauksin" | "ei"
+    // Recommended years of study (1–5)
+    minVuosikurssi?: number
+    maxVuosikurssi?: number
     kokemus?: "ei" | "hyodyllinen" | "vaaditaan"
     kuvaus: string
 }
@@ -66,7 +68,7 @@ export interface ScoreParts {
     themes: number
     time: number
     style: number
-    firstYear: number
+    year: number
     experience: number
 }
 
@@ -80,7 +82,7 @@ export type ThemeProfile = Partial<Record<Theme, number>>
 
 interface Respondent {
     profile: ThemeProfile
-    firstYear: boolean
+    year: number | null
     littleExperience: boolean
     time: number
     style: WorkStyle | null
@@ -88,7 +90,7 @@ interface Respondent {
 
 // Collects the respondent's theme points and background from the answers
 export function readAnswers(answers: QuizAnswers): Respondent {
-    const respondent: Respondent = { profile: {}, firstYear: false, littleExperience: false, time: 3, style: null }
+    const respondent: Respondent = { profile: {}, year: null, littleExperience: false, time: 3, style: null }
 
     for (const question of questions) {
         for (const index of answers[question.id] ?? []) {
@@ -97,7 +99,7 @@ export function readAnswers(answers: QuizAnswers): Respondent {
             for (const [theme, points] of Object.entries(option.teemat ?? {}) as [Theme, number][]) {
                 respondent.profile[theme] = (respondent.profile[theme] ?? 0) + points
             }
-            if (option.vuosikurssi !== undefined) respondent.firstYear = option.vuosikurssi === 1
+            if (option.vuosikurssi !== undefined) respondent.year = option.vuosikurssi
             if (option.vahanKokemusta) respondent.littleExperience = true
             if (option.aika !== undefined) respondent.time = option.aika
             if (option.tyyli) respondent.style = option.tyyli
@@ -109,7 +111,7 @@ export function readAnswers(answers: QuizAnswers): Respondent {
 
 // Scoring as described in the quiz plan (suunnitelma.md, section 4)
 export function scoreRoles(answers: QuizAnswers, candidates: QuizRole[] = roles): ScoredRole[] {
-    const { profile, firstYear, littleExperience, time, style } = readAnswers(answers)
+    const { profile, year, littleExperience, time, style } = readAnswers(answers)
 
     return candidates
         .filter(role => role.mukanaVisassa)
@@ -117,6 +119,8 @@ export function scoreRoles(answers: QuizAnswers, candidates: QuizRole[] = roles)
             const weights = Object.entries(role.teemat ?? {}) as [Theme, number][]
             const norm = Math.sqrt(weights.reduce((sum, [, w]) => sum + w * w, 0)) || 1
             const roleTime = role.aika ?? 1
+            const outsideYears = year !== null
+                && (year < (role.minVuosikurssi ?? 1) || year > (role.maxVuosikurssi ?? 5))
 
             let styleBonus = 0
             if (style && role.tyyli) {
@@ -129,10 +133,10 @@ export function scoreRoles(answers: QuizAnswers, candidates: QuizRole[] = roles)
                 themes: weights.reduce((sum, [theme, w]) => sum + (profile[theme] ?? 0) * w, 0) / norm,
                 time: roleTime > time ? -(roleTime - time) : 0,
                 style: styleBonus,
-                firstYear: firstYear && role.fuksi === "ei" ? -3 : 0,
+                year: outsideYears ? -3 : 0,
                 experience: littleExperience && role.kokemus === "vaaditaan" ? -2 : 0,
             }
-            const score = parts.themes + parts.time + parts.style + parts.firstYear + parts.experience
+            const score = parts.themes + parts.time + parts.style + parts.year + parts.experience
 
             return { role, score, parts }
         })

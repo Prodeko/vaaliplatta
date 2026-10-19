@@ -35,7 +35,7 @@ export default function ToimarivisaDebug({ answers, electionRoleKeys }: Props) {
                         <p className="font-bold">Vastaajan teemapisteet</p>
                         <p>{profile.length ? profile.map(([t, p]) => `${t} ${p}`).join(" · ") : "ei vielä pisteitä"}</p>
                         <p className="mt-1">
-                            aika {respondent.time} · tyyli {respondent.style ?? "–"} · fuksi {respondent.firstYear ? "kyllä" : "ei"} · vähän kokemusta {respondent.littleExperience ? "kyllä" : "ei"}
+                            aika {respondent.time} · tyyli {respondent.style ?? "–"} · vuosikurssi {respondent.year ?? "–"} · vähän kokemusta {respondent.littleExperience ? "kyllä" : "ei"}
                         </p>
                     </div>
                     <div className="overflow-x-auto">
@@ -48,7 +48,7 @@ export default function ToimarivisaDebug({ answers, electionRoleKeys }: Props) {
                                     <th className="py-1 pr-3 text-right">Teemat</th>
                                     <th className="py-1 pr-3 text-right">Aika</th>
                                     <th className="py-1 pr-3 text-right">Tyyli</th>
-                                    <th className="py-1 pr-3 text-right">Fuksi</th>
+                                    <th className="py-1 pr-3 text-right">Vsk</th>
                                     <th className="py-1 pr-3 text-right">Kokemus</th>
                                 </tr>
                             </thead>
@@ -60,12 +60,12 @@ export default function ToimarivisaDebug({ answers, electionRoleKeys }: Props) {
                                     return (
                                         <tr key={role.slug} className={`border-b border-gray-100 ${inElection ? "" : "text-gray-400"} ${inElection && rank <= 3 ? "bg-blue-50 font-bold" : ""}`}>
                                             <td className="py-1 pr-3">{inElection ? rank : "–"}</td>
-                                            <td className="py-1 pr-3">{role.nimi}{inElection ? "" : " (ei vaaleissa)"}</td>
+                                            <td className="py-1 pr-3">{role.nimi}{inElection ? "" : " (ei vaaleissa)"} <span className="text-gray-400">vsk {role.minVuosikurssi}–{role.maxVuosikurssi}</span></td>
                                             <td className="py-1 pr-3 text-right">{score.toFixed(2)}</td>
                                             <td className="py-1 pr-3 text-right">{format(parts.themes)}</td>
                                             <td className="py-1 pr-3 text-right">{format(parts.time)}</td>
                                             <td className="py-1 pr-3 text-right">{format(parts.style)}</td>
-                                            <td className="py-1 pr-3 text-right">{format(parts.firstYear)}</td>
+                                            <td className="py-1 pr-3 text-right">{format(parts.year)}</td>
                                             <td className="py-1 pr-3 text-right">{format(parts.experience)}</td>
                                         </tr>
                                     )
