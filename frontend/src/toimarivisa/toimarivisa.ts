@@ -42,6 +42,10 @@ export interface QuizQuestion {
 // Selected option indices per question id
 export type QuizAnswers = Record<string, number[]>
 
+// The scoring debug panel is shown in dev mode, or in a build made with
+// VITE_TOIMARIVISA_DEBUG=true
+export const debugEnabled = import.meta.env.DEV || import.meta.env.VITE_TOIMARIVISA_DEBUG === "true"
+
 export const roles = data.roolit as QuizRole[]
 export const questions = data.kysymykset as QuizQuestion[]
 
@@ -58,53 +62,79 @@ export function roleKey(name: string): string {
 
 const styleOrder: WorkStyle[] = ["koordinoi", "tiimi", "itsenainen"]
 
+export interface ScoreParts {
+    themes: number
+    time: number
+    style: number
+    firstYear: number
+    experience: number
+}
+
 export interface ScoredRole {
     role: QuizRole
     score: number
+    parts: ScoreParts
 }
 
-// Scoring as described in the quiz plan (suunnitelma.md, section 4)
-export function scoreRoles(answers: QuizAnswers, candidates: QuizRole[] = roles): ScoredRole[] {
-    const profile: Partial<Record<Theme, number>> = {}
-    let firstYear = false
-    let littleExperience = false
-    let time = 3
-    let style: WorkStyle | null = null
+export type ThemeProfile = Partial<Record<Theme, number>>
+
+interface Respondent {
+    profile: ThemeProfile
+    firstYear: boolean
+    littleExperience: boolean
+    time: number
+    style: WorkStyle | null
+}
+
+// Collects the respondent's theme points and background from the answers
+export function readAnswers(answers: QuizAnswers): Respondent {
+    const respondent: Respondent = { profile: {}, firstYear: false, littleExperience: false, time: 3, style: null }
 
     for (const question of questions) {
         for (const index of answers[question.id] ?? []) {
             const option = question.vastaukset[index]
             if (!option) continue
             for (const [theme, points] of Object.entries(option.teemat ?? {}) as [Theme, number][]) {
-                profile[theme] = (profile[theme] ?? 0) + points
+                respondent.profile[theme] = (respondent.profile[theme] ?? 0) + points
             }
-            if (option.vuosikurssi !== undefined) firstYear = option.vuosikurssi === 1
-            if (option.vahanKokemusta) littleExperience = true
-            if (option.aika !== undefined) time = option.aika
-            if (option.tyyli) style = option.tyyli
+            if (option.vuosikurssi !== undefined) respondent.firstYear = option.vuosikurssi === 1
+            if (option.vahanKokemusta) respondent.littleExperience = true
+            if (option.aika !== undefined) respondent.time = option.aika
+            if (option.tyyli) respondent.style = option.tyyli
         }
     }
+
+    return respondent
+}
+
+// Scoring as described in the quiz plan (suunnitelma.md, section 4)
+export function scoreRoles(answers: QuizAnswers, candidates: QuizRole[] = roles): ScoredRole[] {
+    const { profile, firstYear, littleExperience, time, style } = readAnswers(answers)
 
     return candidates
         .filter(role => role.mukanaVisassa)
         .map(role => {
             const weights = Object.entries(role.teemat ?? {}) as [Theme, number][]
             const norm = Math.sqrt(weights.reduce((sum, [, w]) => sum + w * w, 0)) || 1
-            let score = weights.reduce((sum, [theme, w]) => sum + (profile[theme] ?? 0) * w, 0) / norm
-
             const roleTime = role.aika ?? 1
-            if (roleTime > time) score -= roleTime - time
 
+            let styleBonus = 0
             if (style && role.tyyli) {
                 const distance = Math.abs(styleOrder.indexOf(style) - styleOrder.indexOf(role.tyyli))
-                if (distance === 0) score += 1.5
-                else if (distance === 1) score += 0.5
+                if (distance === 0) styleBonus = 1.5
+                else if (distance === 1) styleBonus = 0.5
             }
 
-            if (firstYear && role.fuksi === "ei") score -= 3
-            if (littleExperience && role.kokemus === "vaaditaan") score -= 2
+            const parts: ScoreParts = {
+                themes: weights.reduce((sum, [theme, w]) => sum + (profile[theme] ?? 0) * w, 0) / norm,
+                time: roleTime > time ? -(roleTime - time) : 0,
+                style: styleBonus,
+                firstYear: firstYear && role.fuksi === "ei" ? -3 : 0,
+                experience: littleExperience && role.kokemus === "vaaditaan" ? -2 : 0,
+            }
+            const score = parts.themes + parts.time + parts.style + parts.firstYear + parts.experience
 
-            return { role, score }
+            return { role, score, parts }
         })
         // Ties go to the role that takes less time
         .sort((a, b) => b.score - a.score || (a.role.aika ?? 1) - (b.role.aika ?? 1))

@@ -2,7 +2,8 @@ import { useEffect, useMemo, useRef, useState } from "react"
 import { Position, useAppState } from "../hooks/useAppState"
 import useAuthenticatedRequests from "../hooks/useAuthenticatedRequests"
 import useToimarivisaView from "../hooks/useToimarivisaView"
-import { QuizAnswers, QuizRole, firstSentence, questions, roleKey, roles, scoreRoles } from "../toimarivisa/toimarivisa"
+import ToimarivisaDebug from "./ToimarivisaDebug"
+import { QuizAnswers, QuizRole, debugEnabled, firstSentence, questions, roleKey, roles, scoreRoles } from "../toimarivisa/toimarivisa"
 
 type Screen = "start" | "question" | "result"
 
@@ -372,6 +373,9 @@ export default function Toimarivisa() {
     return (
         <div ref={contentRef} className="mx-auto max-w-2xl px-1 pb-16 pt-6 md:pt-12">
             {content}
+            {debugEnabled && state.screen !== "start" && (
+                <ToimarivisaDebug answers={state.answers} electionRoleKeys={new Set(positionsByKey.keys())} />
+            )}
         </div>
     )
 }
