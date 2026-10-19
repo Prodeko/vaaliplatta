@@ -14,7 +14,7 @@ export default function ToimarivisaCard() {
                 </svg>
                 <div>
                     <h2 id="toimarivisa-otsikko" className="mb-1.5 text-xl font-extrabold leading-snug">Mikä toimarirooli sopisi sinulle?</h2>
-                    <p className="leading-relaxed text-gray-700">Vastaa 10 kysymykseen, niin ehdotamme sinulle pestiä tämän vuoden vaaleista.</p>
+                    <p className="leading-relaxed text-gray-700">Vastaa 10 kysymykseen oman toimaripestin löytämiseksi!</p>
                 </div>
             </div>
             <button
