@@ -1121,6 +1121,13 @@
           "teemat": {
             "KV": 2
           }
+        },
+        {
+          "teksti": "Viinitonkka",
+          "teemat": {
+            "TAP": 2,
+            "KAY": 1
+          }
         }
       ]
     },
