@@ -969,7 +969,7 @@
     },
     {
       "id": "kokemus",
-      "teksti": "Paljonko sinulla on kokemusta killan hommista?",
+      "teksti": "Paljonko sinulla on kokemusta kiltahommista?",
       "tyyppi": "valinta",
       "vastaukset": [
         {
