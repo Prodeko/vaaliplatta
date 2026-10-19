@@ -990,7 +990,8 @@
     {
       "id": "ilta",
       "teksti": "Millainen on ideaali-iltasi?",
-      "tyyppi": "valinta",
+      "tyyppi": "monivalinta",
+      "max": 3,
       "vastaukset": [
         {
           "teksti": "Haippiset sitsit",
@@ -1287,7 +1288,7 @@
       "id": "teema",
       "teksti": "Mikä kuulostaa parhaalta ensi vuodelle?",
       "tyyppi": "monivalinta",
-      "max": 2,
+      "max": 3,
       "vastaukset": [
         {
           "teksti": "Yhteisö",

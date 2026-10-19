@@ -211,7 +211,7 @@ export default function Toimarivisa() {
                 </h2>
                 {isMulti && (
                     <p className="-mt-1 text-gray-700">
-                        {max === 2 ? "Valitse yksi tai kaksi." : `Valitse enintään ${max}.`}{" "}
+                        {max === 2 ? "Valitse yksi tai kaksi." : `Valitse 1–${max}.`}{" "}
                         <span className="font-bold text-blue-700">{picked.length}/{max} valittu</span>
                     </p>
                 )}
