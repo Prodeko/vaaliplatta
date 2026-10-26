@@ -1354,6 +1354,7 @@
       "teksti": "Mikä kuulostaa parhaalta ensi vuodelle?",
       "tyyppi": "monivalinta",
       "max": 3,
+      "sekoita": true,
       "vastaukset": [
         {
           "teksti": "Yhteisö",
