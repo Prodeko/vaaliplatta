@@ -102,7 +102,7 @@
       "aika": 5,
       "tyyli": "koordinoi",
       "minVuosikurssi": 2,
-      "maxVuosikurssi": 5,
+      "maxVuosikurssi": 3,
       "kokemus": "hyodyllinen",
       "kuvaus": "Johdatat uudet prodekolaiset killan ja teekkarikulttuurin saloihin ja rakennat fuksivuoden, jota fuksit muistelevat vielä valmistuttuaankin."
     },
@@ -310,7 +310,7 @@
       "aika": 3,
       "tyyli": "koordinoi",
       "minVuosikurssi": 2,
-      "maxVuosikurssi": 4,
+      "maxVuosikurssi": 3,
       "kokemus": "hyodyllinen",
       "kuvaus": "Valitset ja koulutat ISOt ja varmistat, että jokainen fuksi saa hyvän alun. Pääset löytämään myös muita samanhenkisiä kavereita AYY:n ISOtoimikunnassa."
     },
@@ -363,7 +363,7 @@
       "aika": 1,
       "tyyli": "tiimi",
       "minVuosikurssi": 1,
-      "maxVuosikurssi": 5,
+      "maxVuosikurssi": 3,
       "kokemus": "ei",
       "kuvaus": "Lähdet lukiovierailuille, teet abeille sisältöä ja näytät, miltä teekkarielämä oikeasti näyttää. Kevyt tapa päästä mukaan kiltahommiin ja jakaa kokemuksiasi myös tuleville tutalaisille."
     },
@@ -654,7 +654,7 @@
       "aika": 1,
       "tyyli": "koordinoi",
       "minVuosikurssi": 2,
-      "maxVuosikurssi": 5,
+      "maxVuosikurssi": 4,
       "kokemus": "ei",
       "kuvaus": "Rakennat siltaa lukiosta yliopistoon ja yliopistosta työelämään abi- ja alumnimentoroinnin avulla."
     },
