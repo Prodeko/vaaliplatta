@@ -10,6 +10,7 @@ import useAuthenticatedRequests from "../hooks/useAuthenticatedRequests"
 import AdminButtons from './AdminButtons';
 import useSchedulerView from "../hooks/useSchedulerView"
 import { formatDateTime } from "../utils/formatDateTime"
+import ApplicationAuthor from "./ApplicationAuthor"
 
 interface ApplicationCardProps {
     application: Application
@@ -33,7 +34,10 @@ function ApplicationCard({ application }: ApplicationCardProps) {
                     animation: 'shimmer 2s ease-in-out infinite, glow 2s ease-in-out infinite'
                 } : undefined}
             >
-                <h1 className='p-2 text-black text-md font-extrabold rounded-md max-w-full overflow-auto text-left'>{application?.applicant_name}</h1>
+                <div className='p-2 max-w-full overflow-auto text-left'>
+                    <h1 className='text-black text-md font-extrabold'>{application.applicant_name}</h1>
+                    <ApplicationAuthor application={application} className="text-xs" />
+                </div>
                 <div className="flex flex-row items-center flex-shrink-0">
                     {!application.time && session && <p className="p-2 text-blue-500 font-extrabold">uusi</p>}
                     <img

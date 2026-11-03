@@ -27,7 +27,8 @@ applicationRouter.post(
 
         if (!applicant_id) return res.status(400).send("Applicant id missing from auth session")
 
-        const data = { ...body, "position_id": parseInt(body.position_id), applicant_id }
+        const author_name = `${req.session!.first_name} ${req.session!.last_name}`.trim() || null
+        const data = { ...body, "position_id": parseInt(body.position_id), applicant_id, author_name }
 
         try {
             const application = await createOrUpdateApplication(data)
