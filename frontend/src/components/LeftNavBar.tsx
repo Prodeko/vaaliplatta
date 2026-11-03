@@ -174,7 +174,7 @@ export default function LeftNavBar() {
     return (
         <div className="w-full">
             <div className="relative mb-1">
-                <label htmlFor="nav-search" className="sr-only">Hae virkaa</label>
+                <label htmlFor="nav-search" className="sr-only">Etsi virkaa</label>
                 <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" aria-hidden="true"
                     className="pointer-events-none absolute left-3 top-[13px] h-[18px] w-[18px] text-gray-500">
                     <circle cx="8.5" cy="8.5" r="5.5" />
@@ -191,7 +191,7 @@ export default function LeftNavBar() {
                     aria-activedescendant={activePosition ? optionId(activePosition) : undefined}
                     autoComplete="off"
                     spellCheck={false}
-                    placeholder="Hae virkaa…"
+                    placeholder="Etsi virkaa"
                     value={query}
                     onChange={e => { setQuery(e.target.value); setActiveIndex(0); }}
                     onKeyDown={onSearchKeyDown}
