@@ -30,6 +30,7 @@ export interface Answer {
 export interface Application {
   applicant_id: string;
   applicant_name: string;
+  author_name: string | null;
   content: string | null;
   id: Generated<number>;
   position_id: number;

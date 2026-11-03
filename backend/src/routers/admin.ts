@@ -12,6 +12,7 @@ const createNewApplicationSchema = z.object({
     "position_id": z.string(),
     "profile_picture": z.string().nullable().optional(),
     "applicant_id": z.string(),
+    "author_name": z.string(),
 })
 
 type createNewApplicationType = z.infer<typeof createNewApplicationSchema>

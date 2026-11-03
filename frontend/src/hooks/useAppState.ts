@@ -65,6 +65,7 @@ export interface Schedule {
 export interface Application {
     content: string;
     applicant_name: string;
+    author_name: string | null;
     applicant_id: string;
     position_id: string;
     profile_picture?: string;

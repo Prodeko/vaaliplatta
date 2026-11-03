@@ -105,6 +105,7 @@ async function createRandomApplication(position_id: number): Promise<Application
     const randomApplication: Insertable<Application> = {
         applicant_id: randUserId(),
         applicant_name: faker.person.fullName(),
+        author_name: maybe() ? faker.person.fullName() : null,
         content: maybe() ? createRandomHTMLText() : null,
         position_id,
         profile_picture: null,

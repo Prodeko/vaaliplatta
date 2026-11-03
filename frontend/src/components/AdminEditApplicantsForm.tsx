@@ -31,6 +31,7 @@ function UserListElem({ user }: UserListElemProps) {
         post("/admin/application", {
             content: `<em>Ilmoittautunut hakijaksi ${new Date().toLocaleDateString("fi")}</em>`,
             applicant_name: `${user.first_name} ${user.last_name}`,
+            author_name: `${user.first_name} ${user.last_name}`,
             position_id: position.id.toString(),
             applicant_id: user.id.toString()
         }).then(() => setHasApplied(true))

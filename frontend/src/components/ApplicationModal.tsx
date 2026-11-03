@@ -3,6 +3,7 @@ import { useAppState } from '../hooks/useAppState';
 import ApplyForm from './ApplyForm';
 import HtmlRenderer from './HtmlRenderer';
 import Divider from './Divider';
+import ApplicationAuthor from './ApplicationAuthor';
 import AdminEditApplicantsForm from './AdminEditApplicantsForm';
 import useConfig from '../hooks/useConfig';
 import AdminEditPositionDescriptionForm from './AdminEditPositionDescriptionForm';
@@ -77,7 +78,10 @@ export function ApplicationModal() {
     return (
         <Modal isOpen={!!application} onClose={handleClose}>
             <div className="flex justify-between items-center">
-                <h1 className='w-full p-4 text-black text-3xl font-extrabold rounded-md max-w-full overflow-auto'>{application?.applicant_name}</h1>
+                <div className='w-full p-4 max-w-full overflow-auto'>
+                    <h1 className='text-black text-3xl font-extrabold'>{application?.applicant_name}</h1>
+                    {application && <ApplicationAuthor application={application} className="mt-1 text-sm" />}
+                </div>
                 <img
                     className='w-32 h-32 mx-4 aspect-square object-cover rounded-full'
                     src={application?.profile_picture ?? BLOB_URL + "/PRODEKO.png"} />
