@@ -77,10 +77,10 @@ export type EditorRef = {
 type EditorProps = {
     simplified?: boolean
     default_text?: string
+    onUpdate?: (html: string) => void
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const Editor = React.forwardRef<EditorRef, EditorProps>(({ simplified, default_text }, ref) => {
+const Editor = React.forwardRef<EditorRef, EditorProps>(({ simplified, default_text, onUpdate }, ref) => {
     const { ownApplication } = useAppState();
     const { BLOB_URL } = useConfig();
     const { upload } = useAuthenticatedRequests();
@@ -156,6 +156,7 @@ const Editor = React.forwardRef<EditorRef, EditorProps>(({ simplified, default_t
         <p><em>Kirjoita hakemuksesi tähän</em></p>
         <p><em>Voit lisätä hakemustekstiin kuvia vetämällä ne tähän ikkunaan</em></p>
         `),
+        onUpdate: ({ editor }) => onUpdate?.(editor.getHTML()),
     })
 
     // Expose the getHTML method via ref to parent component

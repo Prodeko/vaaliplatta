@@ -3,32 +3,84 @@ import Editor, { EditorRef, ImageUploader } from './TextEditor'; // Assuming the
 import { useAppState } from '../hooks/useAppState';
 import useAuthenticatedRequests from '../hooks/useAuthenticatedRequests';
 import useConfig from '../hooks/useConfig';
+import { useAuth } from '../hooks/useAuth';
+
+type ApplicationDraft = {
+    content?: string
+    name?: string
+    pfpUrl?: string | null
+}
+
+const readDraft = (key: string | null): ApplicationDraft | null => {
+    if (!key) return null
+    try {
+        const stored = window.localStorage.getItem(key)
+        return stored ? JSON.parse(stored) as ApplicationDraft : null
+    } catch {
+        return null
+    }
+}
+
+// Merges into the stored draft so each field can be saved from its own handler.
+const saveDraft = (key: string | null, fields: ApplicationDraft) => {
+    if (!key) return
+    try {
+        window.localStorage.setItem(key, JSON.stringify({ ...readDraft(key), ...fields }))
+    } catch {
+        // Storage full or disabled: the form keeps working without a draft.
+    }
+}
+
+const clearDraft = (key: string | null) => {
+    if (!key) return
+    try {
+        window.localStorage.removeItem(key)
+    } catch {
+        // Storage disabled
+    }
+}
 
 const ApplyForm = () => {
     const { position, getPosition, setShowApplicationForm, ownApplication } = useAppState();
+    const { session } = useAuth();
     const { BLOB_URL } = useConfig();
     const editorRef = useRef<EditorRef>(null);
-    const [name, setName] = useState('');
-    const [pfpUrl, setPfpUrl] = useState<string | null>(null);
+    const positionId = position && position !== "loading" ? position.id.toString() : null
+    const draftKey = session && positionId ? `application-draft:${session.pk}:${positionId}` : null
+    const [draft] = useState(() => readDraft(draftKey))
+    const [name, setName] = useState(draft?.name ?? '');
+    const [pfpUrl, setPfpUrl] = useState<string | null>(draft?.pfpUrl ?? null);
     const [submitting, setSubmitting] = useState<boolean>(false);
     const [showDeleteButton, setShowDeleteButton] = useState<boolean>(false);
     const { post, upload, axiosdelete } = useAuthenticatedRequests()
 
     useEffect(() => {
         if (ownApplication) {
-            setName(ownApplication.applicant_name)
-            setPfpUrl(ownApplication.profile_picture || null)
+            if (draft?.name === undefined) setName(ownApplication.applicant_name)
+            if (draft?.pfpUrl === undefined) setPfpUrl(ownApplication.profile_picture || null)
             setShowDeleteButton(true)
         }
-    }, [ownApplication])
+    }, [ownApplication, draft])
 
     if (!position || position === "loading") return null
+
+    const updateName = (value: string) => {
+        setName(value)
+        saveDraft(draftKey, { name: value })
+    }
+
+    // A blob: URL is a local preview that doesn't survive a reload, so only uploaded URLs are saved.
+    const updatePfpUrl = (url: string | null) => {
+        setPfpUrl(url)
+        if (!url?.startsWith('blob:')) saveDraft(draftKey, { pfpUrl: url })
+    }
 
     const handleDelete = () => {
         setSubmitting(true)
 
         axiosdelete(`/position/${position.id.toString()}/myapplication`)
             .then(() => {
+                clearDraft(draftKey)
                 setShowApplicationForm(false)
                 getPosition(position.id.toString())
             })
@@ -50,6 +102,7 @@ const ApplyForm = () => {
             position_id: position.id.toString(),
             profile_picture: pfpUrl,
         }).then(() => {
+            clearDraft(draftKey)
             setShowApplicationForm(false)
             getPosition(position.id.toString())
         })
@@ -71,7 +124,7 @@ const ApplyForm = () => {
                     id="name"
                     type="text"
                     value={name}
-                    onChange={(e) => setName(e.target.value)}
+                    onChange={(e) => updateName(e.target.value)}
                     className="m-2 block w-full border-gray-300 rounded-md bg-blue-50 hover:bg-blue-100 focus:border-blue-500 focus:ring-blue-500 sm:text-sm"
                     required
                 />
@@ -85,20 +138,24 @@ const ApplyForm = () => {
                         upload(file)
                             .then(response => {
                                 const newUrl = BLOB_URL + "/" + (response.data instanceof Array ? response.data[0] : response.data.toString());
-                                setPfpUrl(newUrl)
+                                updatePfpUrl(newUrl)
                             }).catch(error => {
                                 window.alert("Image upload failed, please try again!\n" + error.toString());
-                                setPfpUrl(null)
+                                updatePfpUrl(null)
                             })
                     }}
                 >{pfpUrl ? <img src={pfpUrl}></img> : null}</ImageUploader>
                 {pfpUrl ? <button
                     className="size-8 inline-flex justify-center items-center gap-x-2 text-sm font-semibold rounded-full border border-transparent bg-blue-50 hover:bg-blue-100"
-                    onClick={() => setPfpUrl(null)}>clear</button> : null}
+                    onClick={() => updatePfpUrl(null)}>clear</button> : null}
             </div>
             <div>
                 <label className="text-sm m-2 font-medium text-gray-700">Hakemusteksti</label>
-                <Editor ref={editorRef} />
+                <Editor
+                    ref={editorRef}
+                    default_text={draft?.content}
+                    onUpdate={(html) => saveDraft(draftKey, { content: html })}
+                />
             </div>
             <br />
             <button
