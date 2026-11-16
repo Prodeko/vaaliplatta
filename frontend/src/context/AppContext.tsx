@@ -30,17 +30,15 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
         .catch(error => console.error(error)), [])
 
-    const getPosition = async (id: string) => {
-
-        // Check if the position already exists in AppState to speed up loading
-        const position = election?.positions.find(p => p.id.toString() === id)
-        if (position) setPosition(position)
-        else setPosition("loading")
-
+    const fetchPosition = async (id: string) => {
         await get('/position/' + id.toString())
             .then(result => {
                 const p = result.data as Position
                 setPosition(p)
+                // Keep the election's cached copy in sync so navigating back doesn't show stale data
+                setElection(prev => prev && p
+                    ? { ...prev, positions: prev.positions.map(old => old.id === p.id ? { ...old, ...p } : old) }
+                    : prev)
                 if (session && p) setOwnApplication(p.applications.find(a => a.applicant_id === session.pk) || null)
             })
             .catch(error => {
@@ -50,8 +48,18 @@ export const AppStateProvider: React.FC<Props> = ({ children }) => {
             })
     }
 
+    const getPosition = async (id: string) => {
+
+        // Check if the position already exists in AppState to speed up loading
+        const position = election?.positions.find(p => p.id.toString() === id)
+        if (position) setPosition(position)
+        else setPosition("loading")
+
+        await fetchPosition(id)
+    }
+
     const refreshPosition = async () => {
-        if (position && position !== "loading") getPosition(position.id.toString())
+        if (position && position !== "loading") await fetchPosition(position.id.toString())
     }
 
     const showApplication = async (applicationId: number) => {

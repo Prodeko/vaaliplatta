@@ -58,3 +58,29 @@ adminRouter.delete(
         }
     }
 )
+const applicationIdRouteParamsSchema = z.object({
+    id: z.string().regex(/^\d+$/),
+});
+
+adminRouter.delete(
+    '/application/:id',
+    validateRouteParams(applicationIdRouteParamsSchema),
+    async (req, res, next) => {
+        try {
+            const id = parseInt(req.params.id!)
+
+            const result = await db
+                .deleteFrom("application")
+                .where("id", "=", id)
+                .executeTakeFirst()
+
+            if (Number(result.numDeletedRows) === 0) {
+                return res.status(404).json({ message: 'Application not found' })
+            }
+
+            return res.status(204).send()
+        } catch (error) {
+            next(error)
+        }
+    }
+)
