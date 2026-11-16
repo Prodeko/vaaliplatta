@@ -20,6 +20,8 @@ const rowClassName = "w-full py-1.5 flex flex-row items-center justify-between g
 const removeButtonClassName = "p-4 min-w-48 shrink-0 text-black font-extrabold rounded-md hover:bg-red-100 bg-red-50 disabled:opacity-50"
 const addButtonClassName = "p-4 min-w-48 shrink-0 text-black font-extrabold rounded-md hover:bg-blue-100 bg-blue-50 disabled:opacity-50"
 
+const normalizeName = (name: string) => name.normalize("NFC").trim().replace(/\s+/g, " ").toLowerCase()
+
 type ApplicationListElemProps = {
     application: Application
     positionName: string
@@ -142,6 +144,11 @@ function AdminEditApplicantsForm() {
     if (!position || position === "loading") return null
 
     const applicantIds = new Set(position.applications.map(a => String(a.applicant_id).toLowerCase()))
+    // An application's name can be anything the applicant typed, so also match on the
+    // real name of the account that submitted it. Older applications have no author_name.
+    const applicantRealNames = new Set(position.applications.map(a => normalizeName(a.author_name ?? a.applicant_name)))
+    const hasApplied = (u: User) =>
+        applicantIds.has(String(u.id).toLowerCase()) || applicantRealNames.has(normalizeName(`${u.first_name} ${u.last_name}`))
 
     return <div className="">
         <h1 className="font-extrabold text-xl mb-4">Muokkaa hakijoita</h1>
@@ -193,7 +200,7 @@ function AdminEditApplicantsForm() {
                 <UserListElem
                     key={u.id}
                     user={u}
-                    hasApplied={applicantIds.has(String(u.id).toLowerCase())}
+                    hasApplied={hasApplied(u)}
                     positionId={position.id.toString()}
                     onChange={refreshPosition}
                 />)}
