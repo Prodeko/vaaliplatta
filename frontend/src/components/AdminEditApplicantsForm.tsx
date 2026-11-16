@@ -16,7 +16,7 @@ interface SearchUsersResponse {
     rows: User[]
 }
 
-const rowClassName = "w-full px-4 py-2 flex flex-row items-center justify-between gap-4 border-solid border-b-2 border-x-2 border-gray-100 first:border-t-2"
+const rowClassName = "w-full py-1.5 flex flex-row items-center justify-between gap-4"
 const removeButtonClassName = "p-4 min-w-48 shrink-0 text-black font-extrabold rounded-md hover:bg-red-100 bg-red-50 disabled:opacity-50"
 const addButtonClassName = "p-4 min-w-48 shrink-0 text-black font-extrabold rounded-md hover:bg-blue-100 bg-blue-50 disabled:opacity-50"
 
@@ -146,7 +146,6 @@ function AdminEditApplicantsForm() {
     return <div className="">
         <h1 className="font-extrabold text-xl mb-4">Muokkaa hakijoita</h1>
 
-        <h2 className="font-bold text-lg mb-2">Hakemukset</h2>
         <div className="mb-6">
             {position.applications.length === 0
                 ? <p className="text-gray-500">Ei hakemuksia.</p>

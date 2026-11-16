@@ -117,18 +117,33 @@ applicationRouter.delete(
     '/:id',
     requireAuthenticated,
     validateRouteParams(idRouteParamsSchema),
-    async (req, res, next) => {
+    async (req: AuthenticatedRequest, res, next) => {
 
         const id = parseInt(req.params.id!)
+        if (Number.isNaN(id)) return res.status(400).json({ message: 'Invalid application id' })
+
         try {
-            const result = await db
+            const application = await db
+                .selectFrom('application')
+                .select(['id', 'applicant_id'])
+                .where('id', '=', id)
+                .executeTakeFirst()
+
+            if (!application) {
+                return res.status(404).json({ message: 'Application not found' })
+            }
+
+            // Applicants may only delete their own application; superusers may delete any
+            const isOwner = application.applicant_id === req.session!.pk
+            if (!isOwner && !req.session!.is_superuser) {
+                return res.status(403).json({ message: 'Insufficient privileges' })
+            }
+
+            await db
                 .deleteFrom('application')
                 .where('id', '=', id)
                 .execute()
-            // @ts-ignore
-            if (result.numUpdatedRows === 0) {
-                return res.status(404).json({ message: 'Application not found' })
-            }
+
             res.status(204).send();
         } catch (error) {
             next(error);

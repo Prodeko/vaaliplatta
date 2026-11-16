@@ -2,8 +2,8 @@ name: Build and Deploy
 
 on:
   push:
-    # branches:
-      # - main  # Runs the action on push to the main branch
+    branches:
+      - main  # Deploy to production only from main
 
 jobs:
   build-and-deploy:
